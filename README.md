@@ -35,7 +35,7 @@ Short-lived branches for feature development and bugfixes ("feature branches") s
 ```bash
 # create branch from dev branch
 git checkout dev 
-git switch -c 1-project-skeleton
+git switch -c 1-project-skeleton # or git checkout -b 1-project-skeleton
 # ... work on your branch with add, commit, push 
 ```
 
