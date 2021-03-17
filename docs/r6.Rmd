@@ -1,0 +1,200 @@
+---
+title: "R6 Classes"
+output: 
+  html_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+based on [Advanced R - Chapter 14](https://adv-r.hadley.nz/r6.html). If not otherwise specified, all quotes are from this chapter. 
+
+```{r}
+library(R6)
+```
+
+# Copy-on-modify vs. modify-in-place
+
+> R6 objects have reference semantics which means that they are modified in-place, not copied-on-modify. 
+
+typically, R uses a paradigm called "copy-on-modify", i.e. it makes a copy whenever you  modify an object: 
+
+```{r}
+x <- c(1, 2, 3)
+y <- x
+
+# x and y point to the same object in-memory
+# cf https://adv-r.hadley.nz/names-values.html#binding-basics
+addr_x <- lobstr::obj_addr(x)
+addr_y <- lobstr::obj_addr(y)
+
+addr_x == addr_y # TRUE
+
+# now when we modify y, R makes a copy! 
+y[[3]] <- 4
+addr_y_after_modify <- lobstr::obj_addr(y)
+addr_y_after_modify
+addr_y == addr_y_after_modify # FALSE 
+```
+
+R6 classes constitute an exemption to this rule because they are **modified in place** and use **reference semantics**. This is not something we often run into when using R except in certain circumstances (see [here](https://adv-r.hadley.nz/names-values.html#modify-in-place)), so it might feel a bit foreign at first. 
+
+```{r}
+# this creates a class with a public field x which equals five 
+myclass <- R6::R6Class(public = list(c = 5))
+
+# we create two instances of our class 
+instance_1 <- myclass$new() 
+instance_2 <- instance_1
+
+old_addr <- lobstr::obj_addr(instance_1) 
+# instance_2 points to the same object in memory
+lobstr::obj_addr(instance_1) == lobstr::obj_addr(instance_2) 
+
+# modify the first instance
+instance_1$c <- 2 * 5 # modify in place, not copy on modify!
+instance_1$c # 10 
+# instance_1 still stored at the old address -> R did not copy it somewhere else
+lobstr::obj_addr(instance_1) == old_addr
+
+# remember, we only changed instance_1 so far!!
+instance_2$c # 10, huh? reference semantics!
+old_addr == lobstr::obj_addr(instance_2)
+```
+Check out [the section on environments](https://adv-r.hadley.nz/names-values.html#env-modify) for a visual representation of what is happening here (replace `e1` and `e2` with `instance_1` and `instance_2` in your head).
+
+
+# Classes, fields and methods
+
+
+## Defining a class
+> R6 only needs a single function call to create both the class and its methods: R6::R6Class(). This is the only function from the package that you’ll ever use!
+
+### the first argument: `classname`
+
+- not needed but improves error messages 
+- in UpperCamelCase
+
+```{r}
+Client <- R6::R6Class(classname = "KoboClient")
+Client
+```
+
+### second argument: public
+
+contains the list of ...
+
+- fields 
+- methods (aka R functions)
+
+in `snake_case`. It is implemented as a [named list](https://www.dummies.com/programming/r/how-to-create-a-list-in-r/). 
+
+We can access the methods and fields using the `self$`. 
+```{r public-argument}
+ClientGenerator <- R6::R6Class(
+  classname = "KoboClient",
+  public = list(
+    user_first_name = "Correl",
+    user_last_name = "Aid",
+    greeting_count = 0,
+    greet = function(greeting = "Hi") {
+      print(paste(greeting, self$user_first_name, self$user_last_name))
+      self$greeting_count <- self$greeting_count + 1
+      invisible(self)
+    }
+  )
+)
+```
+
+> You should always assign the result of R6Class() into a variable with the same name as the class, because R6Class() returns an R6 object that defines the class
+
+If we look at the Client object, it is a special "object generator" object that apparently can create `KoboClient` objects: `r emo::ji("eyes")`
+
+```{r client-type}
+ClientGenerator
+```
+
+We can now use the `new()` method of this object to make new **instances** of our class:
+
+```{r instance-creation}
+o1 <- ClientGenerator$new()
+o1$greet("Hi")
+```
+
+## `$print()` and `$initialize()`
+
+We can define a custom `$print()` method for our class: 
+
+```{r}
+ClientGenerator <- R6::R6Class(
+  classname = "KoboClient",
+  public = list(
+    user_first_name = "Correl",
+    user_last_name = "Aid",
+    greeting_count = 0,
+    greet = function(greeting = "Hi") {
+      print(paste(greeting, self$user_first_name, self$user_last_name))
+      self$greeting_count <- self$greeting_count + 1
+      invisible(self)
+    },
+    print = function() {
+      cat("Client: \n")
+      cat("  User: ", self$user_first_name, "\n", sep = "")
+    }
+  )
+)
+o <- ClientGenerator$new()
+
+```
+
+with `$initialize()`, we can override the behavior of `$new()` so that users can also pass arguments when creating an instance:
+
+```{r}
+# this errors with the old class
+# o <- ClientGenerator$new(user_first_name = "Correliiiii")
+ClientGenerator <- R6::R6Class(
+  classname = "KoboClient",
+  public = list(
+    user_first_name = NA,
+    user_last_name = "Aid",
+    greeting_count = 0,
+    initialize = function(first_name = "Correl") { # we can set a default argument
+      # we can also have validity checks here
+      self$user_first_name <- first_name
+    },
+    print = function() {
+      cat("Client: \n")
+      cat("  User: ", self$user_first_name, "\n", sep = "")
+      invisible(self)
+    },
+    greet = function(greeting = "Hi") { 
+      print(paste(greeting, self$user_first_name, self$user_last_name))
+      self$greeting_count <- self$greeting_count + 1
+      invisible(self)
+    }
+  )
+)
+o <- ClientGenerator$new(first_name = "Correliiiii")
+o$greet("Hello")
+o$greeting_count
+```
+
+## Why do we return `invisible(self)`?
+
+For methods that are mostly called for side-effects, we should always return the object itself invisibly. This allows for **method chaining** (very similar to the pipe!): 
+
+```{r}
+o <- ClientGenerator$new()
+o$greet("Hello")$greet("Hi")$greet("Hey")$greeting_count
+
+# or.. even more pipe like :) 
+o$
+  greet("Hello again")$
+  greet("Hi again")$
+  greet("Hey again")$
+  greeting_count
+
+```
+
