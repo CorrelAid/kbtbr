@@ -1,0 +1,105 @@
+---
+title: "Using crul with KoboToolbox"
+output:
+  github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=TRUE}
+box::use(
+  magrittr[`%>%`],
+  dplyr[...],
+  crul[...]
+)
+```
+
+> **Note:** This article is intended to be excluded from a final state of
+> of the project.
+
+
+This WIP articel develops a short overview on how to interact with the KoboToolbox
+API with the plain [`{crul}`](https://github.com/ropensci/crul)
+package, without any generalization etc. but purely to play around with
+the provided functionality.
+
+To replicate, please provide the following environment variables (e.g.
+via your `~.Renviron` file):
+
+- `KBTBR_BASE_URL`: something like `kobo.yourdomain.com`
+- `KBTBR_TOKEN`: the token for your user. See 
+  [here](https://support.kobotoolbox.org/api.html) on how to retrieve it.
+  (currently not used in the examples)
+
+
+
+## Basic requests
+
+```{r plain-crul}
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+
+## Simple GET request
+
+# Build the URL from a named-list style:
+asset_url <- crul::url_build(
+  url = base_url,
+  path = "assets",
+  query = list(format = "json")
+)
+
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = asset_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+
+crul_resp <- crul_client$get()
+sloop::otype(crul_resp)
+crul_resp$raise_for_status()
+
+# Parse and inspect response
+parsed_assets <- crul_resp$parse("UTF-8") %>%
+  jsonlite::fromJSON()
+
+# Insepct the results
+names(parsed_assets)
+str(parsed_assets, 1)
+```
+
+
+## Wrapping it in a function
+
+```{r wrap-in-function}
+
+kobo_simple_request <- function(path, token) {
+  url <- crul::url_build(
+    url = Sys.getenv("KBTBR_BASE_URL"),
+    path = path,
+    query = list(format = "json")
+  )
+  client <- crul::HttpClient$new(
+    url = url,
+    headers = list(Authorization = paste0("Token ", token))
+    )
+
+  r <- client$get()
+  r$raise_for_status()
+  r$parse("UTF-8") %>%
+    jsonlite::fromJSON() %>%
+    purrr::pluck("results") %>%
+    tibble::as_tibble()
+}
+
+kobo_simple_request(path = "collections", token = token) %>%
+  str(1)
+```
+
