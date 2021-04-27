@@ -23,7 +23,7 @@ box::use(
 > of the project.
 
 
-This WIP articel develops a short overview on how to interact with the KoboToolbox
+This WIP article develops a short overview on how to interact with the KoboToolbox
 API with the plain [`{crul}`](https://github.com/ropensci/crul)
 package, without any generalization etc. but purely to play around with
 the provided functionality.
@@ -54,6 +54,11 @@ asset_url <- crul::url_build(
   query = list(format = "json")
 )
 
+# crul also has the reverse operation "url_parse" which decomposes an URL into its elements
+# this could be useful when "navigating" around the API using the asset urls provided
+# in the responses, e.g. in case we wanted to add elements of it to a data frame representation etc.
+crul::url_parse(asset_url)
+
 # Get an instance of a crul HttpClient:
 crul_client <- crul::HttpClient$new(
   url = asset_url,
@@ -64,13 +69,13 @@ crul_client <- crul::HttpClient$new(
 
 crul_resp <- crul_client$get()
 sloop::otype(crul_resp)
-crul_resp$raise_for_status()
+crul_resp$raise_for_status() # equivalent of httr::stop_for_status()
 
 # Parse and inspect response
 parsed_assets <- crul_resp$parse("UTF-8") %>%
   jsonlite::fromJSON()
 
-# Insepct the results
+# Inspect the results
 names(parsed_assets)
 str(parsed_assets, 1)
 ```
