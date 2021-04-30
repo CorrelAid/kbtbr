@@ -13,7 +13,7 @@ KoboClient <- R6::R6Class(
         initialize = function(base_url,
                               kobo_token = NULL,
                               base_url_v1 = NULL) {
-            private$base_url <- base_url
+            private$.base_url <- base_url
 
             # set the token internally
             if (checkmate::test_null(kobo_token) &
