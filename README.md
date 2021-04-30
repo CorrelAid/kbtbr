@@ -20,6 +20,7 @@ To install the package dependencies:
 install.packages("renv")
 renv::install()
 ```
+## Package development workflow
 
 ## Branching model
 We follow a [feature (or topic) branching workflow](https://git-scm.com/book/en/v2/Git-Branching-Branching-Workflows). This means that you should create a new Git branch for each issue (or set of related issues) that you are working on. The branch name should contain the issue number to allow for easier cross-referencing.
@@ -35,7 +36,7 @@ Short-lived branches for feature development and bugfixes ("feature branches") s
 ```bash
 # create branch from dev branch
 git checkout dev 
-git switch -c 1-project-skeleton
+git switch -c 1-project-skeleton # or git checkout -b 1-project-skeleton
 # ... work on your branch with add, commit, push 
 ```
 
