@@ -80,6 +80,23 @@ names(parsed_assets)
 str(parsed_assets, 1)
 ```
 
+```{r base-url-client}
+# working with a base url and passing the path to get
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+
+## Simple GET request
+
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = base_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+crul_client$get(path = "assets", query = list(format = "json"))
+```
 
 ## Wrapping it in a function
 
