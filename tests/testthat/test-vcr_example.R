@@ -9,5 +9,5 @@ test_that("foo works", {
   vcr::use_cassette("testing", {
     x <- foo() # here we would put our R6 code that'd get data from kobo
   })
-  expect_false(x)
+  expect_true(x)
 })
