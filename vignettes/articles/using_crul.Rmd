@@ -50,7 +50,7 @@ token <- Sys.getenv("KBTBR_TOKEN")
 # Build the URL from a named-list style:
 asset_url <- crul::url_build(
   url = base_url,
-  path = "assets",
+  path = "api/v2/assets",
   query = list(format = "json")
 )
 
@@ -80,14 +80,20 @@ names(parsed_assets)
 str(parsed_assets, 1)
 ```
 
+
+In the above example, we constructed the URL for the endpoint as follows:
+- The base url (`kobo.example.com`) was queried via a secret token
+- An additional path (`api/v2/assets`) and a query parameter (`format=json`)
+  was passed as the final url was constructed using `crul::build_url()`.
+- This final url was then passed as-is to the `crul::HttpClient` during
+  instantiation.
+
+However, it is possible (and more suitable/flexible)
+to pass the additional path and query parameters during the actual method call
+on the client, as is shown in the following example:
+
+
 ```{r base-url-client}
-# working with a base url and passing the path to get
-base_url <- Sys.getenv("KBTBR_BASE_URL")
-token <- Sys.getenv("KBTBR_TOKEN")
-
-
-## Simple GET request
-
 # Get an instance of a crul HttpClient:
 crul_client <- crul::HttpClient$new(
   url = base_url,
@@ -95,8 +101,24 @@ crul_client <- crul::HttpClient$new(
     Authorization = paste0("Token ", token)
   )
 )
-crul_client$get(path = "assets", query = list(format = "json"))
+
+# Make a GET request, and pass additional path and query parameters:
+crul_resp2 <- crul_client$get(
+  path = "api/v2/assets",
+  query = list(format = "json")
+  )
+
 ```
+
+
+_Remark:_ Interestingly, it does not seem to matter whether which one we
+use as the final passed url, both
+- `https:://kobo.example.com/assets/?format=json` and
+- `https:://kobo.example.com/api/v2/assets/?format=json`
+
+This seems to be due to a legacy release of Kobo's
+`v2` API, which probably used the shorter url form (which should not be used). 
+
 
 ## Wrapping it in a function
 
