@@ -1,0 +1,167 @@
+---
+title: "Using crul with KoboToolbox"
+output:
+  github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, include=TRUE}
+box::use(
+  magrittr[`%>%`],
+  dplyr[...],
+  crul[...]
+)
+```
+
+> **Note:** This article is intended to be excluded from a final state of
+> of the project.
+
+
+This WIP article develops a short overview on how to interact with the KoboToolbox
+API with the plain [`{crul}`](https://github.com/ropensci/crul)
+package, without any generalization etc. but purely to play around with
+the provided functionality.
+
+To replicate, please provide the following environment variables (e.g.
+via your `~.Renviron` file):
+
+- `KBTBR_BASE_URL`: something like `kobo.yourdomain.com`
+- `KBTBR_TOKEN`: the token for your user. See 
+  [here](https://support.kobotoolbox.org/api.html) on how to retrieve it.
+  (currently not used in the examples)
+
+
+
+## Basic requests
+
+```{r plain-crul}
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+
+## Simple GET request
+
+# Build the URL from a named-list style:
+asset_url <- crul::url_build(
+  url = base_url,
+  path = "api/v2/assets",
+  query = list(format = "json")
+)
+
+# crul also has the reverse operation "url_parse" which decomposes an URL into its elements
+# this could be useful when "navigating" around the API using the asset urls provided
+# in the responses, e.g. in case we wanted to add elements of it to a data frame representation etc.
+crul::url_parse(asset_url)
+
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = asset_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+
+crul_resp <- crul_client$get()
+sloop::otype(crul_resp)
+crul_resp$raise_for_status() # equivalent of httr::stop_for_status()
+
+# Parse and inspect response
+parsed_assets <- crul_resp$parse("UTF-8") %>%
+  jsonlite::fromJSON()
+
+# Inspect the results
+names(parsed_assets)
+str(parsed_assets, 1)
+```
+
+
+In the above example, we constructed the URL for the endpoint as follows:
+- The base url (`kobo.example.com`) was queried via a secret token
+- An additional path (`api/v2/assets`) and a query parameter (`format=json`)
+  was passed as the final url was constructed using `crul::build_url()`.
+- This final url was then passed as-is to the `crul::HttpClient` during
+  instantiation.
+
+However, it is possible (and more suitable/flexible)
+to pass the additional path and query parameters during the actual method call
+on the client, as is shown in the following example:
+
+
+```{r base-url-client}
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = base_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+
+# Make a GET request, and pass additional path and query parameters:
+crul_resp2 <- crul_client$get(
+  path = "api/v2/assets",
+  query = list(format = "json")
+  )
+
+```
+
+
+_Remark:_ Interestingly, it does not seem to matter whether which one we
+use as the final passed url, both
+- `https:://kobo.example.com/assets/?format=json` and
+- `https:://kobo.example.com/api/v2/assets/?format=json`
+
+This seems to be due to a legacy release of Kobo's
+`v2` API, which probably used the shorter url form (which should not be used). 
+
+
+## Wrapping it in a function
+
+Just to play around with possibilities, one can create a function that
+consumes a `HttpClient` object and then performes a request on it, plus 
+some additional data parsing / retrieval.
+
+```{r wrap-in-function}
+example_client <- crul::HttpClient$new(
+    url = Sys.getenv("KBTBR_BASE_URL"),
+    headers = list(Authorization = paste0("Token ", token))
+    )
+
+
+simple_request <- function(client, path, query = NULL) {
+
+  stopifnot("HttpClient" %in% class(client))
+  r <- client$get(path, query)
+  r$raise_for_status()
+  r$parse("UTF-8") %>%
+    jsonlite::fromJSON() %>%
+    purrr::pluck("results") %>%
+    tibble::as_tibble()
+}
+
+simple_request(example_client, "api/v2/collections", list(format = "json"))
+
+
+# More complex example: two step example to get all the (available) survey data:
+assets_df <- simple_request(example_client, "api/v2/assets", list(format = "json"))
+
+data_url <- glue::glue("api/v2/assets/{assets$uid}/data") %>%
+  as.character() 
+
+full_dta_list <- data_url %>%
+  purrr::map(function(uid) {
+    tryCatch(
+      simple_request(example_client, uid),
+      error = function(e) {
+        usethis::ui_warn("Failed for {uid}: {e}")
+        return(NULL)
+       })})
+
+str(full_dta_list, 1)
+```
+
