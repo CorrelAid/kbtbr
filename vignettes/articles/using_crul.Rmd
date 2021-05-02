@@ -122,20 +122,21 @@ This seems to be due to a legacy release of Kobo's
 
 ## Wrapping it in a function
 
-```{r wrap-in-function}
+Just to play around with possibilities, one can create a function that
+consumes a `HttpClient` object and then performes a request on it, plus 
+some additional data parsing / retrieval.
 
-kobo_simple_request <- function(path, token) {
-  url <- crul::url_build(
+```{r wrap-in-function}
+example_client <- crul::HttpClient$new(
     url = Sys.getenv("KBTBR_BASE_URL"),
-    path = path,
-    query = list(format = "json")
-  )
-  client <- crul::HttpClient$new(
-    url = url,
     headers = list(Authorization = paste0("Token ", token))
     )
 
-  r <- client$get()
+
+simple_request <- function(client, path, query = NULL) {
+
+  stopifnot("HttpClient" %in% class(client))
+  r <- client$get(path, query)
   r$raise_for_status()
   r$parse("UTF-8") %>%
     jsonlite::fromJSON() %>%
@@ -143,7 +144,24 @@ kobo_simple_request <- function(path, token) {
     tibble::as_tibble()
 }
 
-kobo_simple_request(path = "collections", token = token) %>%
-  str(1)
+simple_request(example_client, "api/v2/collections", list(format = "json"))
+
+
+# More complex example: two step example to get all the (available) survey data:
+assets_df <- simple_request(example_client, "api/v2/assets", list(format = "json"))
+
+data_url <- glue::glue("api/v2/assets/{assets$uid}/data") %>%
+  as.character() 
+
+full_dta_list <- data_url %>%
+  purrr::map(function(uid) {
+    tryCatch(
+      simple_request(example_client, uid),
+      error = function(e) {
+        usethis::ui_warn("Failed for {uid}: {e}")
+        return(NULL)
+       })})
+
+str(full_dta_list, 1)
 ```
 
