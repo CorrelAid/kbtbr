@@ -7,7 +7,7 @@ KoboClient <- R6::R6Class(
         kobo_token = ""
     ), 
     public = list(
-        #' @param base_url character. The full base URL of the API version 2 (known as /api/v2). For example: https://kobo.correlaid.org/api/v2.
+        #' @param base_url character. The base URL of the API version 2 (known as /api/v2). For example: https://kobo.correlaid.org.
         #' @param kobo_token character. The API token. Defaults to NULL.
         initialize = function(base_url,
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
