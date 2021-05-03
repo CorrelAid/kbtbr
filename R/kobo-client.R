@@ -1,7 +1,6 @@
 #' @title KoboClient
 #' @description 
-#' A class to interact with the KoboToolbox API, extending `crul::HttpClient`.
-#' @seealso \code{\link[crul]{HttpClient}}
+#' A class to interact with the KoboToolbox API, extending [`crul::HttpClient`].
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
     inherit = crul::HttpClient,
@@ -13,8 +12,8 @@ KoboClient <- R6::R6Class("KoboClient",
         #' @description
         #' Initialization method for class "KoboClient".
         #' @param base_url character. The full base URL of the API.
-        #' @param kobo_token character. The API token. Defaults to a request to
-        #'  the system environment.
+        #' @param kobo_token character. The API token. Defaults to requesting
+        #'  the system environment variable `KBTBR_TOKEN`.
         initialize = function(base_url,
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
             
@@ -37,12 +36,16 @@ KoboClient <- R6::R6Class("KoboClient",
                     )
                 )
         },
-        #' @description #TODO Foster further understanding. 
+        #' @description
+        #' Extension of the `crul::HttpClient$get()` method that checks
+        #' the HttpResponse object on status, that it is of type
+        #' `application/json`, and parses the response text subsequently from
+        #' JSON to R list representation.
         #' @param path character. Path component of the endpoint. 
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
         #' @param ... crul-options. Additional option arguments, see
-        #'  crul::HttpClient for reference
+        #'  [`crul::HttpClient`] for reference
         get = function(path, query = list(), ...) {
             res <- super$get(path = path, query = query, ...)
             res$raise_for_status()

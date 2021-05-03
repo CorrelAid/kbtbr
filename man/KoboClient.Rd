@@ -4,10 +4,7 @@
 \alias{KoboClient}
 \title{KoboClient}
 \description{
-A class to interact with the KoboToolbox API, extending \code{crul::HttpClient}.
-}
-\seealso{
-\code{\link[crul]{HttpClient}}
+A class to interact with the KoboToolbox API, extending \code{\link[crul:HttpClient]{crul::HttpClient}}.
 }
 \section{Super class}{
 \code{\link[crul:HttpClient]{crul::HttpClient}} -> \code{KoboClient}
@@ -50,8 +47,8 @@ Initialization method for class "KoboClient".
 \describe{
 \item{\code{base_url}}{character. The full base URL of the API.}
 
-\item{\code{kobo_token}}{character. The API token. Defaults to a request to
-the system environment.}
+\item{\code{kobo_token}}{character. The API token. Defaults to requesting
+the system environment variable \code{KBTBR_TOKEN}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -60,7 +57,10 @@ the system environment.}
 \if{html}{\out{<a id="method-get"></a>}}
 \if{latex}{\out{\hypertarget{method-get}{}}}
 \subsection{Method \code{get()}}{
-#TODO Foster further understanding.
+Extension of the \code{crul::HttpClient$get()} method that checks
+the HttpResponse object on status, that it is of type
+\code{application/json}, and parses the response text subsequently from
+JSON to R list representation.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
 }
@@ -74,7 +74,7 @@ the system environment.}
 component. The order is not hierarchical.}
 
 \item{\code{...}}{crul-options. Additional option arguments, see
-crul::HttpClient for reference}
+\code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
 }
 \if{html}{\out{</div>}}
 }

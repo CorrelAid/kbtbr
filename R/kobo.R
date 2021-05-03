@@ -18,13 +18,15 @@ Kobo <- R6::R6Class("Kobo",
         #' @param base_url_v1 character. The base URL of the API of your KoBoCAT
         #'  API (also known as /api/v1). Defaults to NULL.
         #'  For example: https://kc.correlaid.org.
-        #' @param kobo_token character. The API token. Defaults to a request to
-        #'  the systen environment.
+        #' @param kobo_token character. The API token. Defaults to requesting
+        #'  the systen environment `KBTBR_TOKEN`.
         initialize = function(base_url_v2, base_url_v1 = NULL, kobo_token = Sys.getenv("KBTBR_TOKEN")) {
 
-            if (checkmate::test_null(kobo_token) & Sys.getenv("KBTBR_TOKEN") == "") {
+            if (Sys.getenv("KBTBR_TOKEN") == "") {
                 usethis::ui_stop(
-                    "No valid token detected. Set the KBTBR_TOKEN environment variable or pass the token directly to the function (not recommended)."
+                    "No valid token detected. Set the KBTBR_TOKEN environment
+                    variable or pass the token directly to the function
+                    (not recommended)."
                 )
             }
 
@@ -34,11 +36,11 @@ Kobo <- R6::R6Class("Kobo",
 
 
             if (!checkmate::test_null(base_url_v2)) {
-               private$session_v2 = KoboClient$new(base_url_v2, kobo_token)
+               private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
             }
 
             if (!checkmate::test_null(base_url_v1)) {
-               private$session_v1 = KoboClient$new(base_url_v1, kobo_token)
+               private$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
             }
         },
         #' @description
@@ -54,7 +56,10 @@ Kobo <- R6::R6Class("Kobo",
             } else if (version == "v1") {
                 private$session_v1$get(path = paste0("api/v1/", path), query = query)
             } else {
-                usethis::ui_stop("Invalid version. Must be either v1 or v2. Come back in a couple of years.")
+                usethis::ui_stop(
+                    "Invalid version. Must be either v1 or v2.
+                    Come back in a couple of years."
+                    )
             }
         },
         #' @description

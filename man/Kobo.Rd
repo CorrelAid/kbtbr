@@ -41,8 +41,8 @@ Initialization method for class "Kobo".
 API (also known as /api/v1). Defaults to NULL.
 For example: https://kc.correlaid.org.}
 
-\item{\code{kobo_token}}{character. The API token. Defaults to a request to
-the systen environment.}
+\item{\code{kobo_token}}{character. The API token. Defaults to requesting
+the systen environment \code{KBTBR_TOKEN}.}
 }
 \if{html}{\out{</div>}}
 }
