@@ -4,7 +4,10 @@
 \alias{KoboClient}
 \title{KoboClient}
 \description{
-a class to interact with the KoboToolbox API
+A class to interact with the KoboToolbox API, extending \code{crul::HttpClient}.
+}
+\seealso{
+\code{\link[crul]{HttpClient}}
 }
 \section{Super class}{
 \code{\link[crul:HttpClient]{crul::HttpClient}} -> \code{KoboClient}
@@ -37,6 +40,7 @@ a class to interact with the KoboToolbox API
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialization method for class "KoboClient".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$new(base_url, kobo_token = Sys.getenv("KBTBR_TOKEN"))}\if{html}{\out{</div>}}
 }
@@ -44,9 +48,10 @@ a class to interact with the KoboToolbox API
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{base_url}}{character. The full base URL of the API version 2 (known as /api/v2). For example: https://kobo.correlaid.org/api/v2.}
+\item{\code{base_url}}{character. The full base URL of the API.}
 
-\item{\code{kobo_token}}{character. The API token. Defaults to NULL.}
+\item{\code{kobo_token}}{character. The API token. Defaults to a request to
+the system environment.}
 }
 \if{html}{\out{</div>}}
 }
@@ -55,10 +60,24 @@ a class to interact with the KoboToolbox API
 \if{html}{\out{<a id="method-get"></a>}}
 \if{latex}{\out{\hypertarget{method-get}{}}}
 \subsection{Method \code{get()}}{
+#TODO Foster further understanding.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{query}}{list. A named list which is parsed to the query
+component. The order is not hierarchical.}
+
+\item{\code{...}}{crul-options. Additional option arguments, see
+crul::HttpClient for reference}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
