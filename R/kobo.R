@@ -1,16 +1,25 @@
-#' Kobo
-#' @description a class to interact with the KoboToolbox API
-Kobo <- R6::R6Class(
-    "Kobo",
+#' @title Kobo Class
+#' @description
+#' Interface object for the Kobo API that can handle KoboClient instances
+#' (sessions) for both API versions. 
+#' The Class exposes both generic and specific methods for HTTP requests /
+#' interactions with the various endpoints.
+#' @export
     private = list(
         session_v2 = NULL,
         session_v1 = NULL
     ), 
     public = list(
-        #' @param base_url_v2 character. The base URL of the API version 2 (known as /api/v2). For example: https://kobo.correlaid.org.
-        #' @param base_url_v1 character. The base URL of the API of your KoBoCAT API (also known as /api/v1). Defaults to NULL. For example: https://kc.correlaid.org.
-        #' @param kobo_token character. The API token. Defaults to NULL.
-        initialize = function(base_url_v2, base_url_v1 = NULL, kobo_token = NULL) {
+        #' @description
+        #' Initialization method for class "Kobo".
+        #' @param base_url_v2 character. The base URL of the API version 2
+        #'  (known as /api/v2). For example: https://kobo.correlaid.org.
+        #' @param base_url_v1 character. The base URL of the API of your KoBoCAT
+        #'  API (also known as /api/v1). Defaults to NULL.
+        #'  For example: https://kc.correlaid.org.
+        #' @param kobo_token character. The API token. Defaults to a request to
+        #'  the systen environment.
+        initialize = function(base_url_v2, base_url_v1 = NULL, kobo_token = Sys.getenv("KBTBR_TOKEN")) {
 
             if (checkmate::test_null(kobo_token) & Sys.getenv("KBTBR_TOKEN") == "") {
                 usethis::ui_stop(
@@ -31,6 +40,13 @@ Kobo <- R6::R6Class(
                private$session_v1 = KoboClient$new(base_url_v1, kobo_token)
             }
         },
+        #' @description
+        #' Wrapper for the GET method of internal session objects.
+        #' @param path character. Path component of the endpoint. 
+        #' @param query list. A named list which is parsed to the query
+        #'  component. The order is not hierarchical.
+        #' @param version character. Indicates on which API version the request
+        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
         get = function(path, query = list(format = "json"), version = "v2") {
             if (version == "v2") {
                 private$session_v2$get(path = paste0("api/v2/", path), query = query)
@@ -40,6 +56,9 @@ Kobo <- R6::R6Class(
                 usethis::ui_stop("Invalid version. Must be either v1 or v2. Come back in a couple of years.")
             }
         },
+        #' @description
+        #' Example method to send a GET request to the `assets` endpoint
+        #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
             self$get("assets")
         }
