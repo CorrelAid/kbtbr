@@ -3,6 +3,8 @@
 #' A class to interact with the KoboToolbox API, extending `crul::HttpClient`.
 #' @seealso \code{\link[crul]{HttpClient}}
 #' @export
+KoboClient <- R6::R6Class("KoboClient",
+    inherit = crul::HttpClient,
     private = list(
         base_url = "",
         kobo_token = ""
@@ -16,18 +18,24 @@
         initialize = function(base_url,
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
             
-            private$base_url <- base_url
-
-            # set the token internally
+            # Check and set private fields 
+            checkmate::assert_character(kobo_token)
             if (Sys.getenv("KBTBR_TOKEN") == "") {
                 usethis::ui_stop(
-                    "No valid token detected. Set the KBTBR_TOKEN environment variable or pass the token directly to the function (not recommended)."
+                    "No valid token detected. Set the KBTBR_TOKEN environment
+                    variable or pass the token directly to the function
+                    (not recommended)."
                 )
             }
-            # check that the token is a character
-            checkmate::assert_character(kobo_token)
             private$kobo_token <- kobo_token
-            super$initialize(url = base_url, headers = list(Authorization = paste0("Token ", kobo_token)))
+            private$base_url <- base_url
+
+            super$initialize(
+                url = base_url,
+                headers = list(
+                    Authorization = paste0("Token ", kobo_token)
+                    )
+                )
         },
         #' @description #TODO Foster further understanding. 
         #' @param path character. Path component of the endpoint. 
@@ -42,6 +50,5 @@
             res$parse("UTF-8") %>% 
                 jsonlite::fromJSON()
         }
-    ),
-    inherit = crul::HttpClient
+    )
 )

@@ -5,6 +5,7 @@
 #' The Class exposes both generic and specific methods for HTTP requests /
 #' interactions with the various endpoints.
 #' @export
+Kobo <- R6::R6Class("Kobo",
     private = list(
         session_v2 = NULL,
         session_v1 = NULL
@@ -62,6 +63,5 @@
         get_assets = function() {
             self$get("assets")
         }
-    ),
-    inherit = crul::HttpClient
-)
+    )
+) 
