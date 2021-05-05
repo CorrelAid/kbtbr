@@ -1,5 +1,5 @@
 #' @title KoboClient
-#' @description 
+#' @description
 #' A class to interact with the KoboToolbox API, extending [`crul::HttpClient`].
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
@@ -17,7 +17,7 @@ KoboClient <- R6::R6Class("KoboClient",
         initialize = function(base_url,
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
             
-            # Check and set private fields 
+            # Check and set private fields
             checkmate::assert_character(kobo_token)
             if (Sys.getenv("KBTBR_TOKEN") == "") {
                 usethis::ui_stop(
@@ -37,6 +37,9 @@ KoboClient <- R6::R6Class("KoboClient",
                 )
         },
         #' @description
+        #' Perform a GET request (with additional checks)
+        #'
+        #' @details
         #' Extension of the `crul::HttpClient$get()` method that checks
         #' the HttpResponse object on status, that it is of type
         #' `application/json`, and parses the response text subsequently from
@@ -46,11 +49,14 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  component. The order is not hierarchical.
         #' @param ... crul-options. Additional option arguments, see
         #'  [`crul::HttpClient`] for reference
+        #' @return Returns a list, parsed from the HttpResponse JSON object.
         get = function(path, query = list(), ...) {
             res <- super$get(path = path, query = query, ...)
+
+            # Perform additional checks, json to list parsing
             res$raise_for_status()
             res$raise_for_ct_json()
-            res$parse("UTF-8") %>% 
+            res$parse("UTF-8") %>%
                 jsonlite::fromJSON()
         }
     )
