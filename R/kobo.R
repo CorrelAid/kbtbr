@@ -1,7 +1,7 @@
 #' @title Kobo Class
 #' @description
 #' Interface object for the Kobo API that can handle KoboClient instances
-#' (sessions) for both API versions. 
+#' (sessions) for both API versions.
 #' The Class exposes both generic and specific methods for HTTP requests /
 #' interactions with the various endpoints.
 #' @export
@@ -30,11 +30,6 @@ Kobo <- R6::R6Class("Kobo",
                 )
             }
 
-            if (checkmate::test_null(base_url_v2) & checkmate::test_null(base_url_v1)) {
-                usethis::ui_stop("Please provide either base_url_v2 or base_url_v1")
-            }
-
-
             if (!checkmate::test_null(base_url_v2)) {
                private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
             }
@@ -45,7 +40,7 @@ Kobo <- R6::R6Class("Kobo",
         },
         #' @description
         #' Wrapper for the GET method of internal session objects.
-        #' @param path character. Path component of the endpoint. 
+        #' @param path character. Path component of the endpoint.
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
         #' @param version character. Indicates on which API version the request
@@ -69,4 +64,4 @@ Kobo <- R6::R6Class("Kobo",
             self$get("assets")
         }
     )
-) 
+)
