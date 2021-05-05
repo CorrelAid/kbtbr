@@ -15,6 +15,7 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     crul,
-    usethis
+    usethis,
+    checkmate
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

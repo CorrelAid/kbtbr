@@ -8,4 +8,7 @@ test_that("the class can be initalized", {
     expect_setequal(names(assets), c("count", "results", "next", "previous"))
     expect_equal(assets$count, 8)
     expect_equal(length(assets$results), 8)
+    assets <- kobo$get_assets()
+    expect_true(is.list(assets))
+    str(assets, 1)
 })
