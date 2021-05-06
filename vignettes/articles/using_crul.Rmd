@@ -92,6 +92,32 @@ parsed_assets <- crul_resp$parse("UTF-8") %>%
 # Inspect the results
 names(parsed_assets)
 str(parsed_assets, 1)
+
+
+
+## Simple POST request - submit XLS form
+# Build the URL:
+form_url <- crul::url_build(
+  url = base_url,
+  # path = "api/v2/imports" # for some reason this doesn't work - 404
+  path = "imports"
+)
+
+# Get an instance of a crul::HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = form_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+
+
+file <- upload("./xls_form_via_post.xlsx")
+crul_resp <- crul_client$post(body = list(y=file),encode = "multipart")
+crul_resp$raise_for_status()
+
+# status 200 but the new form didn't appear on the kobo website
+
 ```
 
 
