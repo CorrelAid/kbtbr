@@ -19,7 +19,7 @@ KoboClient <- R6::R6Class("KoboClient",
             
             # Check and set private fields
             checkmate::assert_character(kobo_token)
-            if (Sys.getenv("KBTBR_TOKEN") == "") {
+            if (kobo_token == "") {
                 usethis::ui_stop(
                     "No valid token detected. Set the KBTBR_TOKEN environment
                     variable or pass the token directly to the function

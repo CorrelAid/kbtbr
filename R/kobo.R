@@ -22,14 +22,6 @@ Kobo <- R6::R6Class("Kobo",
         #'  the systen environment `KBTBR_TOKEN`.
         initialize = function(base_url_v2, base_url_v1 = NULL, kobo_token = Sys.getenv("KBTBR_TOKEN")) {
 
-            if (Sys.getenv("KBTBR_TOKEN") == "") {
-                usethis::ui_stop(
-                    "No valid token detected. Set the KBTBR_TOKEN environment
-                    variable or pass the token directly to the function
-                    (not recommended)."
-                )
-            }
-
             if (!checkmate::test_null(base_url_v2)) {
                private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
             }
