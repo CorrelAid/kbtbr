@@ -57,10 +57,7 @@ the system environment variable \code{KBTBR_TOKEN}.}
 \if{html}{\out{<a id="method-get"></a>}}
 \if{latex}{\out{\hypertarget{method-get}{}}}
 \subsection{Method \code{get()}}{
-Extension of the \code{crul::HttpClient$get()} method that checks
-the HttpResponse object on status, that it is of type
-\code{application/json}, and parses the response text subsequently from
-JSON to R list representation.
+Perform a GET request (with additional checks)
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
 }
@@ -77,6 +74,16 @@ component. The order is not hierarchical.}
 \code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Extension of the \code{crul::HttpClient$get()} method that checks
+the HttpResponse object on status, that it is of type
+\code{application/json}, and parses the response text subsequently from
+JSON to R list representation.
+}
+
+\subsection{Returns}{
+Returns a list, parsed from the HttpResponse JSON object.
 }
 }
 \if{html}{\out{<hr>}}
