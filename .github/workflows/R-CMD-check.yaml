@@ -3,10 +3,12 @@
 on:
   push:
     branches:
-      - foo # replace with main once we start testing
+      - main
+      - dev
   pull_request:
     branches:
-      - foo # replace with main once we start testing
+      - main
+      - dev
 name: R-CMD-check
 
 jobs:
