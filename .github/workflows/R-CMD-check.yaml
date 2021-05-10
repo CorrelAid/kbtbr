@@ -8,7 +8,7 @@ on:
   pull_request:
     branches:
       - main
-      - dev
+      #- dev # no tests on PRs to dev so far
 name: R-CMD-check
 
 jobs:
