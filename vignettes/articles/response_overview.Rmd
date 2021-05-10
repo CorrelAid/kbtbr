@@ -8,6 +8,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 library(kbtbr)
 library(dplyr)
+
+removeBaseUrl <- function(url){
+  input_url <- gsub("https://kobo.correlaid.org/api/v2/", "", url)
+  gsub("\\?format=json", "", input_url)
+}
 ```
 
 
@@ -25,8 +30,18 @@ surveys <- assets %>%
   filter(asset_type == "survey")
 
 survey_test <- surveys[1, ]
-kobo$get(survey_test$url)
+surveyObject <- kobo$get(removeBaseUrl(survey_test$url))
+str(surveyObject, max.level = 2)
 ```
+
+
+```{r}
+surveyObject$content
+typeof(surveyObject$permissions)
+```
+
+
+
 # Block
 
 # Question
