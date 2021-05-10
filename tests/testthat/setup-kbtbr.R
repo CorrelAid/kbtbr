@@ -1,5 +1,6 @@
 library("vcr") # *Required* as vcr is set up on loading
 
+vcr_dir <- vcr::vcr_test_path("fixtures")
 
 if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
   if (dir.exists(vcr_dir)) {
@@ -13,7 +14,7 @@ if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
 }
 
 invisible(vcr::vcr_configure(
-  dir = vcr::vcr_test_path("fixtures"),
+  dir = vcr_dir,
   filter_request_headers = list(Authorization = "fakebearertoken")
 ))
 vcr::check_cassette_names()
