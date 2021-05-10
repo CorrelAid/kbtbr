@@ -18,7 +18,7 @@ http_interactions:
     headers:
       status: HTTP/1.1 200 OK
       server: nginx
-      date: Mon, 10 May 2021 13:21:07 GMT
+      date: Mon, 10 May 2021 13:29:48 GMT
       content-type: application/json
       content-length: '26003'
       connection: keep-alive
@@ -104,5 +104,5 @@ http_interactions:
         block"},{"url":"https://kobo.correlaid.org/api/v2/assets/a9BzPvnNLub346sr8M7R33/permission-assignments/p2ow2DBYsTuyBD3SXueFjv/?format=json","user":"https://kobo.correlaid.org/api/v2/users/super_admin/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/?format=json","label":"Manage
         block"},{"url":"https://kobo.correlaid.org/api/v2/assets/a9BzPvnNLub346sr8M7R33/permission-assignments/pUaxf7JWWrefyH5XFN59yT/?format=json","user":"https://kobo.correlaid.org/api/v2/users/super_admin/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/view_asset/?format=json","label":"View
         block"}],"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/a9BzPvnNLub346sr8M7R33/?format=json.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/a9BzPvnNLub346sr8M7R33/?format=json.xml"}],"data":"https://kobo.correlaid.org/api/v2/assets/a9BzPvnNLub346sr8M7R33/data/?format=json"}]}'
-  recorded_at: 2021-05-10 13:21:07 GMT
+  recorded_at: 2021-05-10 13:29:48 GMT
   recorded_with: vcr/0.6.0, webmockr/0.8.0

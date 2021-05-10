@@ -59,10 +59,6 @@ We look at "low-hanging" endpoints: `assets` and `assets/{{uid}}/data`
 base_url <- Sys.getenv("KBTBR_BASE_URL")
 token <- Sys.getenv("KBTBR_TOKEN")
 
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 ## Simple GET request
 
 # Build the URL from a named-list style:
@@ -72,14 +68,6 @@ asset_url <- crul::url_build(
   query = list(format = "json")
 )
 
-<<<<<<< HEAD
-# crul also has the reverse operation "url_parse" which decomposes an URL into its elements
-# this could be useful when "navigating" around the API using the asset urls provided
-# in the responses, e.g. in case we wanted to add elements of it to a data frame representation etc.
-crul::url_parse(asset_url)
-
-# Get an instance of a crul HttpClient:
-=======
 #' crul also has the reverse operation "url_parse" which decomposes an URL into
 #' its elements this could be useful when "navigating" around the API using the
 #' asset urls provided in the responses, e.g. in case we wanted to add elements
@@ -87,7 +75,6 @@ crul::url_parse(asset_url)
 crul::url_parse(asset_url)
 
 # Get an instance of a crul::HttpClient:
->>>>>>> dev
 crul_client <- crul::HttpClient$new(
   url = asset_url,
   headers = list(
@@ -155,14 +142,6 @@ consumes a `HttpClient` object and then performes a request on it, plus
 some additional data parsing / retrieval.
 
 ```{r wrap-in-function}
-<<<<<<< HEAD
-example_client <- crul::HttpClient$new(
-    url = Sys.getenv("KBTBR_BASE_URL"),
-    headers = list(Authorization = paste0("Token ", token))
-    )
-
-
-=======
 # Consider the following example client object
 example_client <- crul::HttpClient$new(
   url = Sys.getenv("KBTBR_BASE_URL"),
@@ -179,7 +158,6 @@ example_client <- crul::HttpClient$new(
 #' @param query <list> A named list of strings, giving additional request
 #'  parameters.
 #' @return A tibble
->>>>>>> dev
 simple_request <- function(client, path, query = NULL) {
 
   stopifnot("HttpClient" %in% class(client))
@@ -192,22 +170,6 @@ simple_request <- function(client, path, query = NULL) {
 }
 
 simple_request(example_client, "api/v2/collections", list(format = "json"))
-<<<<<<< HEAD
-
-
-# More complex example: two step example to get all the (available) survey data:
-assets_df <- simple_request(example_client, "api/v2/assets", list(format = "json"))
-
-data_url <- glue::glue("api/v2/assets/{assets$uid}/data") %>%
-  as.character() 
-
-full_dta_list <- data_url %>%
-  purrr::map(function(uid) {
-    tryCatch(
-      simple_request(example_client, uid),
-      error = function(e) {
-        usethis::ui_warn("Failed for {uid}: {e}")
-=======
 ```
 
 Consider a more complex example, where we first need to retrieve a list of
@@ -228,15 +190,12 @@ full_dta_list <- data_url %>%
       simple_request(example_client, path = url, query = list(format = "json")),
       error = function(e) {
         usethis::ui_warn("Failed for {url}: {e}")
->>>>>>> dev
         return(NULL)
        })})
 
 str(full_dta_list, 1)
 ```
 
-<<<<<<< HEAD
-=======
 _Note:_ you might have mentioned the somewhat awkward removing of the base
 url and query, and then adding it implicit again. This is because the
 client in this case always as a base url, and cannot tell (yet) whether it
@@ -244,4 +203,3 @@ was accidentially already prepended to the supplied `path`. We could
 think about using `urltools::path()` somewhere to be sure to have everything
 stripped away, given that the path does not start with `api/v2`... 
 Has to be discussed.
->>>>>>> dev
