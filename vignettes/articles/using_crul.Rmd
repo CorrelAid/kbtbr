@@ -37,6 +37,8 @@ via your `~.Renviron` file):
   (currently not used in the examples)
 
 
+
+## Basic requests
 In the following, for demonstration purposes, we will show how to access the
 API with `crul` on different ways. Those are not necessarily the one we chose
 in the package, we just want to get a feeling for how everything works.
@@ -52,7 +54,6 @@ We look at "low-hanging" endpoints: `assets` and `assets/{{uid}}/data`
 
 
 ## Plain requests
-
 
 ```{r plain-crul}
 base_url <- Sys.getenv("KBTBR_BASE_URL")

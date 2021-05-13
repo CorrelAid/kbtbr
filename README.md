@@ -2,6 +2,7 @@
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/CorrelAid/kbtbr/workflows/R-CMD-check/badge.svg)](https://github.com/CorrelAid/kbtbr/actions)
+[![Codecov test coverage](https://codecov.io/gh/CorrelAid/kbtbr/branch/main/graph/badge.svg)](https://codecov.io/gh/CorrelAid/kbtbr?branch=main)
 <!-- badges: end -->
 
 R Wrapper for the [KoboToolbox API](https://support.kobotoolbox.org/api.html).

@@ -3,10 +3,12 @@
 on:
   push:
     branches:
-      - foo # replace with main once we start testing
+      - main
+      - dev
   pull_request:
     branches:
-      - foo # replace with main once we start testing
+      - main
+      #- dev # no tests on PRs to dev so far
 name: R-CMD-check
 
 jobs:
@@ -65,6 +67,7 @@ jobs:
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          remotes::install_cran("covr")
         shell: Rscript {0}
 
       - name: Check
@@ -81,3 +84,6 @@ jobs:
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
+      - name: Test coverage
+        run: covr::codecov()
+        shell: Rscript {0}
