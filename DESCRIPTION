@@ -10,6 +10,7 @@ License: What license is it under?
 Encoding: UTF-8
 LazyData: true
 Suggests: 
+    covr,
     testthat (>= 3.0.0),
     vcr
 Config/testthat/edition: 3
