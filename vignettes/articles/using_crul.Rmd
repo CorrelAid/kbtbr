@@ -94,55 +94,6 @@ parsed_assets <- crul_resp$parse("UTF-8") %>%
 names(parsed_assets)
 str(parsed_assets, 1)
 
-
-
-## Simple POST request
-### 1. submit XLS form
-# Build the URL:
-form_url <- crul::url_build(
-  url = base_url,
-  # path = "api/v2/imports" # for some reason this doesn't work - 404
-  path = "imports"
-)
-
-# Get an instance of a crul::HttpClient:
-crul_client <- crul::HttpClient$new(
-  url = form_url,
-  headers = list(
-    Authorization = paste0("Token ", token)
-  )
-)
-
-
-file <- upload("./xls_form_via_post.xlsx")
-crul_resp <- crul_client$post(body = list(y=file),encode = "multipart")
-crul_resp$raise_for_status()
-
-# status 200 but the new form didn't appear on the kobo website
-
-
-### 2. deploy an asset
-# Build the URL:
-asset_depl_url <- crul::url_build(
-  url = base_url,
-  #path = "api/v2/assets/ajzghKK6NELaixPQqsm49e/deployment",
-  path = "assets/ajzghKK6NELaixPQqsm49e/deployment",
-  query = list(active=TRUE)
-)
-
-# Get an instance of a crul::HttpClient:
-crul_client <- crul::HttpClient$new(
-  url = asset_depl_url,
-  headers = list(
-    Authorization = paste0("Token ", token),
-    Accept = "application/json"
-  )
-)
-
-crul_resp <- crul_client$post()
-crul_resp$raise_for_status() #404
-
-
 ```
 
 
@@ -253,3 +204,63 @@ was accidentially already prepended to the supplied `path`. We could
 think about using `urltools::path()` somewhere to be sure to have everything
 stripped away, given that the path does not start with `api/v2`... 
 Has to be discussed.
+
+```{r post-requests}
+## Simple POST request crul v2
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = base_url,
+  headers = list(
+    Authorization = paste0("Token ", token),
+    Accept = "application/json"
+  )
+)
+
+
+### 1. POST request to submit submit XLS form
+crul_resp_form <- crul_client$post(
+  path = "imports/",
+  # path = "api/v2/imports/", # for some reason this doesn't work - 404
+  body = list(file=upload("./xls_form_via_post.xlsx"),
+              library = 'false')
+  )
+crul_resp_form$raise_for_status() # status 200 but the new form didn't appear on the kobo website
+
+
+### 2. POST request to deploy an asset
+crul_resp_depl <- crul_client$post(
+  path = "api/v2/assets/ajzghKK6NELaixPQqsm49e/deployment/",
+  body=list(active=TRUE)
+  )
+crul_resp_depl$raise_for_status()
+
+
+### 3. POST request to clone a form
+crul_resp_clone <- crul_client$post(
+  path = "api/v2/assets/",
+  body=list(clone_from="ajzghKK6NELaixPQqsm49e",
+            name='My Cloned Form')
+  )
+crul_resp_clone$raise_for_status() # status 200 but the new form didn't appear on the kobo website
+
+
+
+
+## Try the same with httr
+### 1. POST request to submit XLS form
+result <- httr::POST(url=paste0(base_url,"imports/"),
+                     body=list(file=upload_file("./xls_form_via_post.xlsx"),
+                               library = 'false'),
+                     add_headers(Authorization = paste0("Token ", token),
+                                 Accept = "application/json")
+                     ) # again status 200 and nothing happens on the website o_O
+
+### 2. POST request to deploy an asset
+result1 <- httr::POST(url=paste0(base_url,"api/v2/assets/ajzghKK6NELaixPQqsm49e/deployment/"),
+                      body=list(owner=paste0("kobo.correlaid.org/users/api_user/"),
+                                active=TRUE),
+                      add_headers(Authorization = paste0("Token ", token),
+                                  Accept = "application/json")
+                     ) # 404
+
+```
