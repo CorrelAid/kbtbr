@@ -39,6 +39,7 @@ via your `~.Renviron` file):
 
 
 ## Basic requests
+
 In the following, for demonstration purposes, we will show how to access the
 API with `crul` on different ways. Those are not necessarily the one we chose
 in the package, we just want to get a feeling for how everything works.
@@ -114,7 +115,8 @@ on the client, as is shown in the following example:
 crul_client <- crul::HttpClient$new(
   url = base_url,
   headers = list(
-    Authorization = paste0("Token ", token)
+    Authorization = paste0("Token ", token),
+    "content-type" = "application/json"
   )
 )
 
@@ -134,6 +136,100 @@ use as the final passed url, both
 
 This seems to be due to a legacy release of Kobo's
 `v2` API, which probably used the shorter url form (which should not be used). 
+
+
+### `POST` requests
+
+
+In the first example, we can try to **create a new asset** (without any content)
+via a `POST` request.
+
+```{r}
+# A little helper function to create a json-like string from
+# a list.
+# _note_ Kobotoolbox seems to be unable to deal with arrays, thus we have
+# to unbox vectors of length 1.
+list_as_json_char <- function(list) {
+  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+    as.character()
+}
+
+
+body_create_example <- list_as_json_char(list(
+  "name" = "A survey object created via API/R",
+  "asset_type" = "survey"
+))
+
+# Exectute the request, and use method chaining to parse it directly 
+crul_client$
+  post(
+    path = "api/v2/assets/",
+    body = body_create_example)$
+  parse("utf-8")
+
+```
+
+_Note_ somehow the additional nested parameter in "settings" resulted in a
+failure of the request. It is questionable why they are in the documentation.
+We cannot explain this _misbehaviour_ at the moment.
+
+
+In the next example, in a similar style we **clone** an existing asset. This
+needs two arguments passed in the body of the POST request.
+
+```{r}
+example_clone_body <- list_as_json_char(list(
+  "clone_from" = "ajzghKK6NELaixPQqsm49e",
+  "name" = "This is a cloned survey (via API/R)",
+  "asset_type" = "survey"
+))
+
+crul_client$
+  post(
+    path = "api/v2/assets/",
+    body = example_clone_body)$
+  parse("utf-8")
+```
+
+
+### `PATCH` Requests
+
+
+The newly created assets of type `survey` are initially in draft mode.
+However, can we also move them to deployed?
+
+Let's say we want to deploy all surveys which we have created beforehand,
+and that we can identify because we put `API/R` in the name (of course,
+this is nothing we would do in the package).
+
+**DOES NOT WORK YET**
+
+```{r}
+# First, get again a list of assets
+df_selected_uids <- crul_client$
+  get(
+    path = "api/v2/assets",
+    query = list(formant = "json"))$
+  parse("utf-8") %>%
+  jsonlite::fromJSON() %>%
+  purrr::pluck("results") %>%
+  tibble::as_tibble() %>%
+  dplyr::filter(stringr::str_detect(name, "API/R")) %>%
+  dplyr::select(name, uid)
+
+df_selected_uids
+
+df_selected_uids$uid %>%
+  purrr::walk(.f = function(uid) {
+    crul_client$
+      patch(
+        path = glue::glue("api/v2/assets/{uid}/deployment/"),
+        query = list(active = "false")
+      )
+  })
+
+```
+
 
 
 ## Wrapping it in a function
