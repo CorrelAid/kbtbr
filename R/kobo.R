@@ -57,7 +57,7 @@ Kobo <- R6::R6Class("Kobo",
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
-            self$get("assets")
+            self$get("assets/")
         }
     )
 )
