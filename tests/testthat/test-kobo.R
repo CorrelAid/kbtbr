@@ -1,7 +1,5 @@
 BASE_URL <- "https://kobo.correlaid.org"
 
-
-
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
 
@@ -47,7 +45,6 @@ test_that("Request to v1 throws error if v1 session is not initialized", {
         regexp = "Session for API v1 is not initalized"
     )
 })
-
 
 test_that("Kobo can fetch assets", {
     # the use_cassette command looks into the fixtures directory and checks 

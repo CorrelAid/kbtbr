@@ -1,4 +1,4 @@
-BASE_URL <- "https://kobo.correlaid.org/api/v2/"
+BASE_URL <- "https://kobo.correlaid.org"
 #' Testing $get_* methods
 
 vcr::use_cassette("kobo-client-403", {
