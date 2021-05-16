@@ -96,8 +96,7 @@ str(parsed_assets, 1)
 
 
 
-## Simple POST request
-### 1. submit XLS form
+## Simple POST request - submit XLS form
 # Build the URL:
 form_url <- crul::url_build(
   url = base_url,
@@ -119,29 +118,6 @@ crul_resp <- crul_client$post(body = list(y=file),encode = "multipart")
 crul_resp$raise_for_status()
 
 # status 200 but the new form didn't appear on the kobo website
-
-
-### 2. deploy an asset
-# Build the URL:
-asset_depl_url <- crul::url_build(
-  url = base_url,
-  #path = "api/v2/assets/ajzghKK6NELaixPQqsm49e/deployment",
-  path = "assets/ajzghKK6NELaixPQqsm49e/deployment",
-  query = list(active=TRUE)
-)
-
-# Get an instance of a crul::HttpClient:
-crul_client <- crul::HttpClient$new(
-  url = asset_depl_url,
-  headers = list(
-    Authorization = paste0("Token ", token),
-    Accept = "application/json"
-  )
-)
-
-crul_resp <- crul_client$post()
-crul_resp$raise_for_status() #404
-
 
 ```
 
