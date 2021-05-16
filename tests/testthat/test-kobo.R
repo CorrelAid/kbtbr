@@ -13,21 +13,6 @@ test_that("the error from KoboClient is propagated correctly if we fail to provi
                 object = Kobo$new(base_url_v2 = base_url),
                 regexp = "No valid token detected."
             )
-
-            # b) `kobo_token` argument is provided, supersedes env var.
-            #    is this propagated correctly to KoboClient?
-            kobo_obj <- Kobo$new(base_url_v2 = base_url, kobo_token = "foo")
-            expect_identical(
-                class(kobo_obj),
-                c("Kobo", "R6")
-            )
-
-            # c) `kobo_token` argument is provided, no baseurl for v1.
-            kobo_obj <- Kobo$new(base_url_v2 = base_url, kobo_token = "foo")
-            expect_identical(
-                class(kobo_obj),
-                c("Kobo", "R6")
-            )
         }
     )
 })
@@ -45,10 +30,14 @@ test_that("Kobo is initialized correctly if we provide a kobo_token manually wit
     )
 })
 
-test_that("we get a warning if we do not specify base_url_v1.", {
-    expect_message(Kobo$new(base_url_v2 = base_url, kobo_token = "foo"),
-        regexp = "You have not passed base_url_v1. This means you cannot use"
-    )
+test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
+    expect_message({
+        kobo_obj <- Kobo$new(base_url_v2 = base_url, kobo_token = "foo")
+    }, regexp = "You have not passed base_url_v1. This means you cannot use")
+    expect_identical(
+                class(kobo_obj),
+                c("Kobo", "R6")
+            )
 })
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
