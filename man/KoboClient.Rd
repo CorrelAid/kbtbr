@@ -105,6 +105,15 @@ Returns a list, parsed from the HttpResponse JSON object.
 
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get"></a>}}
+\if{latex}{\out{\hypertarget{method-get}{}}}
+\subsection{Method \code{get()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{

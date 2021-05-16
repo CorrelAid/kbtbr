@@ -1,5 +1,4 @@
 BASE_URL <- "https://kobo.correlaid.org"
-
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
 
@@ -83,3 +82,4 @@ test_that("non-existing kobo host throws error", {
         kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
         expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
 })
+
