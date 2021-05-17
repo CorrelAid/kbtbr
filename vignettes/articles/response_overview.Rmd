@@ -6,6 +6,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+devtools::load_all()
 library(kbtbr)
 library(dplyr)
 
@@ -31,28 +32,87 @@ surveys <- assets %>%
 
 survey_test <- surveys[1, ]
 surveyObject <- kobo$get(removeBaseUrl(survey_test$url))
-str(surveyObject, max.level = 2)
+```
+
+In the following you can see a summary of the information you can retrieve from the *surveyObject*, which is a list of 39 elements. The elements of the type *list* of the *surveyObject* have to be accessed separately to get the resprective sublists (number of sublists given in column *Length*). Elements of type *NULL* do not comprise any information and hence, are not displayed separately below.  
+
+```{r}
+summary(surveyObject)
+```
+
+Here you have a more detailed overview with the elements of type *character*, *logical* and *numeric* displayed. 
+
+```{r}
+str(surveyObject, max.level = 1)
+```
+
+
+Finally, all the sublists displayed separately, whereby the sublist *content* might be of particular interest.
+
+```{r}
+surveyObject$settings
+```
+
+```{r}
+surveyObject$summary
 ```
 
 
 ```{r}
-surveyObject$content
-typeof(surveyObject$permissions)
+surveyObject$deployed_versions 
 ```
 
-
-
-# Block
-```{r}
-blocks <- assets %>% 
-  filter(asset_type == "block")
-test_block <- blocks[1, ]
-```
 
 ```{r}
-colnames(test_block)
+surveyObject$deployment__links 
 ```
 
-# Question
 
-# Template
+```{r}
+surveyObject$deployment__data_download_links 
+```
+
+```{r}
+surveyObject$report_styles 
+```
+
+```{r}
+surveyObject$report_custom  
+```
+
+
+```{r}
+surveyObject$map_styles 
+```
+
+
+```{r}
+surveyObject$map_custom 
+```
+
+```{r}
+surveyObject$content  
+```
+
+
+```{r}
+surveyObject$downloads 
+```
+
+```{r}
+surveyObject$embeds 
+```
+
+```{r}
+surveyObject$assignable_permissions 
+```
+
+
+```{r}
+surveyObject$deployment__links 
+```
+
+
+```{r}
+surveyObject$permissions  
+```
