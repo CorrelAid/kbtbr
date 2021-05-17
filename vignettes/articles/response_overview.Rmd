@@ -32,8 +32,6 @@ kobo <- Kobo$new(base_url, token)
 assets <- kobo$get("assets/")$results
 ```
 
-# Overview / Comparison
-
 Get an element of each asset type:
 
 ```{r}
@@ -43,6 +41,31 @@ first_of_type <- assets %>%
   slice(1)
 first_of_type$asset_type
 ```
+
+**Important**: `url` and `data` URLs contain almost all of the relevant information.
+
+# Use cases
+## Get general information about an asset (Timm)
+summary, uid, name, ...
+
+## Get responses to a survey (Timm)
+
+```{r}
+
+# first_of_type %>% 
+#   filter(asset_type == "survey") %>% 
+#   pull(data)
+# kobo$get(removeBaseUrl())
+```
+
+## Get permissions of an asset ()
+
+## Get form metadata (Frie)
+
+## File Downloads (Frie)
+
+
+# Overview / Comparison
 
 ## Data from the `url` url
 `GET` the data from the `url` URL.
@@ -149,14 +172,30 @@ str(surveyObject, max.level = 1)
 ```
 
 
-Finally, all the sublists displayed separately, whereby the sublist *content* might be of particular interest.
+Finally, all the sublists displayed separately in - roughly - decreasing order of interest, whereby the sublist *content* might be of particular interest.
+
+```{r}
+surveyObject$content  
+```
 
 ```{r}
 surveyObject$settings
 ```
+```{r}
+surveyObject$downloads 
+```
 
 ```{r}
 surveyObject$summary
+```
+
+```{r}
+surveyObject$deployment__links 
+```
+
+
+```{r}
+surveyObject$permissions  
 ```
 
 
@@ -175,30 +214,10 @@ surveyObject$deployment__data_download_links
 ```
 
 ```{r}
-surveyObject$report_styles 
-```
-
-```{r}
+#surveyObject$report_styles  # commented out because quite long but empty
 surveyObject$report_custom  
-```
-
-
-```{r}
 surveyObject$map_styles 
-```
-
-
-```{r}
 surveyObject$map_custom 
-```
-
-```{r}
-surveyObject$content  
-```
-
-
-```{r}
-surveyObject$downloads 
 ```
 
 ```{r}
@@ -209,15 +228,6 @@ surveyObject$embeds
 surveyObject$assignable_permissions 
 ```
 
-
-```{r}
-surveyObject$deployment__links 
-```
-
-
-```{r}
-surveyObject$permissions  
-```
 
 
 ## Question
