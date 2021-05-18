@@ -2,7 +2,7 @@
 title: "Response overview"
 output:
   html_document:
-    toc: true
+    toc: yes
     toc_depth: 3
 ---
 
@@ -185,8 +185,16 @@ exports$results$result
 
 # Overview / Comparison
 
+This section compares the three main endpoints of interest across the four main asset types `survey`, `template`, `block` and `question`.
+
+The three endpoints are:
+- `assets`: general "list" endpoint
+- `url`: exists for each asset, provides more detailed information than the list entry for the asset in `assets`
+- `data`: holds data related to the asset, seems to be only relevant for the asset type `survey` as it holds the survey submissions
+
+
 ## Data from the `url` url
-`GET` the data from the `url` URL.
+First, we `GET` the data from the `url` URL for each of the "test" objects.
 
 ```{r}
 # data from "url" url
@@ -198,19 +206,26 @@ url_data <- test_elements$url %>%
 ```
 
 
+We now build a table with columns `name` and `type` that hold the names of the list elements respectively the asset type. We also extract the column names of the assets data frame to compare them with the names of the list elements:
 
 ```{r}
+# extract the names of the assets data frame
 assets_names <- tibble(name = colnames(assets), type = "assets")
 # extract the names from the object
-url_data %>% 
+names_df <- url_data %>% 
   map_dfr(function(el) {
     names(el)
   }) %>% 
   pivot_longer(everything(), names_to = "type", values_to = "name") %>% 
-  bind_rows(assets_names) %>% # combine with assets_df 
+  bind_rows(assets_names) # combine with assets_df 
+```
+
+```{r}
+names_df %>% 
   janitor::tabyl(name, type) %>%   
   knitr::kable()
 ```
+
 All asset types have the same elements in their `url` return object. We also see that quite a lot of metadata seems to be already available in the assets data frame that we get from the `assets/` endpoint (cross-checking that the values are indeed the same would be beneficial - an attempt is made down below).
 
 ## Data from the `data` url
