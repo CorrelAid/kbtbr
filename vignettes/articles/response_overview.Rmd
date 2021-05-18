@@ -60,7 +60,7 @@ test_elements$asset_type
 
 Get the name of an asset from the list of assets:
 ```{r}
-colnames(assets)
+assets$name
 ```
 
 
@@ -74,28 +74,27 @@ Additional information to the assets:
 summary(str(assets, max.level = 1))
 ```
 
-## Get responses to a survey (Timm)
+## Get responses to a survey 
 
-
-
+We can get the submissions to a survey with the `data` url (also accessible via the assets data frame). Conveniently, they already are parsed as a data frame in the `results` of the response: 
 ```{r}
-url_data <- first_of_type$url %>% 
-  map(function(url) {
-    kobo$get(removeBaseUrl(url))
-  }) %>% 
-  set_names(paste0(first_of_type$asset_type, "_url"))
+submissions <- test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(data) %>% 
+  removeBaseUrl() %>%
+  kobo$get()
+submissions$results
 ```
 
 
-Retrieve the `content` from the survey_url:
+## Get permissions of an asset
+All asset types have permissions as a data frame, one row per user and permission granted. 
+
 ```{r}
-str(url_data$survey_url$content, max.level = 2)
+test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(permissions)
 ```
-
-
-
-
-## Get permissions of an asset ()
 
 ## Get form metadata / XLSForm
 Metadata about the structure of forms, questions, templates and blocks can be found in the `content` element of the response to the `url` URL. For example for a survey:
