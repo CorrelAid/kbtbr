@@ -46,17 +46,48 @@ first_of_type$asset_type
 
 # Use cases
 ## Get general information about an asset (Timm)
-summary, uid, name, ...
+
+Get the name of an asset from the list of assets:
+```{r}
+colnames(assets)
+```
+
+
+Get the uid of an asset from the list of assets:
+```{r}
+assets$uid
+```
+
+Additional information to the assets:
+```{r}
+summary(str(assets, max.level = 1))
+```
+
+
+
 
 ## Get responses to a survey (Timm)
 
-```{r}
 
-# first_of_type %>% 
-#   filter(asset_type == "survey") %>% 
-#   pull(data)
-# kobo$get(removeBaseUrl())
+
+```{r}
+url_data <- first_of_type$url %>% 
+  map(function(url) {
+    kobo$get(removeBaseUrl(url))
+  }) %>% 
+  set_names(paste0(first_of_type$asset_type, "_url"))
+
+str(url_data$survey_url, max.level = 1)
 ```
+
+
+Retrieve the `content` from the survey_url:
+```{r}
+str(url_data$survey_url$content, max.level = 2)
+```
+
+
+
 
 ## Get permissions of an asset ()
 
@@ -159,20 +190,20 @@ str(assets$permissions[[1]], max.level = 1)
 surveyObject <- url_data$survey_url
 ```
 
-In the following you can see a summary of the information you can retrieve from the *surveyObject*, which is a list of `r length(surveyObject)` elements. The elements of the type *list* of the *surveyObject* have to be accessed separately to get the resprective sublists (number of sublists given in column *Length*). Elements of type *NULL* do not comprise any information and hence, are not displayed separately below.  
+In the following you can see a summary of the information you can retrieve from the `surveyObject`, which is a list of `r length(surveyObject)` elements. The elements of the type `list` of the `surveyObject` have to be accessed separately to get the resprective sublists (number of sublists given in column `Length`). Elements of type `NULL` do not comprise any information and hence, are not displayed separately below.  
 
 ```{r}
 summary(surveyObject)
 ```
 
-Here you have a more detailed overview with the elements of type *character*, *logical* and *numeric* displayed. 
+Here you have a more detailed overview with the elements of type character, `logical` and `numeric` displayed. 
 
 ```{r}
 str(surveyObject, max.level = 1)
 ```
 
 
-Finally, all the sublists displayed separately in - roughly - decreasing order of interest, whereby the sublist *content* might be of particular interest.
+Finally, all the sublists displayed separately in - roughly - decreasing order of interest, whereby the sublist `content` might be of particular interest.
 
 ```{r}
 surveyObject$content  
