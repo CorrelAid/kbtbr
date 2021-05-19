@@ -68,7 +68,7 @@ check thar the response is successful and automatically parse the result in the 
 
 ```{r, results='hide'}
 assets = my_session$get(path="api/v2/assets/")
-str(assets)
+str(assets, max.level=2)
 ```
 
 
