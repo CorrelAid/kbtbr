@@ -27,6 +27,20 @@ test_that("Kobo is initialized correctly if we provide a kobo_token manually wit
     )
 })
 
+test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
+    withr::with_envvar(
+        new = c("KBTBR_TOKEN" = ""),
+        code = {
+            koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo" )
+            kobo_obj <- Kobo$new(session_v2=koboclient_instance )
+            expect_identical(
+                class(kobo_obj),
+                c("Kobo", "R6")
+            )
+        }
+    )
+})
+
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
     expect_message({
         kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
@@ -46,8 +60,8 @@ test_that("Request to v1 throws error if v1 session is not initialized", {
 })
 
 test_that("Kobo can fetch assets", {
-    # the use_cassette command looks into the fixtures directory and checks 
-    # whether a "cassette" with the given name already exists. if yes, it loads it. if no, the 
+    # the use_cassette command looks into the fixtures directory and checks
+    # whether a "cassette" with the given name already exists. if yes, it loads it. if no, the
     # code is run and the response is saved as a cassette.
     vcr::use_cassette("kobo-get-assets", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
