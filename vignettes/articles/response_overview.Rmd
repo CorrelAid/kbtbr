@@ -1,0 +1,426 @@
+---
+title: "Response overview"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+devtools::load_all()
+library(kbtbr)
+library(dplyr)
+library(purrr)
+library(tidyr)
+
+# utility function to remove the base url and the format=json part from the urls 
+# that are already part of the urls in the asset list
+# TODO: discuss whether our get functions should also take full urls 
+removeBaseUrl <- function(url){
+  input_url <- gsub("https://kobo.correlaid.org/api/v2/", "", url)
+  gsub("\\?format=json", "", input_url)
+}
+```
+
+```{r list-assets}
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+kobo <- Kobo$new(base_url, token)
+assets <- kobo$get_assets()$results
+```
+
+# General notes and setup
+`url` and `data` URLs contain almost all of the relevant information. They are accessible in the assets data frame as variables `url` and `data`.
+
+```{r}
+assets %>% 
+  select(url, data)
+```
+
+**(Download) links**: In general, (download) links that are returned in the JSON responses seem to be mostly broken / resulting in `404` because almost always `?format=json` is appended to the URL. This can be also seen when we compare the links from [the browser view of the assets list](https://kobo.correlaid.org/api/v2/assets/) with the data we get when making a `GET` request with `format=json` query. 
+
+Luckily, we can reconstruct those URLs easily with the `uid` of an asset and additional information.
+
+
+To get some test elements, get an element of each asset type:
+
+```{r}
+test_elements <- assets %>% 
+  group_by(asset_type) %>% 
+  arrange(desc(deployment__submission_count)) %>% # reverse sort by submissions to get a survey with submissions
+  slice(1)
+test_elements$asset_type
+```
+
+
+# Use cases
+## Get general information about an asset
+
+Get the name of an asset from the list of assets:
+```{r}
+assets$name
+```
+
+
+Get the uid of an asset from the list of assets:
+```{r}
+assets$uid
+```
+
+Additional information to the assets:
+```{r}
+summary(str(assets, max.level = 1))
+```
+
+## Get responses to a survey 
+
+We can get the submissions to a survey with the `data` url (also accessible via the assets data frame). Conveniently, they already are parsed as a data frame in the `results` of the response: 
+```{r}
+submissions <- test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(data) %>% 
+  removeBaseUrl() %>%
+  kobo$get()
+submissions$results
+```
+
+
+## Get permissions of an asset
+All asset types have permissions as a data frame, one row per user and permission granted. 
+
+```{r}
+test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(permissions)
+```
+
+## Get form metadata / XLSForm
+Metadata about the structure of forms, questions, templates and blocks can be found in the `content` element of the response to the `url` URL. For example for a survey:
+
+### `content`
+```{r}
+survey_url_data <- test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(url) %>% 
+  removeBaseUrl() %>% 
+  kobo$get()
+
+str(survey_url_data$content, max.level = 1)
+```
+
+This contains a list representation of an XLSForm, with the two [main Excel sheets `survey` and `choices`](https://xlsform.org/en/#basic-format) being nested in the list as data frames. Some additional variables exist that are Kobo-unique are prefixed with a `$`:
+
+```{r}
+colnames(survey_url_data$content$survey) %>% knitr::kable()
+colnames(survey_url_data$content$choices) %>% knitr::kable()
+```
+
+### `summary`
+Potentially also relevant is the `summary` element. 
+```{r}
+survey_url_data$summary
+```
+### xml 
+To get the xlsform as a `xml` we could use `assets/{uid}/xmlform/` which currently does not work because we do not have the correct HTTP headers / cannot stream the content yet. It might not be worthwhile to implement this. 
+
+```{r}
+# kobo$get(glue::glue("assets/{survey_url_data$uid}/xform/"), query = list())
+```
+
+This corresponds to the "fixed" version of: 
+```{r}
+survey_url_data$xform_link
+```
+
+### "xls" in browser??
+something similar also exists at `assets/{uid}/xls/`, e.g. https://kobo.correlaid.org/api/v2/assets/aRo4wg5utWT7dwdnQQEAE7/xls/
+
+corresponding to the fixed version of: 
+```{r}
+survey_url_data$xls_link
+```
+
+## File Downloads
+
+
+### XLSForm 
+To download the XLSForm as a file, we can use either:
+- `assets/{uid}.xls` (xls)
+- `assets/{uid}.xml` (xml)
+
+```{r}
+uid <- survey_url_data$uid
+kc <- KoboClient$new(base_url)
+# AT some point this worked?! 
+# kc$get(glue::glue("api/v2/assets/{uid}.xls"), query = list(), disk = "xls_form_downloaded.xls")
+# 
+# kc$get(glue::glue("api/v2/assets/{uid}.xml"), query = list(), disk = "xls_form_downloaded.xml")
+# we could also use the uid as the filename of course!
+```
+Those urls correspond to the fixed versions of:
+```{r}
+survey_url_data$downloads$url
+```
+
+### Exports
+we can also download exports that have been created in the UI (or via the API?) from `https://kobo.correlaid.org/exports/`
+
+```{r}
+exports <- kc$
+  get("exports")
+exports$results$data # metadata about the export
+exports$results$data$source # the asset the export was made of
+
+# download link
+exports$results$result
+# TODO: also make it possible to pass direct link and/or 
+# remove the base_url
+# kc$get("private-media/api_user/exports/kbtbr_test_survey_applications_-_all_versions_-_English_en_-_2021-04-28-20-00-36.xlsx", disk = "export_downloaded.xls")
+
+```
+
+
+
+# Overview / Comparison
+
+This section compares the three main endpoints of interest across the four main asset types `survey`, `template`, `block` and `question`.
+
+The three endpoints are:
+- `assets`: general "list" endpoint
+- `url`: exists for each asset, provides more detailed information than the list entry for the asset in `assets`
+- `data`: holds data related to the asset, seems to be only relevant for the asset type `survey` as it holds the survey submissions
+
+
+## Data from the `url` url
+First, we `GET` the data from the `url` URL for each of the "test" objects.
+
+```{r}
+# data from "url" url
+url_data <- test_elements$url %>% 
+  map(function(url) {
+    kobo$get(removeBaseUrl(url))
+  }) %>% 
+  set_names(paste0(test_elements$asset_type, "_url"))
+```
+
+
+We now build a table with columns `name` and `type` that hold the names of the list elements respectively the asset type. We also extract the column names of the assets data frame to compare them with the names of the list elements:
+
+```{r}
+# extract the names of the assets data frame
+assets_names <- tibble(name = colnames(assets), type = "assets")
+# extract the names from the object
+names_df <- url_data %>% 
+  map_dfr(function(el) {
+    names(el)
+  }) %>% 
+  pivot_longer(everything(), names_to = "type", values_to = "name") %>% 
+  bind_rows(assets_names) # combine with assets_df 
+```
+
+```{r}
+names_df %>% 
+  janitor::tabyl(name, type) %>%   
+  knitr::kable()
+```
+
+All asset types have the same elements in their `url` return object. We also see that quite a lot of metadata seems to be already available in the assets data frame that we get from the `assets/` endpoint (cross-checking that the values are indeed the same would be beneficial - an attempt is made down below).
+
+## Data from the `data` url
+
+```{r}
+data_data <- test_elements$data %>% 
+  map(function(url) {
+    # "data" url seems to be 404 except for surveys, so try-catch it
+    # might also be different if we use questions, blocks, templates more seriously?
+    tmp <- tryCatch(
+      kobo$get(removeBaseUrl(url))$results,
+      error = function(e) e$message
+    )
+    tmp
+  }) %>% 
+  set_names(paste(test_elements$asset_type, "data", sep = "_"))
+
+str(data_data, max.level = 1)
+```
+For the `data` url, we get a mixed pattern. For survey objects, the results contain the submissions to the survey as a data frame or an empty list if there are no submissions (_not_ an empty data frame with the variables!). For the template and the block types, we get a 404, for the question type a 400 (bad request). This must be further investigated whether this is a bug of the CorrelAid server or as intended, e.g. by testing this on the official Kobo server. Most of the metadata for questions, templates and blocks is in the "content" element of the `url` data - see below - so it might be well that there is intentionally no "data" for this type. 
+
+# In depth analysis
+**in bold** are elements that seem to be particularly interesting for us and the construction of response classes.
+
+## Asset data frame
+
+```{r}
+colnames(assets)
+```
+
+
+- **`asset_type`**
+```{r}
+table(assets$asset_type)
+```
+- **`url`** and **`data`**: urls that'll give us more information about the specific assets
+```{r}
+assets %>% 
+  select(url, data)
+```
+- general metadata:
+  - **`name`**: name of the asset
+  - **`owner`** and **`owner__username`**: the api url for the owner and the human-readable username
+- **`uid`**: the unique id of the asset, used in the urls.. but i suppose it doesn't make a lot of sense to use this to construct urls ourselves given that they are always nicely handed to us by the API
+- `settings`: sector, country where it was deployed, description given by the user
+```{r}
+colnames(assets$settings)
+str(assets$settings)
+```
+- `version` and `deployment*` columns: information about the version and the current deployment
+```{r}
+assets %>% 
+  select(starts_with("deployment"), version_id)
+```
+
+- `permissions`: permissions for this asset, one row per user and permission given.
+```{r}
+str(assets$permissions[[1]], max.level = 1)
+```
+
+
+## Survey
+```{r}
+surveyObject <- url_data$survey_url
+```
+
+In the following you can see a summary of the information you can retrieve from the `surveyObject`, which is a list of `r length(surveyObject)` elements. The elements of the type `list` of the `surveyObject` have to be accessed separately to get the resprective sublists (number of sublists given in column `Length`). Elements of type `NULL` do not comprise any information and hence, are not displayed separately below.  
+
+```{r}
+summary(surveyObject)
+```
+
+Here you have a more detailed overview with the elements of type character, `logical` and `numeric` displayed. 
+
+```{r}
+str(surveyObject, max.level = 1)
+```
+
+
+Finally, all the sublists displayed separately in - roughly - decreasing order of interest, whereby the sublist `content` might be of particular interest.
+
+```{r}
+surveyObject$content  
+```
+
+```{r}
+surveyObject$settings
+```
+```{r}
+surveyObject$downloads 
+```
+
+```{r}
+surveyObject$summary
+```
+
+```{r}
+surveyObject$deployment__links %>% str()
+```
+
+
+```{r}
+surveyObject$permissions %>% str()
+```
+
+
+```{r}
+surveyObject$deployed_versions
+```
+
+
+```{r}
+surveyObject$deployment__links 
+```
+
+
+```{r}
+surveyObject$deployment__data_download_links 
+```
+
+```{r}
+#surveyObject$report_styles  # commented out because quite long but empty
+surveyObject$report_custom  
+surveyObject$map_styles 
+surveyObject$map_custom 
+```
+
+```{r}
+surveyObject$embeds 
+```
+
+```{r}
+surveyObject$assignable_permissions 
+```
+
+
+
+## Question
+
+```{r}
+question_url_data <- url_data$question_url
+str(question_url_data, max.level = 1)
+```
+
+The `content` list shows us more information / metadata about the question:
+
+```{r}
+question_url_data$content %>% knitr::kable()
+```
+This corresponds to the `survey` sheet of the question in XLSForm which we can check by comparing to the XLS downloadable  here: [https://kobo.correlaid.org/api/v2/assets/a7AV5JhRHKf8EWGBJLswwC.xls](https://kobo.correlaid.org/api/v2/assets/a7AV5JhRHKf8EWGBJLswwC.xls). 
+
+The `start` and `end` rows are there because Kobo will by default always collect metadata about the start and end of the survey (cf [XLSForm documentation](https://xlsform.org/en/#metadata))
+
+## Block
+Blocks work similar than questions, the most important information is in the `content` element. 
+```{r}
+block_url_data <- url_data$block_url
+str(block_url_data, max.level = 1)
+```
+
+```{r}
+str(block_url_data$content, max.level = 1)
+```
+
+
+In this block, we can also see that translations are stored in the `label` column of the `choices` and `survey` data frame respectively.
+
+
+```{r}
+block_url_data$content$survey$label
+block_url_data$content$choices$label
+```
+
+blocks can belong to a collection:
+```{r}
+block_url_data$parent
+```
+```{r}
+block_url_data$ancestors %>% knitr::kable()
+```
+
+## Templates
+Templates are combinations of  work similar than questions, the most important information is in the `content` element. 
+```{r}
+template_url_data <- url_data$template_url
+str(template_url_data$content, max.level = 1)
+```
+
+```{r}
+template_url_data$content$survey %>% knitr::kable()
+```
+
+templates can belong to a collection:
+
+```{r}
+template_url_data$parent
+```
+
