@@ -1,22 +1,24 @@
 BASE_URL <- "https://kobo.correlaid.org"
-test_that("Kobo can fetch assets", {
-    # the use_cassette command looks into the fixtures directory and checks 
-    # whether a "cassette" with the given name already exists. if yes, it loads it. if no, the 
-    # code is run and the response is saved as a cassette.
-    vcr::use_cassette("kobo-client-get-assets", {
-        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        assets <- kobo$get_assets()
+
+#' Testing $get_* methods
+
+vcr::use_cassette("kobo-client-403", {
+    test_that("Requests with faulty token throw error", {
+        # Case: Faulty token is via envvar, get request fails
+        withr::with_envvar(
+            new = c("KBTBR_TOKEN" = "foo"),
+            code = {
+                kc <- KoboClient$new(base_url = BASE_URL)
+                expect_error(kc$get("api/v2/assets/"), regexp = "403")
+            }
+        )
     })
-    expect_setequal(names(assets), c("count", "next", "previous", "results"))
-    expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
-    expect_equal(nrow(assets$results), 8)
-    expect_equal(assets$count, 8)
 })
 
-test_that("Kobo can fetch assets using simple get", {
+test_that("Kobo Client can fetch assets", {
     vcr::use_cassette("kobo-client-get-assets-simple-get", {
-        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        assets <- kobo$get("assets/") # trailing slash again!
+        koboclient <- KoboClient$new(base_url = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        assets <- koboclient$get("api/v2/assets/", query = list(format = "json")) # trailing slash again!
     })
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
     expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
@@ -27,7 +29,7 @@ test_that("Kobo can fetch assets using simple get", {
 
 vcr::use_cassette("kobo-client-get-404", {
     test_that("non existing route throws 404 error", {
-        kobo <- KoboClient$new(base_url = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        expect_error(kobo$get("doesnotexist/"), regexp = "404")
+        koboclient <- KoboClient$new(base_url = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        expect_error(koboclient$get("api/v2/doesnotexist/"), regexp = "404")
     })
 })
