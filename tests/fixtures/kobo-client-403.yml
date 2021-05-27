@@ -1,7 +1,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://kobo.correlaid.org/api/v2/doesnotexist/
+    uri: https://kobo.correlaid.org/assets/
     body:
       encoding: ''
       string: ''
@@ -12,22 +12,23 @@ http_interactions:
       Authorization: fakebearertoken
   response:
     status:
-      status_code: '404'
-      message: Not Found
-      explanation: Nothing matches the given URI
+      status_code: '403'
+      message: Forbidden
+      explanation: Request forbidden -- authorization will not help
     headers:
-      status: HTTP/1.1 404 Not Found
+      status: HTTP/1.1 403 Forbidden
       server: nginx
-      date: Sun, 16 May 2021 19:03:34 GMT
-      content-type: text/html; charset=utf-8
-      content-length: '77'
+      date: Sun, 16 May 2021 18:50:50 GMT
+      content-type: application/json
+      content-length: '27'
       connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, HEAD, OPTIONS
       x-frame-options: SAMEORIGIN
-      vary: Accept-Language, Cookie, Origin
       content-language: en
     body:
       encoding: UTF-8
       file: no
-      string: <h1>Not Found</h1><p>The requested resource was not found on this server.</p>
-  recorded_at: 2021-05-16 19:03:34 GMT
+      string: '{"detail":"Invalid token."}'
+  recorded_at: 2021-05-16 18:50:50 GMT
   recorded_with: vcr/0.6.0, webmockr/0.8.0

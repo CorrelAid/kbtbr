@@ -9,7 +9,7 @@ Kobo <- R6::R6Class("Kobo",
     private = list(
         session_v2 = NULL,
         session_v1 = NULL
-    ), 
+    ),
     public = list(
         #' @description
         #' Initialization method for class "Kobo".
@@ -21,21 +21,13 @@ Kobo <- R6::R6Class("Kobo",
         #' @param kobo_token character. The API token. Defaults to requesting
         #'  the systen environment `KBTBR_TOKEN`.
         initialize = function(base_url_v2, base_url_v1 = NULL, kobo_token = Sys.getenv("KBTBR_TOKEN")) {
-
-            if (Sys.getenv("KBTBR_TOKEN") == "") {
-                usethis::ui_stop(
-                    "No valid token detected. Set the KBTBR_TOKEN environment
-                    variable or pass the token directly to the function
-                    (not recommended)."
-                )
-            }
-
-            if (!checkmate::test_null(base_url_v2)) {
-               private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
-            }
+            private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
 
             if (!checkmate::test_null(base_url_v1)) {
-               private$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
+                private$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
+            } else {
+                # TODO: add to warning once we know what functnality is covered by v1.
+                usethis::ui_info("You have not passed base_url_v1. This means you cannot use the following functions:")
             }
         },
         #' @description
@@ -49,12 +41,16 @@ Kobo <- R6::R6Class("Kobo",
             if (version == "v2") {
                 private$session_v2$get(path = paste0("api/v2/", path), query = query)
             } else if (version == "v1") {
+                if (checkmate::test_null(private$session_v1)) {
+                    usethis::ui_stop("Session for API v1 is not initalized. 
+                    Please re-initalize the Kobo client with the base_url_v1 argument.")
+                }
                 private$session_v1$get(path = paste0("api/v1/", path), query = query)
             } else {
                 usethis::ui_stop(
                     "Invalid version. Must be either v1 or v2.
                     Come back in a couple of years."
-                    )
+                )
             }
         },
         #' @description
