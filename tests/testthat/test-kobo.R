@@ -27,6 +27,7 @@ test_that("Kobo is initialized correctly if we provide a kobo_token manually wit
     )
 })
 
+
 test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
     withr::with_envvar(
         new = c("KBTBR_TOKEN" = ""),

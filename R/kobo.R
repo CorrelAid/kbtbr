@@ -62,8 +62,7 @@ Kobo <- R6::R6Class("Kobo",
                 private$session_v2$get(path = paste0("api/v2/", path), query = query)
             } else if (version == "v1") {
                 if (checkmate::test_null(private$session_v1)) {
-                    usethis::ui_stop("Session for API v1 is not initalized.
-                    Please re-initalize the Kobo client with the base_url_v1 argument.")
+                    usethis::ui_stop("Session for API v1 is not initalized. Please re-initalize the Kobo client with the base_url_v1 argument.")
                 }
                 private$session_v1$get(path = paste0("api/v1/", path), query = query)
             } else {
