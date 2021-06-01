@@ -83,3 +83,16 @@ test_that("non-existing kobo host throws error", {
         expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
 })
 
+
+test_that("non-existing kobo host throws error", {
+
+        vcr::use_cassette("kobo-post-clone-assets", {
+            kobo <- Kobo$new(base_url_v2 = "https://kobo.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
+            clone_asset <- kobo$clone_asset(clone_from = "a84jmwwdPEsZMhK7s2i4SL",
+                    name = "2705 This is a cloned survey (via API/R)",
+                    asset_type = "survey")
+                    clone_asset
+        })
+
+        expect_equal(clone_asset$date_modified, "2021-06-01T19:11:07.242129Z")
+})

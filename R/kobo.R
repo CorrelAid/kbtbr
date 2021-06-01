@@ -92,8 +92,7 @@ Kobo <- R6::R6Class("Kobo",
             body = list("clone_from" = clone_from,
                         "name" = name,
                         "asset_type" = asset_type)
-            print(body)
-            self$post("assets/", body=body)
+            self$post("assets/", body = body)
         }
 
     )
