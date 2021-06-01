@@ -25,9 +25,11 @@ interactions with the various endpoints.
 Initialization method for class "Kobo".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$new(
-  base_url_v2,
+  base_url_v2 = NULL,
   base_url_v1 = NULL,
-  kobo_token = Sys.getenv("KBTBR_TOKEN")
+  kobo_token = Sys.getenv("KBTBR_TOKEN"),
+  session_v2 = NULL,
+  session_v1 = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -43,6 +45,12 @@ For example: https://kc.correlaid.org.}
 
 \item{\code{kobo_token}}{character. The API token. Defaults to requesting
 the systen environment \code{KBTBR_TOKEN}.}
+
+\item{\code{session_v2}}{KoboClient. Alternatively, pass directly
+a KoboClient instance for the API version v2.}
+
+\item{\code{session_v1}}{KoboKlient. In addition to session_v2 one can pass
+also a KoboClient instance for the API version v1.}
 }
 \if{html}{\out{</div>}}
 }

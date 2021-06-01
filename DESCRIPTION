@@ -1,12 +1,18 @@
 Package: kbtbr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
+Title: A Wrapper for the KoBoToolbox API
+Version: 0.0.3000
+Author: c(person("Dimitri", "Marinelli", role = c("aut")),
+            person("Lada", "Rudnitckaia", role = "aut"),
+            person("Malte", "Kyhos", role = "aut"),
+            person("Timm", "Hamm", role = "aut"),
+            person("Frie", "Preu", email = "fr1e@pm.me", role = c("aut")),
+            person("CorrelAid e.V.", role = "cph")
+            )
 Maintainer: The package maintainer <yourself@somewhere.net>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
