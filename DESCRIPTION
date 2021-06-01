@@ -9,9 +9,8 @@ Author: c(person("Dimitri", "Marinelli", role = c("aut")),
             person("Frie", "Preu", email = "fr1e@pm.me", role = c("aut")),
             person("CorrelAid e.V.", role = "cph")
             )
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Maintainer: Frie Preu <fr1e@pm.me>
+Description: The kbtbr package provides an R interface to the KoBoToolbox APIs.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
