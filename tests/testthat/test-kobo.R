@@ -33,7 +33,7 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
         new = c("KBTBR_TOKEN" = ""),
         code = {
             koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo" )
-            kobo_obj <- Kobo$new(session_v2=koboclient_instance )
+            kobo_obj <- Kobo$new(session_v2 = koboclient_instance )
             expect_identical(
                 class(kobo_obj),
                 c("Kobo", "R6")
