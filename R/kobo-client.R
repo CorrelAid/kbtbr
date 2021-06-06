@@ -1,6 +1,9 @@
 #' @title KoboClient
 #' @description
 #' A class to interact with the KoboToolbox API, extending [`crul::HttpClient`].
+#' @importFrom crul HttpClient
+#' @importFrom checkmate assert_character
+#' @importFrom usethis ui_stop
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
     inherit = crul::HttpClient,
