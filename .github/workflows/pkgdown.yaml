@@ -20,8 +20,7 @@ jobs:
       
       - name: Update pkgdown yml
         shell: bash
-        run: /
-          sed -i.bak 's/default_version/${{ steps.extract_branch.outputs.branch }}/g' _pkgdown.yml
+        run: sed -i.bak 's/default_version/${{ steps.extract_branch.outputs.branch }}/g' _pkgdown.yml
 
       - uses: actions/checkout@v2
 
