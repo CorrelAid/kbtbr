@@ -22,7 +22,8 @@ jobs:
       
       - name: Update pkgdown yml
         shell: bash
-        run: echo "destination: ${{ steps.extract_branch.outputs.branch }}" > _pkgdown.yml
+        run: |
+          echo "destination: ${{ steps.extract_branch.outputs.branch }}" > _pkgdown.yml
 
       - name: test
         shell: bash
