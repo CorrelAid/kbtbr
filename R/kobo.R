@@ -57,20 +57,45 @@ Kobo <- R6::R6Class("Kobo",
         #'  component. The order is not hierarchical.
         #' @param version character. Indicates on which API version the request
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
-        get = function(path, query = list(format = "json"), version = "v2") {
+        get = function(path, query = list(), version = "v2", format = "json") {
+            query$format = format
+
             if (version == "v2") {
-                private$session_v2$get(path = paste0("api/v2/", path), query = query)
+                res <- private$session_v2$get(path = paste0("api/v2/", path),
+                                       query = query)
+
             } else if (version == "v1") {
                 if (checkmate::test_null(private$session_v1)) {
-                    usethis::ui_stop("Session for API v1 is not initalized. Please re-initalize the Kobo client with the base_url_v1 argument.")
+                    usethis::ui_stop(
+                        paste("Session for API v1 is not initalized.",
+                        "Please re-initalize the Kobo client with the",
+                        "base_url_v1 argument."))
                 }
-                private$session_v1$get(path = paste0("api/v1/", path), query = query)
+                res <- private$session_v1$get(path = paste0("api/v1/", path),
+                                       query = query)
+
             } else {
                 usethis::ui_stop(
                     "Invalid version. Must be either v1 or v2.
                     Come back in a couple of years."
                 )
             }
+            res$raise_for_status()
+            if (format=="json") {
+                res$raise_for_ct_json()
+                res$parse("UTF-8") %>%
+                    jsonlite::fromJSON()
+            } else if(format=="csv"){
+                usethis::ui_stop(
+                    "TODO: Not supported yet"
+                )
+            } else {
+                usethis::ui_stop(
+                    "TODO: Not supported yet"
+                )
+            }
+
+
         },
         #' @description
         #' Example method to send a GET request to the `assets` endpoint
