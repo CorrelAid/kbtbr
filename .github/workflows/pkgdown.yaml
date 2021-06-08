@@ -13,11 +13,6 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: r-lib/actions/setup-r@v1
-
-      - uses: r-lib/actions/setup-pandoc@v1
       - name: Get current branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -27,7 +22,12 @@ jobs:
         shell: bash
         run: /
           sed -i.bak 's/default_version/${{ steps.extract_branch.outputs.branch }}/g' _pkgdown.yml
-          rm _pkgdown.yml.bak
+
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
