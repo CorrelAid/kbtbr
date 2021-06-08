@@ -23,12 +23,7 @@ jobs:
       - name: Update pkgdown yml
         shell: bash
         run: |
-          echo "destination: ${{ steps.extract_branch.outputs.branch }}" > _pkgdown.yml
-
-      - name: test
-        shell: bash
-        run: cat _pkgdown.yml
-
+          echo "destination: ${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
 
       - uses: r-lib/actions/setup-r@v1
 
@@ -51,15 +46,24 @@ jobs:
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
-          install.packages("devtools")
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
 
       - name: Install package
         run: R CMD INSTALL .
 
-      - name: Deploy package
+      - name: Build page 
+        run: |
+          rm -rf docs/${{ steps.extract_branch.outputs.branch }}
+          mkdir docs/${{ steps.extract_branch.outputs.branch }}
+          Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
+
+      - name: Commit changes
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
+          git checkout gh-pages
+          git add docs/${{ steps.extract_branch.outputs.branch }}/*
+          git commit -m "Update docs for branch ${{ steps.extract_branch.outputs.branch }}"
+
+
