@@ -61,7 +61,7 @@ jobs:
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
         with:
-          add: "docs/${{ steps.extract_branch.outputs.branch }} --force"
+          add: "docs/${{ steps.extract_branch.outputs.branch }}/* --force"
           author_name: GitHub Action
           author_email: actions@github.com
           branch: gh-pages
