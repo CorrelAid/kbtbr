@@ -12,11 +12,14 @@ LazyData: true
 Suggests: 
     covr,
     testthat (>= 3.0.0),
-    vcr
+    vcr,
+    devtools
 Config/testthat/edition: 3
 Imports: 
     crul,
     usethis,
-    checkmate
+    checkmate,
+    dplyr,
+    tidyr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
