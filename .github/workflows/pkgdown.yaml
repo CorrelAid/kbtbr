@@ -9,7 +9,7 @@ name: pkgdown
 
 jobs:
   pkgdown:
-    runs-on: macOS-latest
+    runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -23,11 +23,15 @@ jobs:
       - name: Update pkgdown yml
         shell: bash
         run: |
-          echo "destination: ${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
+          echo "destination: docs/${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
 
       - uses: r-lib/actions/setup-r@v1
 
       - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Install system libraries
+        run: |
+          sudo apt-get install libcurl4-openssl-dev
 
       - name: Query dependencies
         run: |
