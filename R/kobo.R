@@ -64,6 +64,9 @@ Kobo <- R6::R6Class("Kobo",
         post = function(path, body, version = "v2") {
             if (version == "v2") {
                 private$session_v2$post(path = paste0("api/v2/", path), body = body)
+                # importing xls form works only if the following line is active instead of the previous one
+                # because for importing "api/v2/" shouldn't be included in the url
+                # private$session_v2$post(path = path, body = body)
             } else if (version == "v1") {
                 if (checkmate::test_null(private$session_v1)) {
                     usethis::ui_stop("Session for API v1 is not initalized.
@@ -88,11 +91,59 @@ Kobo <- R6::R6Class("Kobo",
         #' @description
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
+        #' @param clone_from character. UID of the asset to be cloned.
+        #' @param name character. Name of the new asset.
+        #' @param asset_type character. Type of the new asset. Can be
+        #' "block", "question", "survey", "template".
         clone_asset = function(clone_from, name, asset_type) {
             body = list("clone_from" = clone_from,
                         "name" = name,
                         "asset_type" = asset_type)
             self$post("assets/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to deploy an asset.
+        #' `assets/{uid}/deployment/` endpoint (due to
+        #' default to `v2`, no further specification is needed).
+        #' @param uid character. UID of the asset to be deployed.
+        deploy_asset = function(uid) {
+            body = list("active" = "true")
+            endpoint = paste0("assets/",uid,"/deployment/")
+            self$post(endpoint, body = body)
+        },
+
+        #' @description
+        #' High-level POST request to create an empty asset. `assets/` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param name character. Name of the new asset.
+        #' @param description character. Optional.
+        #' @param sector character. Optional.
+        #' @param country character. Optional.
+        #' @param share_metadata boolean. Optional.
+        #' @param asset_type character. Type of the new asset. Can be
+        #' "block", "question", "survey", "template".
+        create_asset = function(name,description,sector,
+                                country,share_metadata,asset_type) {
+            settings = list_as_json_char(list("description"=description,
+                                              "sector"=sector,"country"=country,
+                                              "share_metadata"=share_metadata))
+            body = list("name" = name,
+                        "settings"=settings,
+                        "asset_type" = asset_type)
+            self$post("assets/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to import an XLS form. `imports` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param name character. Name of the new asset.
+        #' @param file character. The path to the file containing the XLS form.
+        import_xls_form = function(name,file) {
+            body = list("name"=name,
+                        "library"="false",
+                        "file"=crul::upload(file))
+            self$post("imports/", body = body)
         }
 
     )

@@ -88,9 +88,9 @@ KoboClient <- R6::R6Class("KoboClient",
 
             # Perform additional checks, json to list parsing
             res$raise_for_status()
-            res$raise_for_ct_json()
-            res$parse("UTF-8") %>%
-                jsonlite::fromJSON()
+            # res$raise_for_ct_json()
+            # res$parse("UTF-8") %>%
+            #     jsonlite::fromJSON()
         }
     )
 )
