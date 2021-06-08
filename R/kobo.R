@@ -97,11 +97,48 @@ Kobo <- R6::R6Class("Kobo",
 
 
         },
+
+        #' @description
+        #' Wrapper for the POST method of internal session objects.
+        #' @param path character. Path component of the endpoint.
+        #' @param body R list or json-like string. A data payload to be sent
+        #' to the server.
+        #' @param version character. Indicates on which API version the request
+        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        post = function(path, body, version = "v2") {
+            if (version == "v2") {
+                private$session_v2$post(path = paste0("api/v2/", path), body = body)
+            } else if (version == "v1") {
+                if (checkmate::test_null(private$session_v1)) {
+                    usethis::ui_stop("Session for API v1 is not initalized.
+                    Please re-initalize the Kobo client with the base_url_v1 argument.")
+                }
+                private$session_v1$post(path = paste0("api/v1/", path), body = body)
+            } else {
+                usethis::ui_stop(
+                    "Invalid version. Must be either v1 or v2.
+                    Come back in a couple of years."
+                )
+            }
+        },
+
         #' @description
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
             self$get("assets/")
+        },
+
+        #' @description
+        #' High-level POST request to clone an asset. `assets` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        clone_asset = function(clone_from, name, asset_type) {
+            body = list("clone_from" = clone_from,
+                        "name" = name,
+                        "asset_type" = asset_type)
+            print(body)
+            self$post("assets/", body=body)
         }
+
     )
 )
