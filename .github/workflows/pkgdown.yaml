@@ -25,7 +25,9 @@ jobs:
       
       - name: Update pkgdown yml
         shell: bash
-        run: sed -i 's/default_version/${{ steps.extract_branch.outputs.branch }}' _pkgdown.yml
+        run: /
+          sed -i.bak 's/default_version/${{ steps.extract_branch.outputs.branch }}/g' _pkgdown.yml
+          rm _pkgdown.yml.bak
 
       - name: Query dependencies
         run: |
