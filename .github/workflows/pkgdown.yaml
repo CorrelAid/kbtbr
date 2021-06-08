@@ -59,11 +59,14 @@ jobs:
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
 
       - name: Commit changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git checkout gh-pages
-          git add docs/${{ steps.extract_branch.outputs.branch }}/*
-          git commit -m "Update docs for branch ${{ steps.extract_branch.outputs.branch }}"
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: "docs/${{ steps.extract_branch.outputs.branch }} --force"
+          author_name: GitHub Action
+          author_email: actions@github.com
+          branch: gh-pages
+          message: "Update docs coming from ${{ steps.extract_branch.outputs.branch }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
