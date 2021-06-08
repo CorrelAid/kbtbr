@@ -13,6 +13,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - uses: actions/checkout@v2
+
       - name: Get current branch name
         shell: bash
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
@@ -20,9 +22,12 @@ jobs:
       
       - name: Update pkgdown yml
         shell: bash
-        run: sed -i.bak 's/default_version/${{ steps.extract_branch.outputs.branch }}/g' _pkgdown.yml
+        run: echo "destination: ${{ steps.extract_branch.outputs.branch }}" > _pkgdown.yml
 
-      - uses: actions/checkout@v2
+      - name: test
+        shell: bash
+        run: cat _pkgdown.yml
+
 
       - uses: r-lib/actions/setup-r@v1
 
@@ -56,5 +61,4 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE, branch = "gh-pages")'
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
