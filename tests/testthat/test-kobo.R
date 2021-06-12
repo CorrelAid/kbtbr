@@ -46,8 +46,8 @@ test_that("Request to v1 throws error if v1 session is not initialized", {
 })
 
 test_that("Kobo can fetch assets", {
-    # the use_cassette command looks into the fixtures directory and checks 
-    # whether a "cassette" with the given name already exists. if yes, it loads it. if no, the 
+    # the use_cassette command looks into the fixtures directory and checks
+    # whether a "cassette" with the given name already exists. if yes, it loads it. if no, the
     # code is run and the response is saved as a cassette.
     vcr::use_cassette("kobo-get-assets", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
@@ -84,15 +84,80 @@ test_that("non-existing kobo host throws error", {
 })
 
 
-test_that("non-existing kobo host throws error", {
+#' -----------------------------------------------------------------------------
+#' Testing POST methods
+test_that("Kobo$post can clone assets", {
+    vcr::use_cassette("kobo-clone-assets-simple-post", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        clone_asset <- kobo$post("assets/", body = list("clone_from" = "a84jmwwdPEsZMhK7s2i4SL",
+                                                        "name" = "vcr_test_name",
+                                                        "asset_type" = "survey"))
+    })
+    expect_equal(clone_asset$url,"https://kobo.correlaid.org/api/v2/assets/")
+    expect_equal(clone_asset$method,"post")
+    expect_equal(clone_asset$status_code,201)
+    expect_equal(clone_asset$success(),TRUE)
+    expect_equal(clone_asset$status_http()$message,"Created")
+    expect_equal(clone_asset$status_http()$explanation,"Document created, URL follows")
+})
 
-        vcr::use_cassette("kobo-post-clone-assets", {
-            kobo <- Kobo$new(base_url_v2 = "https://kobo.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
-            clone_asset <- kobo$clone_asset(clone_from = "a84jmwwdPEsZMhK7s2i4SL",
-                    name = "2705 This is a cloned survey (via API/R)",
-                    asset_type = "survey")
-                    clone_asset
+test_that("kobo$clone_asset can clone assets", {
+    vcr::use_cassette("kobo-post-clone-asset", {
+        kobo <- suppressWarnings(Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN")))
+        clone_asset <- kobo$clone_asset(clone_from = "a84jmwwdPEsZMhK7s2i4SL",
+                                        name = "vcr_test_name",
+                                        asset_type = "survey")
         })
+    expect_equal(clone_asset$url,"https://kobo.correlaid.org/api/v2/assets/")
+    expect_equal(clone_asset$method,"post")
+    expect_equal(clone_asset$status_code,201)
+    expect_equal(clone_asset$success(),TRUE)
+    expect_equal(clone_asset$status_http()$message,"Created")
+    expect_equal(clone_asset$status_http()$explanation,"Document created, URL follows")
+})
 
-        expect_equal(clone_asset$date_modified, "2021-06-01T19:11:07.242129Z")
+test_that("kobo$deploy_asset can deploy assets", {
+    vcr::use_cassette("kobo-post-deploy-asset", {
+        kobo <- suppressWarnings(Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN")))
+        deploy_asset <- kobo$deploy_asset(uid = "aQVGH8G68EP737tDBABRwC")
+    })
+    expect_equal(deploy_asset$url,
+                 "https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/deployment/")
+    expect_equal(deploy_asset$method,"post")
+    expect_equal(deploy_asset$status_code,200) # i don't understand why not 201. but with 200 it successfully deployed
+    expect_equal(deploy_asset$success(),TRUE)
+    expect_equal(deploy_asset$status_http()$message,"OK")
+    expect_equal(deploy_asset$status_http()$explanation,"Request fulfilled, document follows")
+})
+
+# test_that("kobo$create_asset can create assets", {
+#     vcr::use_cassette("kobo-post-create-asset", {
+#         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+#         create_asset <- kobo$create_asset(name="vcr_test_name",
+#                                           description="vcr_test_description",
+#                                           sector="vcr_test_sector",
+#                                           country="vcr_test_country",
+#                                           share_metadata="false",
+#                                           asset_type="survey")
+#     })
+#     expect_equal(create_asset$url,"")
+#     expect_equal(create_asset$method,"post")
+#     expect_equal(create_asset$status_code,201)
+#     expect_equal(create_asset$success(),TRUE)
+#     expect_equal(create_asset$status_http()$message,"")
+#     expect_equal(create_asset$status_http()$explanation,"")
+# })
+
+test_that("kobo$import_xls_form can import forms", {
+    vcr::use_cassette("kobo-post-import-xls-form", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        import_xls_form <- kobo$import_xls_form(name="vcr_test_name",
+                                                file="xls_form_via_post.xlsx")
+    })
+    expect_equal(import_xls_form$url,"https://kobo.correlaid.org/imports/")
+    expect_equal(import_xls_form$method,"post")
+    expect_equal(import_xls_form$status_code,201)
+    expect_equal(import_xls_form$success(),TRUE)
+    expect_equal(import_xls_form$status_http()$message,"Created")
+    expect_equal(import_xls_form$status_http()$explanation,"Document created, URL follows")
 })

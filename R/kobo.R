@@ -63,10 +63,11 @@ Kobo <- R6::R6Class("Kobo",
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
         post = function(path, body, version = "v2") {
             if (version == "v2") {
-                private$session_v2$post(path = paste0("api/v2/", path), body = body)
-                # importing xls form works only if the following line is active instead of the previous one
-                # because for importing "api/v2/" shouldn't be included in the url
-                # private$session_v2$post(path = path, body = body)
+                if (path != "imports/"){
+                    private$session_v2$post(path = paste0("api/v2/", path), body = body)
+                } else {
+                    private$session_v2$post(path = path, body = body)
+                }
             } else if (version == "v1") {
                 if (checkmate::test_null(private$session_v1)) {
                     usethis::ui_stop("Session for API v1 is not initalized.
