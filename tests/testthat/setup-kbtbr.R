@@ -9,7 +9,8 @@ if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
   } else {
     # If there's no mock files nor API token, impossible to run tests
     stop("No API key nor cassettes, tests cannot be run.",
-         call. = FALSE)
+      call. = FALSE
+    )
   }
 }
 
