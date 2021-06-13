@@ -16,6 +16,8 @@ Asset <- R6::R6Class("Asset",
                          private$name = asset_row$name
                          private$owner_username = asset_row$owner__username
                          private$type = asset_row$asset_type
+                         private$url = asset_row$url
+                         private$data = asset_row$data
                        },
                        #' to_list
                        #' return list representation of asset
