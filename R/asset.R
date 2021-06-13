@@ -9,7 +9,7 @@ Asset <- R6::R6Class("Asset",
                        url = NA,
                        data = NA
                      ),
-                     #' @param asset_row list. one row from the tibble/data frame that was returned by get_assets
+                     #' @param asset_row list. a list, e.g. one row from the tibble/data frame that was returned by get_assets
                      public = list(
                        initialize = function(asset_row) {
                          private$uid = asset_row$uid
