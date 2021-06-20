@@ -57,9 +57,15 @@ Kobo <- R6::R6Class("Kobo",
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
         #' @param version character. Indicates on which API version the request
+        #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
+        #' @param parse whether or not to parse the HTTP response. defaults to TRUE. 
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
         get = function(path, query = list(), version = "v2", format = "json",
-                       parse=FALSE) {
+                       parse = TRUE) {
+            if (!format %in% c('json', 'csv')) {
+                usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
+            }
+
             query$format = format
 
             if (version == "v2") {
@@ -130,13 +136,6 @@ Kobo <- R6::R6Class("Kobo",
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
-            result_list <- self$get("assets/")
-            assets <- list()
-            #todo: improve code
-            for (i in 1:nrow(result_list$results)) {
-                assets <- c(assets, Asset$new(result_list$results[i]))
-            }
-            return(assets)
             self$get("assets/")
         },
 
