@@ -61,6 +61,9 @@ Kobo <- R6::R6Class("Kobo",
         #' @param format character. the format to request from the server. either
         #'  'json' or 'csv'. defaults to 'json'
         #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
+        #' @return a list encoding of the json server reply if parse=TRUE.
+        #'   Otherwise, it returns the server response as a crul::HttpResponse
+        #'   object.
 
         get = function(path, query = list(), version = "v2", format = "json",
                        parse = TRUE) {
