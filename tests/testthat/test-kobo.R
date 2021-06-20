@@ -77,7 +77,7 @@ test_that("Kobo can fetch assets", {
 test_that("Kobo can fetch assets using simple get", {
     vcr::use_cassette("kobo-get-assets-simple-get", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        assets <- kobo$get("assets/") # trailing slash again!
+        assets <- kobo$get("assets/", parse = TRUE) # trailing slash again!
     })
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
     expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))

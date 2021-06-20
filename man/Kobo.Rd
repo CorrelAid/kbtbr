@@ -14,7 +14,9 @@ interactions with the various endpoints.
 \itemize{
 \item \href{#method-new}{\code{Kobo$new()}}
 \item \href{#method-get}{\code{Kobo$get()}}
+\item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
+\item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -53,7 +55,7 @@ the systen environment \code{KBTBR_TOKEN}.}
 \subsection{Method \code{get()}}{
 Wrapper for the GET method of internal session objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(format = "json"), version = "v2")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(), version = "v2", format = "json", parse = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -63,6 +65,33 @@ Wrapper for the GET method of internal session objects.
 
 \item{\code{query}}{list. A named list which is parsed to the query
 component. The order is not hierarchical.}
+
+\item{\code{version}}{character. Indicates on which API version the request}
+
+\item{\code{format}}{character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'}
+
+\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.
+should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-post"></a>}}
+\if{latex}{\out{\hypertarget{method-post}{}}}
+\subsection{Method \code{post()}}{
+Wrapper for the POST method of internal session objects.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$post(path, body, version = "v2")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{body}}{R list or json-like string. A data payload to be sent
+to the server.}
 
 \item{\code{version}}{character. Indicates on which API version the request
 should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
@@ -78,6 +107,17 @@ Example method to send a GET request to the \code{assets} endpoint
 (due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$get_assets()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-clone_asset}{}}}
+\subsection{Method \code{clone_asset()}}{
+High-level POST request to clone an asset. \code{assets} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, name, asset_type)}\if{html}{\out{</div>}}
 }
 
 }

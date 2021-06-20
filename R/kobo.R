@@ -58,8 +58,16 @@ Kobo <- R6::R6Class("Kobo",
         #'  component. The order is not hierarchical.
         #' @param version character. Indicates on which API version the request
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        #' @param format character. the format to request from the server. either
+        #'  'json' or 'csv'. defaults to 'json'
+        #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
+
         get = function(path, query = list(), version = "v2", format = "json",
-                       parse=FALSE) {
+                       parse = TRUE) {
+            if (!format %in% c('json', 'csv')) {
+                usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
+            }
+
             query$format = format
 
             if (version == "v2") {
