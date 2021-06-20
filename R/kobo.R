@@ -9,7 +9,9 @@ Kobo <- R6::R6Class("Kobo",
     # private = list(
     # ),
     public = list(
+        #' @field session_v2 KoboClient session for v2 of the API
         session_v2 = NULL,
+        #' @field session_v1 KoboClient session for v1 of the API
         session_v1 = NULL,
 
         #' @description
@@ -140,13 +142,20 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
+        #' Get an asset given its id. 
+        #' @param id character. ID of the asset within the Kobo API.
+        #' @return Asset. object of class [kbtbr::Asset]
+        get_asset = function(id) {
+            res <- self$get(glue::glue("assets/{id}/"))
+            Asset$new(res, self)
+        },
+        #' @description
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         clone_asset = function(clone_from, name, asset_type) {
             body = list("clone_from" = clone_from,
                         "name" = name,
                         "asset_type" = asset_type)
-            print(body)
             self$post("assets/", body=body)
         }
 

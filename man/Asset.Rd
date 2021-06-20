@@ -24,15 +24,16 @@ Class to hold an asset
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Asset$new(asset_row)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Asset$new(asset_list, kobo)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{asset_row}}{list. a list, e.g. one row from the tibble/data frame that was returned by get_assets
-to_list
-return list representation of asset}
+\item{\code{asset_list}}{list. a list with the asset data, such as obtained through a call to assets/{id}}
+
+\item{\code{kobo}}{Kobo instance. Instance of class Kobo used internally to make requests to the API.
+to_list}
 }
 \if{html}{\out{</div>}}
 }
@@ -45,6 +46,9 @@ return list representation of asset}
 \if{html}{\out{<div class="r">}}\preformatted{Asset$to_list()}\if{html}{\out{</div>}}
 }
 
+\subsection{Returns}{
+list representation of asset
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
