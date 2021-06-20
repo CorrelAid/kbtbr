@@ -54,7 +54,7 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  component. The order is not hierarchical.
         #' @param ... crul-options. Additional option arguments, see
         #'  [`crul::HttpClient`] for reference
-        #' @return Returns a list, parsed from the HttpResponse JSON object.
+        #' @return the server response as a crul::HttpResponse object.
         get = function(path, query = list(), ...) {
             res <- super$get(path = path, query = query, ...)
             return(res)

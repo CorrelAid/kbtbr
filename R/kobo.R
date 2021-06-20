@@ -59,10 +59,12 @@ Kobo <- R6::R6Class("Kobo",
         #' @param path character. Path component of the endpoint.
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
-        #' @param version character. Indicates on which API version the request
+        #' @param version character. Indicates on which API version the request should be executed (available: `v1`, `v2`). Defaults to `v2`.
         #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
         #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
-        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        #' @return a list encoding of the json server reply if parse=TRUE.
+        #'   Otherwise, it returns the server response as a crul::HttpResponse
+        #'   object.
         get = function(path, query = list(), version = "v2", format = "json",
                        parse = TRUE) {
             if (!format %in% c("json", "csv")) {
