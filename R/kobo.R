@@ -30,11 +30,13 @@ Kobo <- R6::R6Class("Kobo",
             kobo_token = Sys.getenv("KBTBR_TOKEN"),
             session_v2 = NULL, session_v1 = NULL) {
 
-            # one has to pass at least base_url_v2 or session_v2
-            if (!xor(checkmate::test_null(base_url_v2),
-                     checkmate::test_null(session_v2)) ){
-                stop("Either base_url_v2 or session_v2 must be provided")
-            }
+      # one has to pass at least base_url_v2 or session_v2
+      if (!xor(
+        checkmate::test_null(base_url_v2),
+        checkmate::test_null(session_v2)
+      )) {
+        stop("Either base_url_v2 or session_v2 must be provided")
+      }
 
             if (!checkmate::test_null(base_url_v2)){
                 self$session_v2 <- KoboClient$new(base_url_v2, kobo_token)

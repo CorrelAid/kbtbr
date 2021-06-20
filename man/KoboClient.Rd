@@ -88,6 +88,7 @@ Returns a list, parsed from the HttpResponse JSON object.
 
 }
 \if{html}{\out{<hr>}}
+<<<<<<< HEAD
 \if{html}{\out{<a id="method-get"></a>}}
 \if{latex}{\out{\hypertarget{method-get}{}}}
 \subsection{Method \code{get()}}{
@@ -140,6 +141,8 @@ Returns a list, parsed from the HttpResponse JSON object.
 }
 }
 \if{html}{\out{<hr>}}
+=======
+>>>>>>> dev
 \if{html}{\out{<a id="method-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
