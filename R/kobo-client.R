@@ -39,7 +39,6 @@ KoboClient <- R6::R6Class("KoboClient",
                     Accept = "application/json"
                     #"content-type" = "application/json"
                     )
-                )
             )
         },
         #' @description
