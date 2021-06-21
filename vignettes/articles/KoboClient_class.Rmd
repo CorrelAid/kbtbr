@@ -11,20 +11,25 @@ vignette: >
 
 ```{r setup, include=TRUE, echo=FALSE}
 devtools::load_all()
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
 ```
 
 `KoboClient` is an R6 class that manages the connection between R and the server that hosts the KoboToolbox. 
-Most users should not need the `KoboClient` class because `Kobo` takes care of the end-user services. `Kobo` uses `KoboClien` under the hood.
+Most users should not need the `KoboClient` class because `Kobo` takes care of the end-user services. `Kobo` uses `KoboClient` under the hood.
 
-`KoboClient` is effectively an HTTP client and inherit its features from the 
-[crul](https://github.com/ropensci/crul) library, and in particular from the 
-`crul::HttpClient`
+`KoboClient` is effectively an HTTP client and inherits its features from the 
+[crul](https://github.com/ropensci/crul) library, in particular from 
+[`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html).
 
 # Getting started
 
-## Intialization
+## Initialization
 To start a session, one needs to know the URL to the KoboToolbox server and the
-API token, a unique key that allows interaction with the Kobo server. 
+API token, a unique key that allows interaction with the Kobo server. You can get the API key in your account settings.
+
 One possibility is to store the token as an environment variable. 
 The `KoboClient` will check if the variable `KBTBR_TOKEN` is set during the initialization. Otherwise, one can pass the token to the initialization function. 
 
@@ -38,7 +43,7 @@ class(my_session)
 
 
 ## The power of inheritance
-Thanks to the inheritance mechanism,  `my_session` can provide all the features of 
+Thanks to the inheritance mechanism, `my_session` can provide all the features of 
 [`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html)
 that is the parent R6 class.
 
@@ -51,12 +56,12 @@ will show you several properties set in the HTTP client, like the headers, the
 URL and other properties. The `$print()` method is not implemented in the KoboClient class, but it is automatically inherited from its parent class.
 
 KoboClient is called a child of [`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html),
-the parent,  and by the inheritance-mechanism can have all of its features
+the parent,  and by the inheritance mechanism can have all of its features
 (methods and fields) of the parent, but it can also provide more features or
 specialize some of the parent methods. In our case, for example, some features
 are added to work effectively with the KoboToolbox API: it stores the API token
 as private variable, or some method are further specialized like the `$get` 
-method described in the next session.
+method described in the next section.
 
 
 ## Get Method
@@ -64,7 +69,7 @@ method described in the next session.
 The get method is based on the method  [`$get()`](https://docs.ropensci.org/crul/reference/HttpClient.html#method-get)
 of the parent class. 
 In the current implementation, the get method will query the APIs but also 
-check thar the response is successful and automatically parse the result in the desired format, in this case list of lists. 
+check that the response is successful and automatically parse the result in the desired format, in this case list of lists. 
 
 ```{r, results='hide'}
 assets = my_session$get(path="api/v2/assets/")
