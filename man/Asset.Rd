@@ -11,6 +11,27 @@ Class to hold an asset
 Asset
 Class to hold an asset
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{uid}}{uid of the asset.}
+
+\item{\code{name}}{name of the asset.}
+
+\item{\code{asset_url}}{asset_url of the asset. takes the form of assets/{uid}/
+Contains most of the information about an asset such as meta data, permissions, xls form content and
+links to other related endpoints.}
+
+\item{\code{data_url}}{data_url of the asset. This can be used to get data related to the asset.
+Most useful for the asset type \code{survey} where this URL
+gives access to the submissions to the survey.}
+
+\item{\code{owner_username}}{username of the owner of the asset.}
+
+\item{\code{type}}{type of the asset. Type of the asset, e.g. survey, question, block or template.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
