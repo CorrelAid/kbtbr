@@ -6,7 +6,7 @@ Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             person("Lada", "Rudnitckaia", role = "aut"),
             person("Malte", "Kyhos", role = "aut"),
             person("Timm", "Hamm", role = "aut"),
-            person("Frie", "Preu", email = "fr1e@pm.me", role = c("aut")),
+            person("Frie", "Preu", email = "fr1e@pm.me", role = c("aut", "cre")),
             person("CorrelAid e.V.", role = "cph")
             )
 Maintainer: Frie Preu <fr1e@pm.me>
