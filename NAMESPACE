@@ -2,3 +2,6 @@
 
 export(Kobo)
 export(KoboClient)
+importFrom(checkmate,assert_character)
+importFrom(crul,HttpClient)
+importFrom(usethis,ui_stop)

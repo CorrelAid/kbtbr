@@ -1,0 +1,444 @@
+<?xml version="1.0"?>
+<h:html xmlns="http://www.w3.org/2002/xforms" xmlns:h="http://www.w3.org/1999/xhtml" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:orx="http://openrosa.org/xforms" xmlns:odk="http://www.opendatakit.org/xforms">
+  <h:head>
+    <h:title>kbtbr Testing Survey</h:title>
+    <model>
+      <instance>
+        <data id="snapshot_xml">
+          <start/>
+          <end/>
+          <Q1>
+            <Q1/>
+            <Work/>
+            <Family/>
+            <Friends_and_acquaintances/>
+            <Leisure_time/>
+            <Politics/>
+            <Religion/>
+          </Q1>
+          <Taking_all_things_to_ould_you_say_you_are/>
+          <All_in_all_how_woul_would_you_say_it_is/>
+          <Did_you_do_voluntary_in_the_last_6_months/>
+          <Generally_speaking_dealing_with_people/>
+          <I_would_like_to_ask_y_much_or_not_at_all>
+            <I_would_like_to_ask_y_much_or_not_at_all/>
+            <Your_family/>
+            <People_in_your_neighborhood/>
+            <People_you_know_personally/>
+            <People_you_meet_for_the_first_time/>
+            <People_of_another_religion/>
+            <People_of_another_nationality/>
+          </I_would_like_to_ask_y_much_or_not_at_all>
+          <Some_people_feel_the_your_life_turns_out/>
+          <Please_indicate_wher_the_map_is_Hamburg/>
+          <Upload_an_arbitrary_file/>
+          <meta>
+            <instanceID/>
+          </meta>
+        </data>
+      </instance>
+      <bind nodeset="/data/start" jr:preload="timestamp" type="dateTime" jr:preloadParams="start"/>
+      <bind nodeset="/data/end" jr:preload="timestamp" type="dateTime" jr:preloadParams="end"/>
+      <bind nodeset="/data/Q1/Q1" type="select1"/>
+      <bind nodeset="/data/Q1/Work" type="select1" required="false()"/>
+      <bind nodeset="/data/Q1/Family" type="select1" required="false()"/>
+      <bind nodeset="/data/Q1/Friends_and_acquaintances" type="select1" required="false()"/>
+      <bind nodeset="/data/Q1/Leisure_time" type="select1" required="false()"/>
+      <bind nodeset="/data/Q1/Politics" type="select1" required="false()"/>
+      <bind nodeset="/data/Q1/Religion" type="select1" required="false()"/>
+      <bind nodeset="/data/Taking_all_things_to_ould_you_say_you_are" type="select1" required="true()"/>
+      <bind nodeset="/data/All_in_all_how_woul_would_you_say_it_is" type="select1" required="false()"/>
+      <bind nodeset="/data/Did_you_do_voluntary_in_the_last_6_months" type="select1" required="false()"/>
+      <bind nodeset="/data/Generally_speaking_dealing_with_people" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/I_would_like_to_ask_y_much_or_not_at_all" type="select1"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/Your_family" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion" type="select1" required="false()"/>
+      <bind nodeset="/data/I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality" type="select1" required="false()"/>
+      <bind nodeset="/data/Some_people_feel_the_your_life_turns_out" type="int" required="false()"/>
+      <bind nodeset="/data/Please_indicate_wher_the_map_is_Hamburg" type="geopoint" required="false()"/>
+      <bind nodeset="/data/Upload_an_arbitrary_file" type="binary" required="false()"/>
+      <bind nodeset="/data/meta/instanceID" type="string" readonly="true()" jr:preload="uid"/>
+    </model>
+  </h:head>
+  <h:body>
+    <group appearance="field-list" ref="/data/Q1">
+      <select1 appearance="label" ref="/data/Q1/Q1">
+        <label>Please say, for each of the following, how important it is in your life.</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Work">
+        <label>Work</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Family">
+        <label>Family</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Friends_and_acquaintances">
+        <label>Friends and acquaintances</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Leisure_time">
+        <label>Leisure time</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Politics">
+        <label>Politics</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/Q1/Religion">
+        <label>Religion</label>
+        <item>
+          <label>Very important</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>quite important</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>not important</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>not at all important</label>
+          <value>4</value>
+        </item>
+      </select1>
+    </group>
+    <select1 ref="/data/Taking_all_things_to_ould_you_say_you_are">
+      <label>Taking all things together, would you say you are:</label>
+      <item>
+        <label>Very happy</label>
+        <value>1</value>
+      </item>
+      <item>
+        <label>Quite happy</label>
+        <value>2</value>
+      </item>
+      <item>
+        <label>Not very happy</label>
+        <value>3</value>
+      </item>
+      <item>
+        <label>Not at all happy</label>
+        <value>4</value>
+      </item>
+      <item>
+        <label>Don't know</label>
+        <value>8</value>
+      </item>
+      <item>
+        <label>No answer</label>
+        <value>9</value>
+      </item>
+    </select1>
+    <select1 ref="/data/All_in_all_how_woul_would_you_say_it_is">
+      <label>All in all, how would you describe your state of health these days? would you say it is</label>
+      <item>
+        <label>Very good</label>
+        <value>1</value>
+      </item>
+      <item>
+        <label>Good</label>
+        <value>2</value>
+      </item>
+      <item>
+        <label>Fair</label>
+        <value>3</value>
+      </item>
+      <item>
+        <label>Poor</label>
+        <value>4</value>
+      </item>
+      <item>
+        <label>Very poor</label>
+        <value>5</value>
+      </item>
+      <item>
+        <label>Don't know</label>
+        <value>8</value>
+      </item>
+      <item>
+        <label>No answer</label>
+        <value>9</value>
+      </item>
+    </select1>
+    <select1 ref="/data/Did_you_do_voluntary_in_the_last_6_months">
+      <label>Did you do voluntary work in the last 6 months?</label>
+      <item>
+        <label>Yes</label>
+        <value>1</value>
+      </item>
+      <item>
+        <label>No</label>
+        <value>2</value>
+      </item>
+      <item>
+        <label>Don't know</label>
+        <value>8</value>
+      </item>
+      <item>
+        <label>No answer</label>
+        <value>9</value>
+      </item>
+    </select1>
+    <select1 ref="/data/Generally_speaking_dealing_with_people">
+      <label>Generally speaking, would you say that most people can be trusted or that you can't be too careful in dealing with people?</label>
+      <item>
+        <label>Most people can be trusted</label>
+        <value>1</value>
+      </item>
+      <item>
+        <label>Can't be too careful</label>
+        <value>2</value>
+      </item>
+      <item>
+        <label>Don't know</label>
+        <value>8</value>
+      </item>
+      <item>
+        <label>No answer</label>
+        <value>9</value>
+      </item>
+    </select1>
+    <group appearance="field-list" ref="/data/I_would_like_to_ask_y_much_or_not_at_all">
+      <select1 appearance="label" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/I_would_like_to_ask_y_much_or_not_at_all">
+        <label>I would like to ask you how much you trust people from various groups. Could you tell me for each whether you trust people from this group completely, somewhat, not very much or not at all?</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/Your_family">
+        <label>Your family</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood">
+        <label>People in your neighborhood</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally">
+        <label>People you know personally</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time">
+        <label>People you meet for the first time</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion">
+        <label>People of another religion</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+      <select1 appearance="list-nolabel" ref="/data/I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality">
+        <label>People of another nationality</label>
+        <item>
+          <label>Trust completely</label>
+          <value>1</value>
+        </item>
+        <item>
+          <label>Trust somewhat</label>
+          <value>2</value>
+        </item>
+        <item>
+          <label>Do not trust very much</label>
+          <value>3</value>
+        </item>
+        <item>
+          <label>Do  not trust at all</label>
+          <value>4</value>
+        </item>
+      </select1>
+    </group>
+    <range ref="/data/Some_people_feel_the_your_life_turns_out" start="1" end="10" step="1">
+      <label>Some people feel they have completely free choice and control over their lives, and other people feel that what they do has no real effect on what happens to them. Please use the scale to indicate how much freedom of choice and control you feel you have over the way your life turns out?</label>
+      <hint>1 = "None at all", 10 = "a great deal"</hint>
+    </range>
+    <input ref="/data/Please_indicate_wher_the_map_is_Hamburg">
+      <label>Please indicate where on the map is "Hamburg"</label>
+    </input>
+    <upload mediatype="application/*" ref="/data/Upload_an_arbitrary_file">
+      <label>Upload an arbitrary file...</label>
+    </upload>
+  </h:body>
+</h:html>
