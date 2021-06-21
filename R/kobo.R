@@ -27,14 +27,15 @@ Kobo <- R6::R6Class("Kobo",
         #' a KoboClient instance for the API version v2.
         #' @param session_v1 KoboKlient. In addition to session_v2 one can pass
         #' also a KoboClient instance for the API version v1.
-        initialize = function(
-            base_url_v2 = NULL, base_url_v1 = NULL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"),
-            session_v2 = NULL, session_v1 = NULL) {
+        initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
+                              kobo_token = Sys.getenv("KBTBR_TOKEN"),
+                              session_v2 = NULL, session_v1 = NULL) {
 
             # one has to pass at least base_url_v2 or session_v2
-            if (!xor(checkmate::test_null(base_url_v2),
-                     checkmate::test_null(session_v2)) ){
+            if (!xor(
+                checkmate::test_null(base_url_v2),
+                checkmate::test_null(session_v2)
+            )) {
                 stop("Either base_url_v2 or session_v2 must be provided")
             }
 

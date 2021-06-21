@@ -32,8 +32,8 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
     withr::with_envvar(
         new = c("KBTBR_TOKEN" = ""),
         code = {
-            koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo" )
-            kobo_obj <- Kobo$new(session_v2 = koboclient_instance )
+            koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo")
+            kobo_obj <- Kobo$new(session_v2 = koboclient_instance)
             expect_identical(
                 class(kobo_obj),
                 c("Kobo", "R6")
@@ -43,13 +43,16 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
-    expect_message({
-        kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
-    }, regexp = "You have not passed base_url_v1. This means you cannot use")
+    expect_message(
+        {
+            kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
+        },
+        regexp = "You have not passed base_url_v1. This means you cannot use"
+    )
     expect_identical(
-                class(kobo_obj),
-                c("Kobo", "R6")
-            )
+        class(kobo_obj),
+        c("Kobo", "R6")
+    )
 })
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
@@ -103,8 +106,6 @@ vcr::use_cassette("kobo-get-404", {
 })
 
 test_that("non-existing kobo host throws error", {
-        kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
+    kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
+    expect_error(kobo$get("assets/"), regexp = "certificate")
 })
-
-
