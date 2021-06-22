@@ -149,16 +149,6 @@ Kobo <- R6::R6Class("Kobo",
         get_asset = function(id) {
             res <- self$get(glue::glue("assets/{id}/"))
             Asset$new(res, self)
-        },
-        #' @description
-        #' High-level POST request to clone an asset. `assets` endpoint
-        #' (due to default to `v2`, no further specification is needed).
-        clone_asset = function(clone_from, name, asset_type) {
-            body = list("clone_from" = clone_from,
-                        "name" = name,
-                        "asset_type" = asset_type)
-            self$post("assets/", body=body)
         }
-
     )
 )

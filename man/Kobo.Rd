@@ -26,7 +26,6 @@ interactions with the various endpoints.
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
 \item \href{#method-get_asset}{\code{Kobo$get_asset()}}
-\item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -147,17 +146,6 @@ Get an asset given its id.
 \subsection{Returns}{
 Asset. object of class \link{Asset}
 }
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone_asset"></a>}}
-\if{latex}{\out{\hypertarget{method-clone_asset}{}}}
-\subsection{Method \code{clone_asset()}}{
-High-level POST request to clone an asset. \code{assets} endpoint
-(due to default to \code{v2}, no further specification is needed).
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, name, asset_type)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
