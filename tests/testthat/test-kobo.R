@@ -89,7 +89,7 @@ test_that("Kobo can fetch assets using simple get", {
 test_that("Kobo can a single asset", {
     vcr::use_cassette("kobo-get-single-asset", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        asset <- kobo$get_asset('aRo4wg5utWT7dwdnQQEAE7')
+        asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
     })
     expect_identical(
         class(asset),
