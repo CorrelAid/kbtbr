@@ -25,14 +25,30 @@ test_that("Asset needs all necessary elements to be non-null", {
     expect_error(Asset$new(test_list, kobo), regexp = "Argument asset_list is missing the following required elements: owner__username, asset_type")
 })
 
-test_that("asset objects can be created for all assets", {
+test_that("asset objects can be created for all asset types", {
         vcr::use_cassette("kobo-create-asset-objects", {
             kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
             assets <- kobo$get_assets()
         })
-                
-        for(i in 1:nrow(assets$results)) {
-            asset_list <- assets$results[i, , drop = TRUE]
+
+        # get one of each type to make sure it works for all asset types
+        survey <- assets$results %>% 
+            dplyr::filter(asset_type == 'survey') %>% 
+            dplyr::slice(1)
+        question <- assets$results %>% 
+            dplyr::filter(asset_type == 'question') %>% 
+            dplyr::slice(1) 
+        block <- assets$results %>% 
+            dplyr::filter(asset_type == 'block') %>% 
+            dplyr::slice(1)
+        template <- assets$results %>% 
+            dplyr::filter(asset_type == 'template') %>% 
+            dplyr::slice(1)
+
+        test_cases <- dplyr::bind_rows(survey, question, block, template)
+
+        for(i in 1:nrow(test_cases)) {
+            asset_list <- test_cases[i, , drop = TRUE]
             asset_obj <- Asset$new(asset_list, kobo)
             expect_equal(asset_obj$uid, asset_list$uid)
             expect_equal(asset_obj$name, asset_list$name)
