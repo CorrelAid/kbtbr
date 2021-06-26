@@ -59,10 +59,10 @@ Kobo <- R6::R6Class("Kobo",
     #' @description
     #' Wrapper for the POST method of internal session objects.
     #' @param path character. Path component of the endpoint.
-    #' @param body R list or json-like string. A data payload to be sent
-    #' to the server.
+    #' @param body R list. A data payload to be sent to the server.
     #' @param version character. Indicates on which API version the request
     #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
+    #' @return Returns an object of class `crul::HttpResponse`.
     post = function(path, body, version = "v2") {
       if (version == "v2") {
         if (path != "imports/"){
@@ -95,13 +95,14 @@ Kobo <- R6::R6Class("Kobo",
     #' High-level POST request to clone an asset. `assets` endpoint
     #' (due to default to `v2`, no further specification is needed).
     #' @param clone_from character. UID of the asset to be cloned.
-    #' @param name character. Name of the new asset.
+    #' @param new_name character. Name of the new asset.
     #' @param asset_type character. Type of the new asset. Can be
     #' "block", "question", "survey", "template".
-    clone_asset = function(clone_from, name, asset_type) {
+    #' @return Returns an object of class `crul::HttpResponse`.
+    clone_asset = function(clone_from, new_name, asset_type) {
       body = list(
         "clone_from" = clone_from,
-        "name" = name,
+        "name" = new_name,
         "asset_type" = asset_type)
       self$post("assets/", body = body)
     },
@@ -111,6 +112,7 @@ Kobo <- R6::R6Class("Kobo",
     #' `assets/{uid}/deployment/` endpoint (due to
     #' default to `v2`, no further specification is needed).
     #' @param uid character. UID of the asset to be deployed.
+    #' @return Returns an object of class `crul::HttpResponse`.
     deploy_asset = function(uid) {
       body = list("active" = "true")
       endpoint = paste0("assets/",uid,"/deployment/")
@@ -127,6 +129,7 @@ Kobo <- R6::R6Class("Kobo",
     #' @param share_metadata boolean. Optional.
     #' @param asset_type character. Type of the new asset. Can be
     #' "block", "question", "survey", "template".
+    #' @return Returns an object of class `crul::HttpResponse`.
     create_asset = function(name,description,sector,
                             country,share_metadata,asset_type) {
       settings = list_as_json_char(
@@ -147,6 +150,7 @@ Kobo <- R6::R6Class("Kobo",
     #' (due to default to `v2`, no further specification is needed).
     #' @param name character. Name of the new asset.
     #' @param file character. The path to the file containing the XLS form.
+    #' @return Returns an object of class `crul::HttpResponse`.
     import_xls_form = function(name,file) {
       body = list(
         "name"=name,

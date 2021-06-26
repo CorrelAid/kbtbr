@@ -41,7 +41,7 @@ KoboClient <- R6::R6Class("KoboClient",
           )
         )
     },
-    
+
     #' @description
     #' Perform a GET request (with additional checks)
     #'
@@ -66,35 +66,18 @@ KoboClient <- R6::R6Class("KoboClient",
     },
 
     #' @description
-    #' Perform a POST request (with additional checks)
+    #' Perform a POST request
     #'
     #' @details
-    #' Extension of the `crul::HttpClient$post()` method that checks
-    #' the HttpResponse object on status, that it is of type
-    #' `application/json`, checks whether the body is a json-like string,
-    #' and if not, converts it to the json-like string, and parses the
-    #' response text subsequently from JSON to R list representation.
+    #' Extension of the `crul::HttpClient$post()` method.
     #' @param path character. Path component of the endpoint.
-    #' @param body R list or json-like string. A data payload to be sent
-    #' to the server.
+    #' @param body R list. A data payload to be sent to the server.
     #' @param ... crul-options. Additional option arguments, see
     #'  [`crul::HttpClient`] for reference
-    #' @return Returns a list, parsed from the HttpResponse JSON object.
+    #' @return Returns an object of class `crul::HttpResponse`.
     post = function(path, body, ...) {
-      # Check the body's format
-      # if (is.list(body)) {
-      #     body <- list_as_json_char(body)
-      # } else if (!is.character(body)) {
-      #     stop("The body should be either an R list (will be automatically
-      #          converted to JSON-like string) or a JSON-like string.")}
-
       res <- super$post(path = path, body = body, ...)
-
-      # Perform additional checks, json to list parsing
       res$raise_for_status()
-      # res$raise_for_ct_json()
-      # res$parse("UTF-8") %>%
-      #     jsonlite::fromJSON()
       return(res)
     }
   ) # <end public>

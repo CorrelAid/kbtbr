@@ -89,13 +89,15 @@ Wrapper for the POST method of internal session objects.
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
 
-\item{\code{body}}{R list or json-like string. A data payload to be sent
-to the server.}
+\item{\code{body}}{R list. A data payload to be sent to the server.}
 
 \item{\code{version}}{character. Indicates on which API version the request
 should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -116,7 +118,7 @@ Example method to send a GET request to the \code{assets} endpoint
 High-level POST request to clone an asset. \code{assets} endpoint
 (due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, name, asset_type)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -124,12 +126,15 @@ High-level POST request to clone an asset. \code{assets} endpoint
 \describe{
 \item{\code{clone_from}}{character. UID of the asset to be cloned.}
 
-\item{\code{name}}{character. Name of the new asset.}
+\item{\code{new_name}}{character. Name of the new asset.}
 
 \item{\code{asset_type}}{character. Type of the new asset. Can be
 "block", "question", "survey", "template".}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -149,6 +154,9 @@ default to \code{v2}, no further specification is needed).
 \item{\code{uid}}{character. UID of the asset to be deployed.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -186,6 +194,9 @@ High-level POST request to create an empty asset. \verb{assets/} endpoint
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-import_xls_form"></a>}}
@@ -205,6 +216,9 @@ High-level POST request to import an XLS form. \code{imports} endpoint
 \item{\code{file}}{character. The path to the file containing the XLS form.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
