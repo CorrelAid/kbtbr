@@ -38,7 +38,6 @@ KoboClient <- R6::R6Class("KoboClient",
         headers = list(
           Authorization = paste0("Token ", kobo_token),
           Accept = "application/json"
-          #"content-type" = "application/json"
           )
         )
     },
