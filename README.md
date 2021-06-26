@@ -21,6 +21,13 @@ To install the package dependencies:
 install.packages("renv")
 renv::install()
 ```
+
+## Code styling
+Please style any code with the following [styler](https://styler.r-lib.org/) command:
+
+```r
+styler::style_pkg(style = styler::tidyverse_style, indent_by = 4) 
+```
 ## Package development workflow
 
 ## Branching model

@@ -120,7 +120,7 @@ test_that("non-existing kobo host throws error", {
         kobo_token = Sys.getenv("KBTBR_TOKEN"))
     )
 
-    expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
+    expect_error(kobo$get("assets/"), regexp = "certificate")
 })
 
 
