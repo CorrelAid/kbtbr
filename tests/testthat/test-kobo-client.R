@@ -48,7 +48,7 @@ test_that("Kobo Client can clone assets", {
     expect_equal(clone_asset$url, "https://kobo.correlaid.org/api/v2/assets/")
     expect_equal(clone_asset$method, "post")
     expect_equal(clone_asset$status_code, 201)
-    expect_equal(clone_asset$success(), TRUE)
+    expect_true(clone_asset$success())
     expect_equal(clone_asset$status_http()$message, "Created")
     expect_equal(clone_asset$status_http()$explanation, "Document created, URL follows")
 })
