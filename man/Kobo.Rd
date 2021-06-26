@@ -205,7 +205,7 @@ Returns an object of class \code{crul::HttpResponse}.
 High-level POST request to import an XLS form. \code{imports} endpoint
 (due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$import_xls_form(name, file)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$import_xls_form(name, file_path)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -213,7 +213,7 @@ High-level POST request to import an XLS form. \code{imports} endpoint
 \describe{
 \item{\code{name}}{character. Name of the new asset.}
 
-\item{\code{file}}{character. The path to the file containing the XLS form.}
+\item{\code{file_path}}{character. The path to the XLS form file.}
 }
 \if{html}{\out{</div>}}
 }
