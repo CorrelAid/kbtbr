@@ -174,7 +174,7 @@ test_that("kobo$import_xls_form can import forms", {
     vcr::use_cassette("kobo-post-import-xls-form", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         import_xls_form <- kobo$import_xls_form(name="vcr_test_name",
-                                                file="xls_form_via_post.xlsx")
+                                                file_path="xls_form_via_post.xlsx")
     })
     expect_equal(import_xls_form$url,"https://kobo.correlaid.org/imports/")
     expect_equal(import_xls_form$method,"post")
