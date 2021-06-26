@@ -146,12 +146,12 @@ Kobo <- R6::R6Class("Kobo",
     #' High-level POST request to import an XLS form. `imports` endpoint
     #' (due to default to `v2`, no further specification is needed).
     #' @param name character. Name of the new asset.
-    #' @param file character. The path to the file containing the XLS form.
-    import_xls_form = function(name,file) {
+    #' @param file_path  character. The path to the XLS form file.
+    import_xls_form = function(name, file_path) {
       body = list(
         "name"=name,
         "library"="false",
-        "file"=crul::upload(file))
+        "file"=crul::upload(file_path))
       self$post("imports/", body = body)
     }
   ) # <end public>
