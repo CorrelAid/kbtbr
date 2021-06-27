@@ -65,6 +65,7 @@ jobs:
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
+          echo "" >> _pkgdown.yml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
@@ -74,7 +75,6 @@ jobs:
           author_email: actions@github.com
           branch: gh-pages
           message: "Update docs coming from ${{ steps.extract_branch.outputs.branch }}"
-          push: "--set-upstream-to=origin/gh-pages gh-pages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
