@@ -74,6 +74,7 @@ jobs:
           author_email: actions@github.com
           branch: gh-pages
           message: "Update docs coming from ${{ steps.extract_branch.outputs.branch }}"
+          push: "--set-upstream-to=origin/gh-pages gh-pages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
