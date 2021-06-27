@@ -63,7 +63,7 @@ jobs:
       - name: Build page 
         run: |
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
-          mkdir docs/${{ steps.extract_branch.outputs.branch }}
+          mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
 
       - name: Commit changes
