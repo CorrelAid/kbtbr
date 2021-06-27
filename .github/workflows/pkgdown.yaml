@@ -65,7 +65,7 @@ jobs:
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
-          echo "" >> _pkgdown.yml
+          git checkout _pkgdown.yml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v7
