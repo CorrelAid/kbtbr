@@ -139,34 +139,6 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
-        #' High-level POST request to create an empty asset. `assets/` endpoint
-        #' (due to default to `v2`, no further specification is needed).
-        #' @param name character. Name of the new asset.
-        #' @param description character. Optional.
-        #' @param sector character. Optional.
-        #' @param country character. Optional.
-        #' @param share_metadata boolean. Optional.
-        #' @param asset_type character. Type of the new asset. Can be
-        #' "block", "question", "survey", "template".
-        #' @return Returns an object of class `crul::HttpResponse`.
-        create_asset = function(name, description, sector,
-                                country, share_metadata, asset_type) {
-            settings <- list_as_json_char(
-                list(
-                    "description" = description,
-                    "sector" = sector, "country" = country,
-                    "share_metadata" = share_metadata
-                )
-            )
-            body <- list(
-                "name" = name,
-                "settings" = settings,
-                "asset_type" = asset_type
-            )
-            self$post("assets/", body = body)
-        },
-
-        #' @description
         #' High-level POST request to import an XLS form. `imports` endpoint
         #' (due to default to `v2`, no further specification is needed).
         #' @param name character. Name of the new asset.

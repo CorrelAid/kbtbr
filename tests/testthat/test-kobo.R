@@ -191,24 +191,6 @@ test_that("kobo$deploy_asset can deploy assets", {
     expect_equal(deploy_asset$status_http()$explanation, "Request fulfilled, document follows")
 })
 
-# test_that("kobo$create_asset can create assets", {
-#     vcr::use_cassette("kobo-post-create-asset", {
-#         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-#         create_asset <- kobo$create_asset(name="vcr_test_name",
-#                                           description="vcr_test_description",
-#                                           sector="vcr_test_sector",
-#                                           country="vcr_test_country",
-#                                           share_metadata="false",
-#                                           asset_type="survey")
-#     })
-#     expect_equal(create_asset$url,"")
-#     expect_equal(create_asset$method,"post")
-#     expect_equal(create_asset$status_code,201)
-#     expect_true(create_asset$success())
-#     expect_equal(create_asset$status_http()$message,"")
-#     expect_equal(create_asset$status_http()$explanation,"")
-# })
-
 test_that("kobo$import_xls_form can import forms", {
     vcr::use_cassette("kobo-post-import-xls-form", {
         kobo <- suppressMessages(Kobo$new(
