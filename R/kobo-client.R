@@ -10,7 +10,8 @@ KoboClient <- R6::R6Class("KoboClient",
     private = list(
         base_url = "",
         kobo_token = ""
-    ),
+    ), # <end private>
+
     public = list(
         #' @description
         #' Initialization method for class "KoboClient".
@@ -35,10 +36,12 @@ KoboClient <- R6::R6Class("KoboClient",
             super$initialize(
                 url = base_url,
                 headers = list(
-                    Authorization = paste0("Token ", kobo_token)
+                    Authorization = paste0("Token ", kobo_token),
+                    Accept = "application/json"
                 )
             )
         },
+
         #' @description
         #' Perform a GET request (with additional checks)
         #'
@@ -60,6 +63,22 @@ KoboClient <- R6::R6Class("KoboClient",
             res$raise_for_ct_json()
             res$parse("UTF-8") %>%
                 jsonlite::fromJSON()
+        },
+
+        #' @description
+        #' Perform a POST request
+        #'
+        #' @details
+        #' Extension of the `crul::HttpClient$post()` method.
+        #' @param path character. Path component of the endpoint.
+        #' @param body R list. A data payload to be sent to the server.
+        #' @param ... crul-options. Additional option arguments, see
+        #'  [`crul::HttpClient`] for reference
+        #' @return Returns an object of class `crul::HttpResponse`.
+        post = function(path, body, ...) {
+            res <- super$post(path = path, body = body, ...)
+            res$raise_for_status()
+            return(res)
         }
-    )
+    ) # <end public>
 )

@@ -73,11 +73,84 @@ Kobo <- R6::R6Class("Kobo",
                 )
             }
         },
+
+        #' @description
+        #' Wrapper for the POST method of internal session objects.
+        #' @param path character. Path component of the endpoint.
+        #' @param body R list. A data payload to be sent to the server.
+        #' @param version character. Indicates on which API version the request
+        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        #' @return Returns an object of class `crul::HttpResponse`.
+        post = function(path, body, version = "v2") {
+            if (version == "v2") {
+                if (path != "imports/") {
+                    private$session_v2$post(path = paste0("api/v2/", path), body = body)
+                } else {
+                    private$session_v2$post(path = path, body = body)
+                }
+            } else if (version == "v1") {
+                if (checkmate::test_null(private$session_v1)) {
+                    usethis::ui_stop("Session for API v1 is not initalized.
+          Please re-initalize the Kobo client with the base_url_v1 argument.")
+                }
+                private$session_v1$post(path = paste0("api/v1/", path), body = body)
+            } else {
+                usethis::ui_stop(
+                    "Invalid version. Must be either v1 or v2.
+          Come back in a couple of years."
+                )
+            }
+        },
+
         #' @description
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
-            self$get("assets/")
+            res_list <- self$get("assets/")
+        },
+
+        #' @description
+        #' High-level POST request to clone an asset. `assets` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param clone_from character. UID of the asset to be cloned.
+        #' @param new_name character. Name of the new asset.
+        #' @param asset_type character. Type of the new asset. Can be
+        #' "block", "question", "survey", "template".
+        #' @return Returns an object of class `crul::HttpResponse`.
+        clone_asset = function(clone_from, new_name, asset_type) {
+            body <- list(
+                "clone_from" = clone_from,
+                "name" = new_name,
+                "asset_type" = asset_type
+            )
+            self$post("assets/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to deploy an asset.
+        #' `assets/{uid}/deployment/` endpoint (due to
+        #' default to `v2`, no further specification is needed).
+        #' @param uid character. UID of the asset to be deployed.
+        #' @return Returns an object of class `crul::HttpResponse`.
+        deploy_asset = function(uid) {
+            body <- list("active" = "true")
+            endpoint <- paste0("assets/", uid, "/deployment/")
+            self$post(endpoint, body = body)
+        },
+
+        #' @description
+        #' High-level POST request to import an XLS form. `imports` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param name character. Name of the new asset.
+        #' @param file_path  character. The path to the XLS form file.
+        #' @return Returns an object of class `crul::HttpResponse`.
+        import_xls_form = function(name, file_path) {
+            body <- list(
+                "name" = name,
+                "library" = "false",
+                "file" = crul::upload(file_path)
+            )
+            self$post("imports/", body = body)
         }
-    )
+    ) # <end public>
 )
