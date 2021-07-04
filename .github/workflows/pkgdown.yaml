@@ -37,12 +37,14 @@ jobs:
           saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
         shell: Rscript {0}
 
-      - name: Cache R packages
+      - name: Restore R package cache
         uses: actions/cache@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ${{ runner.os }}-${{ steps.install-r.outputs.installed-r-version }}-1-
+          path: |
+            ${{ env.R_LIBS_USER }}/*
+            !${{ env.R_LIBS_USER }}/pak
+          key: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -66,7 +68,7 @@ jobs:
           git config --local user.email "actions@github.com"
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
-          Rscript -e 'pkgdown::deploy_to_branch(commit_message = "Update docs coming from ${{ steps.extract_branch.outputs.branch }}", new_process = FALSE)'
+          Rscript -e 'pkgdown::deploy_to_branch(commit_message = "Update docs coming from ${{ steps.extract_branch.outputs.branch }}", clean = TRUE, new_process = FALSE)'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
      
