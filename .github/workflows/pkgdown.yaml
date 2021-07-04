@@ -64,18 +64,8 @@ jobs:
         run: |
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
-          Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
-          git checkout _pkgdown.yml
-
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v7
-        with:
-          add: "docs/${{ steps.extract_branch.outputs.branch }}/* --force"
-          author_name: GitHub Action
-          author_email: actions@github.com
-          branch: gh-pages
-          message: "Update docs coming from ${{ steps.extract_branch.outputs.branch }}"
+          Rscript -e 'pkgdown::deploy_to_branch(commit_message = "Update docs coming from ${{ steps.extract_branch.outputs.branch }}", new_process = FALSE)'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+     
 
