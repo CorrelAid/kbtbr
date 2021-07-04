@@ -62,6 +62,8 @@ jobs:
 
       - name: Build page 
         run: |
+          git config --local user.name "Github action"
+          git config --local user.email "actions@github.com"
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mkdir -p docs/${{ steps.extract_branch.outputs.branch }}
           Rscript -e 'pkgdown::deploy_to_branch(commit_message = "Update docs coming from ${{ steps.extract_branch.outputs.branch }}", new_process = FALSE)'
