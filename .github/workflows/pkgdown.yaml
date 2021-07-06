@@ -68,7 +68,7 @@ jobs:
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
           git checkout _pkgdown.yml 
           git fetch --all
-          git checkout origin/gh-pages      
+          git checkout -t origin/gh-pages      
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mv /tmp/docs/${{ steps.extract_branch.outputs.branch }} docs/${{ steps.extract_branch.outputs.branch }}
         env:
