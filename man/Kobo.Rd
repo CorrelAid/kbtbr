@@ -83,14 +83,18 @@ Wrapper for the GET method of internal session objects.
 \item{\code{query}}{list. A named list which is parsed to the query
 component. The order is not hierarchical.}
 
-\item{\code{version}}{character. Indicates on which API version the request}
+\item{\code{version}}{character. Indicates on which API version the request should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
 
 \item{\code{format}}{character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'}
 
-\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.
-should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list encoding of the json server reply if parse=TRUE.
+Otherwise, it returns the server response as a crul::HttpResponse
+object.
 }
 }
 \if{html}{\out{<hr>}}

@@ -18,11 +18,14 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     vcr, 
-    withr
+    withr,
+    dplyr
 Config/testthat/edition: 3
 Imports: 
     crul,
     usethis,
-    checkmate
+    checkmate,
+    magrittr,
+    jsonlite
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
