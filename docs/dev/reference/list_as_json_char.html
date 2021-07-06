@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • kbtbr</title>
+<title>Helper function to convert R list to JSON-like string — list_as_json_char • kbtbr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Helper function to convert R list to JSON-like string — list_as_json_char" />
+<meta property="og:description" content="Converts R lists to JSON-like strings for POST request's body.
+#' @keywords internal" />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -120,54 +122,40 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Helper function to convert R list to JSON-like string</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/list_as_json_char.R'><code>R/list_as_json_char.R</code></a></small>
+    <div class="hidden name"><code>list_as_json_char.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Converts R lists to JSON-like strings for POST request's body.</p>
+<p>#' @keywords internal</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>list_as_json_char</span><span class='op'>(</span><span class='va'>list</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="Kobo.html">Kobo</a></code> </p>
-        </td>
-        <td><p>Kobo Class</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="KoboClient.html">KoboClient</a></code> </p>
-        </td>
-        <td><p>KoboClient</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="list_as_json_char.html">list_as_json_char()</a></code> </p>
-        </td>
-        <td><p>Helper function to convert R list to JSON-like string</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>list</th>
+      <td><p>R list that should be converted to the JSON-like string</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>example_body</span> <span class='op'>&lt;-</span> <span class='fu'>list_as_json_char</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+<span class='st'>"name"</span> <span class='op'>=</span> <span class='st'>"A survey object created via API/R"</span>,
+<span class='st'>"asset_type"</span> <span class='op'>=</span> <span class='st'>"survey"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

@@ -195,7 +195,7 @@
 <span class="op">}</span>
 
 
-<span class="va">body_create_example</span> <span class="op">&lt;-</span> <span class="fu">list_as_json_char</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<span class="va">body_create_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/list_as_json_char.html">list_as_json_char</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="st">"name"</span> <span class="op">=</span> <span class="st">"A survey object created via API/R"</span>,
   <span class="st">"asset_type"</span> <span class="op">=</span> <span class="st">"survey"</span>
 <span class="op">)</span><span class="op">)</span>
@@ -209,7 +209,7 @@
 <p><em>Note</em> somehow the additional nested parameter in “settings” resulted in a failure of the request. It is questionable why they are in the documentation. We cannot explain this <em>misbehaviour</em> at the moment.</p>
 <p>In the next example, in a similar style we <strong>clone</strong> an existing asset. This needs two arguments passed in the body of the POST request.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">example_clone_body</span> <span class="op">&lt;-</span> <span class="fu">list_as_json_char</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">example_clone_body</span> <span class="op">&lt;-</span> <span class="fu"><a href="../../reference/list_as_json_char.html">list_as_json_char</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
   <span class="st">"clone_from"</span> <span class="op">=</span> <span class="st">"ajzghKK6NELaixPQqsm49e"</span>,
   <span class="st">"name"</span> <span class="op">=</span> <span class="st">"This is a cloned survey (via API/R)"</span>,
   <span class="st">"asset_type"</span> <span class="op">=</span> <span class="st">"survey"</span>
