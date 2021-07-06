@@ -75,7 +75,7 @@ interactions with the various endpoints." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kbtbr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3000</span>
       </span>
     </div>
 
@@ -107,7 +107,12 @@ interactions with the various endpoints." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CorrelAid/kbtbr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -122,7 +127,7 @@ interactions with the various endpoints." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Kobo Class</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/kobo.R'><code>R/kobo.R</code></a></small>
     <div class="hidden name"><code>Kobo.Rd</code></div>
     </div>
 
@@ -143,16 +148,22 @@ interactions with the various endpoints.</p>
 <ul>
 <li><p><a href='#method-new'><code>Kobo$new()</code></a></p></li>
 <li><p><a href='#method-get'><code>Kobo$get()</code></a></p></li>
+<li><p><a href='#method-post'><code>Kobo$post()</code></a></p></li>
 <li><p><a href='#method-get_assets'><code>Kobo$get_assets()</code></a></p></li>
+<li><p><a href='#method-clone_asset'><code>Kobo$clone_asset()</code></a></p></li>
+<li><p><a href='#method-deploy_asset'><code>Kobo$deploy_asset()</code></a></p></li>
+<li><p><a href='#method-import_xls_form'><code>Kobo$import_xls_form()</code></a></p></li>
 <li><p><a href='#method-clone'><code>Kobo$clone()</code></a></p></li>
 </ul>
 <p><hr>
 <a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 <p>Initialization method for class "Kobo".</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span>
-  <span class='va'>base_url_v2</span>,
+  base_url_v2 <span class='op'>=</span> <span class='cn'>NULL</span>,
   base_url_v1 <span class='op'>=</span> <span class='cn'>NULL</span>,
-  kobo_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"KBTBR_TOKEN"</span><span class='op'>)</span>
+  kobo_token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv</a></span><span class='op'>(</span><span class='st'>"KBTBR_TOKEN"</span><span class='op'>)</span>,
+  session_v2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  session_v1 <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span></pre><p></div></p>
 
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
@@ -166,6 +177,12 @@ For example: https://kc.correlaid.org.</p></dd>
 
 <dt><code>kobo_token</code></dt><dd><p>character. The API token. Defaults to requesting
 the systen environment <code>KBTBR_TOKEN</code>.</p></dd>
+
+<dt><code>session_v2</code></dt><dd><p>KoboClient. Alternatively, pass directly
+a KoboClient instance for the API version v2.</p></dd>
+
+<dt><code>session_v1</code></dt><dd><p>KoboKlient. In addition to session_v2 one can pass
+also a KoboClient instance for the API version v1.</p></dd>
 
 </dl><p></div></p>
 <p><hr>
@@ -185,11 +202,75 @@ should be executed (available: <code>v1</code>, <code>v2</code>). Defaults to <c
 
 </dl><p></div></p>
 <p><hr>
+<a id="method-post"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>post()</code></h3>
+<p>Wrapper for the POST method of internal session objects.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>post</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>body</span>, version <span class='op'>=</span> <span class='st'>"v2"</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>character. Path component of the endpoint.</p></dd>
+
+<dt><code>body</code></dt><dd><p>R list. A data payload to be sent to the server.</p></dd>
+
+<dt><code>version</code></dt><dd><p>character. Indicates on which API version the request
+should be executed (available: <code>v1</code>, <code>v2</code>). Defaults to <code>v2</code>.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns an object of class <code><a href='https://docs.ropensci.org/crul/reference/HttpResponse.html'>crul::HttpResponse</a></code>.</p>
+<p><hr>
 <a id="method-get_assets"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>get_assets()</code></h3>
 <p>Example method to send a GET request to the <code>assets</code> endpoint
 (due to default to <code>v2</code>, no further specification is needed).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
 <p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>get_assets</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
 
+<p><hr>
+<a id="method-clone_asset"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone_asset()</code></h3>
+<p>High-level POST request to clone an asset. <code>assets</code> endpoint
+(due to default to <code>v2</code>, no further specification is needed).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>clone_asset</span><span class='op'>(</span><span class='va'>clone_from</span>, <span class='va'>new_name</span>, <span class='va'>asset_type</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>clone_from</code></dt><dd><p>character. UID of the asset to be cloned.</p></dd>
+
+<dt><code>new_name</code></dt><dd><p>character. Name of the new asset.</p></dd>
+
+<dt><code>asset_type</code></dt><dd><p>character. Type of the new asset. Can be
+"block", "question", "survey", "template".</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns an object of class <code><a href='https://docs.ropensci.org/crul/reference/HttpResponse.html'>crul::HttpResponse</a></code>.</p>
+<p><hr>
+<a id="method-deploy_asset"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>deploy_asset()</code></h3>
+<p>High-level POST request to deploy an asset.
+<code>assets/{uid}/deployment/</code> endpoint (due to
+default to <code>v2</code>, no further specification is needed).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>deploy_asset</span><span class='op'>(</span><span class='va'>uid</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>uid</code></dt><dd><p>character. UID of the asset to be deployed.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns an object of class <code><a href='https://docs.ropensci.org/crul/reference/HttpResponse.html'>crul::HttpResponse</a></code>.</p>
+<p><hr>
+<a id="method-import_xls_form"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>import_xls_form()</code></h3>
+<p>High-level POST request to import an XLS form. <code>imports</code> endpoint
+(due to default to <code>v2</code>, no further specification is needed).</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Kobo</span><span class='op'>$</span><span class='fu'>import_xls_form</span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>file_path</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>name</code></dt><dd><p>character. Name of the new asset.</p></dd>
+
+<dt><code>file_path</code></dt><dd><p>character. The path to the XLS form file.</p></dd>
+
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns an object of class <code><a href='https://docs.ropensci.org/crul/reference/HttpResponse.html'>crul::HttpResponse</a></code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -214,7 +295,7 @@ should be executed (available: <code>v1</code>, <code>v2</code>). Defaults to <c
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Dimitri Marinelli, Lada Rudnitckaia, Malte Kyhos, Timm Hamm, Frie Preu.</p>
 </div>
 
 <div class="pkgdown">

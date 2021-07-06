@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">kbtbr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3000</span>
       </span>
     </div>
 
@@ -62,7 +62,14 @@
   </ul>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/CorrelAid/kbtbr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -78,7 +85,7 @@
       <h1 data-toc-skip>Using crul with KoboToolbox</h1>
             
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/CorrelAid/kbtbr/blob/master/vignettes/articles/using_crul.Rmd"><code>vignettes/articles/using_crul.Rmd</code></a></small>
       <div class="hidden name"><code>using_crul.Rmd</code></div>
 
     </div>
@@ -161,7 +168,8 @@
 <span class="va">crul_client</span> <span class="op">&lt;-</span> <span class="fu">crul</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/crul/reference/HttpClient.html">HttpClient</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
   url <span class="op">=</span> <span class="va">base_url</span>,
   headers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
-    Authorization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Token "</span>, <span class="va">token</span><span class="op">)</span>
+    Authorization <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Token "</span>, <span class="va">token</span><span class="op">)</span>,
+    <span class="st">"content-type"</span> <span class="op">=</span> <span class="st">"application/json"</span>
   <span class="op">)</span>
 <span class="op">)</span>
 
@@ -172,12 +180,83 @@
   <span class="op">)</span></code></pre></div>
 <p><em>Remark:</em> Interestingly, it does not seem to matter whether which one we use as the final passed url, both - <code>https:://kobo.example.com/assets/?format=json</code> and - <code>https:://kobo.example.com/api/v2/assets/?format=json</code></p>
 <p>This seems to be due to a legacy release of Kobo’s <code>v2</code> API, which probably used the shorter url form (which should not be used).</p>
+<div id="post-requests" class="section level3">
+<h3 class="hasAnchor">
+<a href="#post-requests" class="anchor"></a><code>POST</code> requests</h3>
+<p>In the first example, we can try to <strong>create a new asset</strong> (without any content) via a <code>POST</code> request.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># A little helper function to create a json-like string from</span>
+<span class="co"># a list.</span>
+<span class="co"># _note_ Kobotoolbox seems to be unable to deal with arrays, thus we have</span>
+<span class="co"># to unbox vectors of length 1.</span>
+<span class="va">list_as_json_char</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">list</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">toJSON</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">list</span>, pretty <span class="op">=</span> <span class="cn">TRUE</span>, auto_unbox <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span>
+
+
+<span class="va">body_create_example</span> <span class="op">&lt;-</span> <span class="fu">list_as_json_char</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"name"</span> <span class="op">=</span> <span class="st">"A survey object created via API/R"</span>,
+  <span class="st">"asset_type"</span> <span class="op">=</span> <span class="st">"survey"</span>
+<span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Exectute the request, and use method chaining to parse it directly </span>
+<span class="va">crul_client</span><span class="op">$</span>
+  <span class="fu">post</span><span class="op">(</span>
+    path <span class="op">=</span> <span class="st">"api/v2/assets/"</span>,
+    body <span class="op">=</span> <span class="va">body_create_example</span><span class="op">)</span><span class="op">$</span>
+  <span class="fu">parse</span><span class="op">(</span><span class="st">"utf-8"</span><span class="op">)</span></code></pre></div>
+<p><em>Note</em> somehow the additional nested parameter in “settings” resulted in a failure of the request. It is questionable why they are in the documentation. We cannot explain this <em>misbehaviour</em> at the moment.</p>
+<p>In the next example, in a similar style we <strong>clone</strong> an existing asset. This needs two arguments passed in the body of the POST request.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">example_clone_body</span> <span class="op">&lt;-</span> <span class="fu">list_as_json_char</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="st">"clone_from"</span> <span class="op">=</span> <span class="st">"ajzghKK6NELaixPQqsm49e"</span>,
+  <span class="st">"name"</span> <span class="op">=</span> <span class="st">"This is a cloned survey (via API/R)"</span>,
+  <span class="st">"asset_type"</span> <span class="op">=</span> <span class="st">"survey"</span>
+<span class="op">)</span><span class="op">)</span>
+
+<span class="va">crul_client</span><span class="op">$</span>
+  <span class="fu">post</span><span class="op">(</span>
+    path <span class="op">=</span> <span class="st">"api/v2/assets/"</span>,
+    body <span class="op">=</span> <span class="va">example_clone_body</span><span class="op">)</span><span class="op">$</span>
+  <span class="fu">parse</span><span class="op">(</span><span class="st">"utf-8"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="patch-requests" class="section level3">
+<h3 class="hasAnchor">
+<a href="#patch-requests" class="anchor"></a><code>PATCH</code> Requests</h3>
+<p>The newly created assets of type <code>survey</code> are initially in draft mode. However, can we also move them to deployed?</p>
+<p>Let’s say we want to deploy all surveys which we have created beforehand, and that we can identify because we put <code>API/R</code> in the name (of course, this is nothing we would do in the package).</p>
+<p><strong>DOES NOT WORK YET</strong></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># First, get again a list of assets</span>
+<span class="va">df_selected_uids</span> <span class="op">&lt;-</span> <span class="va">crul_client</span><span class="op">$</span>
+  <span class="fu">get</span><span class="op">(</span>
+    path <span class="op">=</span> <span class="st">"api/v2/assets"</span>,
+    query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>formant <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span>
+  <span class="fu">parse</span><span class="op">(</span><span class="st">"utf-8"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">jsonlite</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/jsonlite/man/fromJSON.html">fromJSON</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/pluck.html">pluck</a></span><span class="op">(</span><span class="st">"results"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">name</span>, <span class="st">"API/R"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">name</span>, <span class="va">uid</span><span class="op">)</span>
+
+<span class="va">df_selected_uids</span>
+
+<span class="va">df_selected_uids</span><span class="op">$</span><span class="va">uid</span> <span class="op">%&gt;%</span>
+  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">walk</a></span><span class="op">(</span>.f <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">uid</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">crul_client</span><span class="op">$</span>
+      <span class="fu">patch</span><span class="op">(</span>
+        path <span class="op">=</span> <span class="fu">glue</span><span class="fu">::</span><span class="fu"><a href="https://glue.tidyverse.org/reference/glue.html">glue</a></span><span class="op">(</span><span class="st">"api/v2/assets/{uid}/deployment/"</span><span class="op">)</span>,
+        query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>active <span class="op">=</span> <span class="st">"false"</span><span class="op">)</span>
+      <span class="op">)</span>
+  <span class="op">}</span><span class="op">)</span></code></pre></div>
+</div>
 </div>
 <div id="wrapping-it-in-a-function" class="section level2">
 <h2 class="hasAnchor">
 <a href="#wrapping-it-in-a-function" class="anchor"></a>Wrapping it in a function</h2>
 <p>Just to play around with possibilities, one can create a function that consumes a <code>HttpClient</code> object and then performes a request on it, plus some additional data parsing / retrieval.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Consider the following example client object</span>
 <span class="va">example_client</span> <span class="op">&lt;-</span> <span class="fu">crul</span><span class="fu">::</span><span class="va"><a href="https://docs.ropensci.org/crul/reference/HttpClient.html">HttpClient</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>
   url <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"KBTBR_BASE_URL"</span><span class="op">)</span>,
@@ -207,7 +286,7 @@
 
 <span class="fu">simple_request</span><span class="op">(</span><span class="va">example_client</span>, <span class="st">"api/v2/collections"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Consider a more complex example, where we first need to retrieve a list of asset <code>uid</code> s, which we use in a second step to construct URLs to get actually response data from survey assets.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">assets_df</span> <span class="op">&lt;-</span> <span class="fu">simple_request</span><span class="op">(</span><span class="va">example_client</span>, <span class="st">"api/v2/assets"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>format <span class="op">=</span> <span class="st">"json"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">data_url</span> <span class="op">&lt;-</span> <span class="va">assets_df</span> <span class="op">%&gt;%</span>
@@ -240,7 +319,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Dimitri Marinelli, Lada Rudnitckaia, Malte Kyhos, Timm Hamm, Frie Preu.</p>
 </div>
 
 <div class="pkgdown">

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">kbtbr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3000</span>
       </span>
     </div>
 
@@ -104,7 +104,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/CorrelAid/kbtbr/">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +124,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>KoboClient</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/kobo-client.R'><code>R/kobo-client.R</code></a></small>
     <div class="hidden name"><code>KoboClient.Rd</code></div>
     </div>
 
@@ -140,6 +145,7 @@
 <ul>
 <li><p><a href='#method-new'><code>KoboClient$new()</code></a></p></li>
 <li><p><a href='#method-get'><code>KoboClient$get()</code></a></p></li>
+<li><p><a href='#method-post'><code>KoboClient$post()</code></a></p></li>
 <li><p><a href='#method-clone'><code>KoboClient$clone()</code></a></p></li>
 </ul>
 <p><details ><summary>Inherited methods</summary>
@@ -148,7 +154,6 @@
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="handle_pop"><a href='../../crul/html/HttpClient.html#method-handle_pop'><code>crul::HttpClient$handle_pop()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="head"><a href='../../crul/html/HttpClient.html#method-head'><code>crul::HttpClient$head()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="patch"><a href='../../crul/html/HttpClient.html#method-patch'><code>crul::HttpClient$patch()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="post"><a href='../../crul/html/HttpClient.html#method-post'><code>crul::HttpClient$post()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="print"><a href='../../crul/html/HttpClient.html#method-print'><code>crul::HttpClient$print()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="put"><a href='../../crul/html/HttpClient.html#method-put'><code>crul::HttpClient$put()</code></a></span></p></li>
 <li><p><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="retry"><a href='../../crul/html/HttpClient.html#method-retry'><code>crul::HttpClient$retry()</code></a></span></p></li>
@@ -195,23 +200,25 @@ JSON to R list representation.</p>
 <h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
 <p>Returns a list, parsed from the HttpResponse JSON object.</p>
 <p><hr>
-<a id="method-get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/get.html'>get()</a></code></h3>
+<a id="method-post"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>post()</code></h3>
+<p>Perform a POST request</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>KoboClient</span><span class='op'>$</span><span class='fu'>post</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>body</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>KoboClient</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>path</span>, query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>path</code></dt><dd><p>character. Path component of the endpoint.</p></dd>
 
-<p><hr>
-<a id="method-get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/get.html'>get()</a></code></h3>
+<dt><code>body</code></dt><dd><p>R list. A data payload to be sent to the server.</p></dd>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>KoboClient</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>path</span>, query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
+<dt><code>...</code></dt><dd><p>crul-options. Additional option arguments, see
+<code><a href='https://docs.ropensci.org/crul/reference/HttpClient.html'>crul::HttpClient</a></code> for reference</p></dd>
 
-<p><hr>
-<a id="method-get"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/get.html'>get()</a></code></h3>
+</dl><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Details</h4>
+<p>Extension of the <code>crul::HttpClient$post()</code> method.</p>
 
-<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
-<p><div class="r"></p><pre><span class='va'>KoboClient</span><span class='op'>$</span><span class='fu'>get</span><span class='op'>(</span><span class='va'>path</span>, query <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>...</span><span class='op'>)</span></pre><p></div></p>
-
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>Returns an object of class <code><a href='https://docs.ropensci.org/crul/reference/HttpResponse.html'>crul::HttpResponse</a></code>.</p>
 <p><hr>
 <a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
 <p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
@@ -236,7 +243,7 @@ JSON to R list representation.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by The package maintainer.</p>
+  <p>Developed by Dimitri Marinelli, Lada Rudnitckaia, Malte Kyhos, Timm Hamm, Frie Preu.</p>
 </div>
 
 <div class="pkgdown">
