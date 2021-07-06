@@ -11,7 +11,7 @@ KoboClient <- R6::R6Class("KoboClient",
         base_url = "",
         kobo_token = ""
     ), # <end private>
-    
+
     public = list(
         #' @description
         #' Initialization method for class "KoboClient".
@@ -28,19 +28,19 @@ KoboClient <- R6::R6Class("KoboClient",
                     "No valid token detected. Set the KBTBR_TOKEN environment
                     variable or pass the token directly to the function
                     (not recommended)."
-        )
-      }
-      private$kobo_token <- kobo_token
-      private$base_url <- base_url
+                )
+            }
+            private$kobo_token <- kobo_token
+            private$base_url <- base_url
 
             super$initialize(
                 url = base_url,
                 headers = list(
                     Authorization = paste0("Token ", kobo_token),
                     Accept = "application/json"
-                    #"content-type" = "application/json"
-                    )
+                    # "content-type" = "application/json"
                 )
+            )
         },
         #' @description
         #' Perform a GET request (with additional checks)

@@ -25,10 +25,9 @@ Kobo <- R6::R6Class("Kobo",
         #' a KoboClient instance for the API version v2.
         #' @param session_v1 KoboKlient. In addition to session_v2 one can pass
         #' also a KoboClient instance for the API version v1.
-        initialize = function(
-            base_url_v2 = NULL, base_url_v1 = NULL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"),
-            session_v2 = NULL, session_v1 = NULL) {
+        initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
+                              kobo_token = Sys.getenv("KBTBR_TOKEN"),
+                              session_v2 = NULL, session_v1 = NULL) {
 
             # one has to pass at least base_url_v2 or session_v2
             if (!xor(
@@ -38,15 +37,15 @@ Kobo <- R6::R6Class("Kobo",
                 stop("Either base_url_v2 or session_v2 must be provided")
             }
 
-            if (!checkmate::test_null(base_url_v2)){
+            if (!checkmate::test_null(base_url_v2)) {
                 self$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
-            }else {
+            } else {
                 self$session_v2 <- session_v2
             }
 
             if (!checkmate::test_null(base_url_v1)) {
                 self$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
-            } else if(!checkmate::test_null(session_v1)) {
+            } else if (!checkmate::test_null(session_v1)) {
                 self$session_v1 <- session_v1
             } else {
                 # TODO: add to warning once we know what functnality is covered by v1.
@@ -69,26 +68,31 @@ Kobo <- R6::R6Class("Kobo",
 
         get = function(path, query = list(), version = "v2", format = "json",
                        parse = TRUE) {
-            if (!format %in% c('json', 'csv')) {
+            if (!format %in% c("json", "csv")) {
                 usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
             }
 
-            query$format = format
+            query$format <- format
 
             if (version == "v2") {
-                res <- self$session_v2$get(path = paste0("api/v2/", path),
-                                       query = query)
-
+                res <- self$session_v2$get(
+                    path = paste0("api/v2/", path),
+                    query = query
+                )
             } else if (version == "v1") {
                 if (checkmate::test_null(self$session_v1)) {
                     usethis::ui_stop(
-                        paste("Session for API v1 is not initalized.",
-                        "Please re-initalize the Kobo client with the",
-                        "base_url_v1 argument."))
+                        paste(
+                            "Session for API v1 is not initalized.",
+                            "Please re-initalize the Kobo client with the",
+                            "base_url_v1 argument."
+                        )
+                    )
                 }
-                res <- self$session_v1$get(path = paste0("api/v1/", path),
-                                       query = query)
-
+                res <- self$session_v1$get(
+                    path = paste0("api/v1/", path),
+                    query = query
+                )
             } else {
                 usethis::ui_stop(
                     "Invalid version. Must be either v1 or v2.
@@ -98,21 +102,19 @@ Kobo <- R6::R6Class("Kobo",
 
             res$raise_for_status()
 
-            if (format=="json" & parse) {
+            if (format == "json" & parse) {
                 res$raise_for_ct_json()
-                return(res$parse("UTF-8") %>%jsonlite::fromJSON())
-            } else if(format=="csv" & parse){
+                return(res$parse("UTF-8") %>% jsonlite::fromJSON())
+            } else if (format == "csv" & parse) {
                 usethis::ui_stop(
                     "TODO: Not supported yet"
                 )
-            } else if(parse) {
+            } else if (parse) {
                 usethis::ui_stop(
                     "TODO: Not supported yet"
                 )
             }
             return(res)
-
-
         },
 
         #' @description
