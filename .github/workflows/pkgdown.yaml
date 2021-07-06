@@ -63,13 +63,6 @@ jobs:
         run: |
           echo "destination: /tmp/docs/${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
 
-      - name: delete old version on gh-pages branch
-        run: |
-          git checkout gh-pages
-
-          # or we could build to a temp dir like deploy_to_branch does and then switch to ghpages and delete everything in the 
-          # folder and copy from tmp
-          
       - name: Build page 
         run: |
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
