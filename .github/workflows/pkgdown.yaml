@@ -63,12 +63,13 @@ jobs:
         run: |
           echo "destination: /tmp/docs/${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
 
-      - name: Build page 
+      - name: Build page, check out gh-pages branch, copy from tmp directory
         run: |
           Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
+          git checkout _pkgdown.yml 
+          git checkout gh-pages
           rm -rf docs/${{ steps.extract_branch.outputs.branch }}
           mv /tmp/docs/${{ steps.extract_branch.outputs.branch }} docs/${{ steps.extract_branch.outputs.branch }}
-          git checkout _pkgdown.yml 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
