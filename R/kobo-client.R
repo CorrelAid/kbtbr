@@ -38,10 +38,10 @@ KoboClient <- R6::R6Class("KoboClient",
                 headers = list(
                     Authorization = paste0("Token ", kobo_token),
                     Accept = "application/json"
+                    # "content-type" = "application/json"
                 )
             )
         },
-
         #' @description
         #' Perform a GET request (with additional checks)
         #'
@@ -55,14 +55,10 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  component. The order is not hierarchical.
         #' @param ... crul-options. Additional option arguments, see
         #'  [`crul::HttpClient`] for reference
-        #' @return Returns a list, parsed from the HttpResponse JSON object.
+        #' @return the server response as a crul::HttpResponse object.
         get = function(path, query = list(), ...) {
             res <- super$get(path = path, query = query, ...)
-            # Perform additional checks, json to list parsing
-            res$raise_for_status()
-            res$raise_for_ct_json()
-            res$parse("UTF-8") %>%
-                jsonlite::fromJSON()
+            return(res)
         },
 
         #' @description

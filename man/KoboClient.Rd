@@ -83,7 +83,7 @@ JSON to R list representation.
 }
 
 \subsection{Returns}{
-Returns a list, parsed from the HttpResponse JSON object.
+the server response as a crul::HttpResponse object.
 }
 }
 \if{html}{\out{<hr>}}

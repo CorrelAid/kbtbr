@@ -65,7 +65,7 @@ also a KoboClient instance for the API version v1.}
 \subsection{Method \code{get()}}{
 Wrapper for the GET method of internal session objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(format = "json"), version = "v2")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(), version = "v2", format = "json", parse = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -78,8 +78,18 @@ component. The order is not hierarchical.}
 
 \item{\code{version}}{character. Indicates on which API version the request
 should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+
+\item{\code{format}}{character. the format to request from the server. either
+'json' or 'csv'. defaults to 'json'}
+
+\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list encoding of the json server reply if parse=TRUE.
+Otherwise, it returns the server response as a crul::HttpResponse
+object.
 }
 }
 \if{html}{\out{<hr>}}
