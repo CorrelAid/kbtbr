@@ -1,0 +1,8 @@
+pandoc: 2.7.3
+pkgdown: 1.6.1
+pkgdown_sha: ~
+articles:
+  articles/response_overview: response_overview.html
+  articles/using_crul: using_crul.html
+last_built: 2021-07-06T10:02Z
+
