@@ -83,34 +83,14 @@ JSON to R list representation.
 }
 
 \subsection{Returns}{
-Returns a list, parsed from the HttpResponse JSON object.
+the server response as a crul::HttpResponse object.
 }
-
-}
-\if{html}{\out{<hr>}}
-<<<<<<< HEAD
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-post"></a>}}
 \if{latex}{\out{\hypertarget{method-post}{}}}
 \subsection{Method \code{post()}}{
-Perform a POST request (with additional checks)
+Perform a POST request
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$post(path, body, ...)}\if{html}{\out{</div>}}
 }
@@ -120,8 +100,7 @@ Perform a POST request (with additional checks)
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
 
-\item{\code{body}}{R list or json-like string. A data payload to be sent
-to the server.}
+\item{\code{body}}{R list. A data payload to be sent to the server.}
 
 \item{\code{...}}{crul-options. Additional option arguments, see
 \code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
@@ -129,20 +108,14 @@ to the server.}
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Extension of the \code{crul::HttpClient$post()} method that checks
-the HttpResponse object on status, that it is of type
-\code{application/json}, checks whether the body is a json-like string,
-and if not, converts it to the json-like string, and parses the
-response text subsequently from JSON to R list representation.
+Extension of the \code{crul::HttpClient$post()} method.
 }
 
 \subsection{Returns}{
-Returns a list, parsed from the HttpResponse JSON object.
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-=======
->>>>>>> dev
 \if{html}{\out{<a id="method-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{

@@ -17,6 +17,8 @@ interactions with the various endpoints.
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
 \item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
+\item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
+\item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -74,14 +76,20 @@ Wrapper for the GET method of internal session objects.
 \item{\code{query}}{list. A named list which is parsed to the query
 component. The order is not hierarchical.}
 
-\item{\code{version}}{character. Indicates on which API version the request}
-
-\item{\code{format}}{character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'}
-
-\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.
+\item{\code{version}}{character. Indicates on which API version the request
 should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+
+\item{\code{format}}{character. the format to request from the server. either
+'json' or 'csv'. defaults to 'json'}
+
+\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list encoding of the json server reply if parse=TRUE.
+Otherwise, it returns the server response as a crul::HttpResponse
+object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -98,13 +106,15 @@ Wrapper for the POST method of internal session objects.
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
 
-\item{\code{body}}{R list or json-like string. A data payload to be sent
-to the server.}
+\item{\code{body}}{R list. A data payload to be sent to the server.}
 
 \item{\code{version}}{character. Indicates on which API version the request
 should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
@@ -125,9 +135,69 @@ Example method to send a GET request to the \code{assets} endpoint
 High-level POST request to clone an asset. \code{assets} endpoint
 (due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, name, asset_type)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{clone_from}}{character. UID of the asset to be cloned.}
+
+\item{\code{new_name}}{character. Name of the new asset.}
+
+\item{\code{asset_type}}{character. Type of the new asset. Can be
+"block", "question", "survey", "template".}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-deploy_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-deploy_asset}{}}}
+\subsection{Method \code{deploy_asset()}}{
+High-level POST request to deploy an asset.
+\verb{assets/\{uid\}/deployment/} endpoint (due to
+default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$deploy_asset(uid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{uid}}{character. UID of the asset to be deployed.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-import_xls_form"></a>}}
+\if{latex}{\out{\hypertarget{method-import_xls_form}{}}}
+\subsection{Method \code{import_xls_form()}}{
+High-level POST request to import an XLS form. \code{imports} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$import_xls_form(name, file_path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{character. Name of the new asset.}
+
+\item{\code{file_path}}{character. The path to the XLS form file.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

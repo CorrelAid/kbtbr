@@ -1,0 +1,36 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/imports/
+    body:
+      encoding: ''
+      string: file=list(path = "/Users/ladarudnitckaia/Documents/GitHub/kbtbr/tests/testthat/xls_form_via_post.xlsx",
+        type = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '201'
+      message: Created
+      explanation: Document created, URL follows
+    headers:
+      status: HTTP/1.1 201 Created
+      server: nginx
+      date: Sat, 12 Jun 2021 14:34:31 GMT
+      content-type: application/json
+      content-length: '121'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"uid":"i6ctNpwJKVW7NVQWvrTftt","url":"https://kobo.correlaid.org/imports/i6ctNpwJKVW7NVQWvrTftt/","status":"processing"}'
+  recorded_at: 2021-06-12 14:34:31 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
