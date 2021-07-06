@@ -11,6 +11,7 @@ Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             )
 Maintainer: Frie Preu <fr1e@pm.me>
 Description: The kbtbr package provides an R interface to the KoBoToolbox APIs.
+URL: https://github.com/CorrelAid/kbtbr/
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
