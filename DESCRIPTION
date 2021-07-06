@@ -1,19 +1,25 @@
 Package: kbtbr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: A Wrapper for the KoBoToolbox API
+Version: 0.0.3000
+Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
+            person("Lada", "Rudnitckaia", role = "aut"),
+            person("Malte", "Kyhos", role = "aut"),
+            person("Timm", "Hamm", role = "aut"),
+            person("Frie", "Preu", email = "fr1e@pm.me", role = c("aut", "cre")),
+            person("CorrelAid e.V.", role = "cph")
+            )
+Maintainer: Frie Preu <fr1e@pm.me>
+Description: The kbtbr package provides an R interface to the KoBoToolbox APIs.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     covr,
     testthat (>= 3.0.0),
-    vcr,
-    devtools
+    devtools,
+    vcr, 
+    withr
 Config/testthat/edition: 3
 Imports: 
     crul,

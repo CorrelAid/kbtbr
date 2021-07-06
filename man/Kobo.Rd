@@ -14,7 +14,11 @@ interactions with the various endpoints.
 \itemize{
 \item \href{#method-new}{\code{Kobo$new()}}
 \item \href{#method-get}{\code{Kobo$get()}}
+\item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
+\item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
+\item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
+\item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -25,9 +29,11 @@ interactions with the various endpoints.
 Initialization method for class "Kobo".
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$new(
-  base_url_v2,
+  base_url_v2 = NULL,
   base_url_v1 = NULL,
-  kobo_token = Sys.getenv("KBTBR_TOKEN")
+  kobo_token = Sys.getenv("KBTBR_TOKEN"),
+  session_v2 = NULL,
+  session_v1 = NULL
 )}\if{html}{\out{</div>}}
 }
 
@@ -43,6 +49,12 @@ For example: https://kc.correlaid.org.}
 
 \item{\code{kobo_token}}{character. The API token. Defaults to requesting
 the systen environment \code{KBTBR_TOKEN}.}
+
+\item{\code{session_v2}}{KoboClient. Alternatively, pass directly
+a KoboClient instance for the API version v2.}
+
+\item{\code{session_v1}}{KoboKlient. In addition to session_v2 one can pass
+also a KoboClient instance for the API version v1.}
 }
 \if{html}{\out{</div>}}
 }
@@ -71,6 +83,31 @@ should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-post"></a>}}
+\if{latex}{\out{\hypertarget{method-post}{}}}
+\subsection{Method \code{post()}}{
+Wrapper for the POST method of internal session objects.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$post(path, body, version = "v2")}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{body}}{R list. A data payload to be sent to the server.}
+
+\item{\code{version}}{character. Indicates on which API version the request
+should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_assets"></a>}}
 \if{latex}{\out{\hypertarget{method-get_assets}{}}}
 \subsection{Method \code{get_assets()}}{
@@ -80,6 +117,77 @@ Example method to send a GET request to the \code{assets} endpoint
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$get_assets()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-clone_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-clone_asset}{}}}
+\subsection{Method \code{clone_asset()}}{
+High-level POST request to clone an asset. \code{assets} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{clone_from}}{character. UID of the asset to be cloned.}
+
+\item{\code{new_name}}{character. Name of the new asset.}
+
+\item{\code{asset_type}}{character. Type of the new asset. Can be
+"block", "question", "survey", "template".}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-deploy_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-deploy_asset}{}}}
+\subsection{Method \code{deploy_asset()}}{
+High-level POST request to deploy an asset.
+\verb{assets/\{uid\}/deployment/} endpoint (due to
+default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$deploy_asset(uid)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{uid}}{character. UID of the asset to be deployed.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-import_xls_form"></a>}}
+\if{latex}{\out{\hypertarget{method-import_xls_form}{}}}
+\subsection{Method \code{import_xls_form()}}{
+High-level POST request to import an XLS form. \code{imports} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$import_xls_form(name, file_path)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{character. Name of the new asset.}
+
+\item{\code{file_path}}{character. The path to the XLS form file.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
