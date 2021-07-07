@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • kbtbr</title>
+<title>Asset
+Class to hold an asset — Asset • kbtbr</title>
 
 
 <!-- jquery -->
@@ -39,7 +40,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Asset
+Class to hold an asset — Asset" />
+<meta property="og:description" content="Asset
+Class to hold an asset
+Asset
+Class to hold an asset" />
 
 
 
@@ -58,7 +64,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -120,61 +126,89 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Asset
+Class to hold an asset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/asset.R'><code>R/asset.R</code></a></small>
+    <div class="hidden name"><code>Asset.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Asset
+Class to hold an asset</p>
+<p>Asset
+Class to hold an asset</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="Asset.html">Asset</a></code> </p>
-        </td>
-        <td><p>Asset
-Class to hold an asset</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="Kobo.html">Kobo</a></code> </p>
-        </td>
-        <td><p>Kobo Class</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="KoboClient.html">KoboClient</a></code> </p>
-        </td>
-        <td><p>KoboClient</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="list_as_json_char.html">list_as_json_char()</a></code> </p>
-        </td>
-        <td><p>Helper function to convert R list to JSON-like string</p></td>
-      </tr>
-    </tbody>
-    </table>
+
+    <h2 class="hasAnchor" id="active-bindings"><a class="anchor" href="#active-bindings"></a>Active bindings</h2>
+
+    <p><div class="r6-active-bindings"></p><dl>
+<dt><code>uid</code></dt><dd><p>uid of the asset.</p></dd>
+
+<dt><code>name</code></dt><dd><p>name of the asset.</p></dd>
+
+<dt><code>asset_url</code></dt><dd><p>asset_url of the asset. takes the form of assets/uid/
+Contains most of the information about an asset such as meta data, permissions, xls form content and
+links to other related endpoints.</p></dd>
+
+<dt><code>data_url</code></dt><dd><p>data_url of the asset. This can be used to get data related to the asset.
+Most useful for the asset type <code>survey</code> where this URL
+gives access to the submissions to the survey.</p></dd>
+
+<dt><code>owner_username</code></dt><dd><p>username of the owner of the asset.</p></dd>
+
+<dt><code>type</code></dt><dd><p>type of the asset. Type of the asset, e.g. survey, question, block or template.</p></dd>
+
+</dl><p></div></p>
+    <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
+
+    
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
+
+<ul>
+<li><p><a href='#method-new'><code>Asset$new()</code></a></p></li>
+<li><p><a href='#method-to_list'><code>Asset$to_list()</code></a></p></li>
+<li><p><a href='#method-clone'><code>Asset$clone()</code></a></p></li>
+</ul>
+<p><hr>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Asset</span><span class='op'>$</span><span class='fu'>new</span><span class='op'>(</span><span class='va'>asset_list</span>, <span class='va'>kobo</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>asset_list</code></dt><dd><p>list. a list with the asset data, such as obtained through a call to assets/id</p></dd>
+
+<dt><code>kobo</code></dt><dd><p>Kobo instance. Instance of class Kobo used internally to make requests to the API.
+to_list</p></dd>
+
+</dl><p></div></p>
+<p><hr>
+<a id="method-to_list"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>to_list()</code></h3>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Asset</span><span class='op'>$</span><span class='fu'>to_list</span><span class='op'>(</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Returns</h4>
+<p>list representation of asset</p>
+<p><hr>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='va'>Asset</span><span class='op'>$</span><span class='fu'>clone</span><span class='op'>(</span>deep <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
+<dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
+
+</dl><p></div></p>
+
+
+
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
