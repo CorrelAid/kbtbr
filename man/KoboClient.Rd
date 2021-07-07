@@ -99,25 +99,19 @@ Perform a POST request (with additional checks)
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
-
-\item{\code{body}}{R list or json-like string. A data payload to be sent
-to the server.}
-
+\item{\code{body}}{R list. A data payload to be sent to the server.}
 \item{\code{...}}{crul-options. Additional option arguments, see
 \code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-Extension of the \code{crul::HttpClient$post()} method that checks
-the HttpResponse object on status, that it is of type
-\code{application/json}, checks whether the body is a json-like string,
-and if not, converts it to the json-like string, and parses the
-response text subsequently from JSON to R list representation.
+
+Extension of the \code{crul::HttpClient$post()} method.
 }
 
 \subsection{Returns}{
-Returns a list, parsed from the HttpResponse JSON object.
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}

@@ -11,12 +11,14 @@ Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             )
 Maintainer: Frie Preu <fr1e@pm.me>
 Description: The kbtbr package provides an R interface to the KoBoToolbox APIs.
+URL: https://github.com/CorrelAid/kbtbr/
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
     covr,
     testthat (>= 3.0.0),
+    devtools,
     vcr, 
     withr,
     dplyr
@@ -26,6 +28,8 @@ Imports:
     usethis,
     checkmate,
     magrittr,
-    jsonlite
+    jsonlite,
+    dplyr,
+    tidyr
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
