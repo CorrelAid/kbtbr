@@ -9,7 +9,9 @@ Kobo <- R6::R6Class("Kobo",
     # private = list(
     # ),
     public = list(
+        #' @field session_v2 KoboClient session for v2 of the API
         session_v2 = NULL,
+        #' @field session_v1 KoboClient session for v1 of the API
         session_v1 = NULL,
 
         #' @description
@@ -57,15 +59,12 @@ Kobo <- R6::R6Class("Kobo",
         #' @param path character. Path component of the endpoint.
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
-        #' @param version character. Indicates on which API version the request
-        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
-        #' @param format character. the format to request from the server. either
-        #'  'json' or 'csv'. defaults to 'json'
+        #' @param version character. Indicates on which API version the request should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
         #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
         #' @return a list encoding of the json server reply if parse=TRUE.
         #'   Otherwise, it returns the server response as a crul::HttpResponse
         #'   object.
-
         get = function(path, query = list(), version = "v2", format = "json",
                        parse = TRUE) {
             if (!format %in% c("json", "csv")) {
@@ -153,6 +152,14 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
+        #' Get an asset given its id.
+        #' @param id character. ID of the asset within the Kobo API.
+        #' @return Asset. object of class [kbtbr::Asset]
+        get_asset = function(id) {
+            res <- self$get(glue::glue("assets/{id}/"))
+            Asset$new(res, self)
+        },
+
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         #' @param clone_from character. UID of the asset to be cloned.

@@ -72,9 +72,7 @@ test_that("Kobo can fetch assets", {
         assets <- kobo$get_assets()
     })
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
-    expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
     expect_equal(nrow(assets$results), 8)
-    expect_equal(assets$count, 8)
 })
 
 test_that("Kobo can fetch assets using simple get", {
@@ -88,7 +86,18 @@ test_that("Kobo can fetch assets using simple get", {
     expect_equal(assets$count, 8)
 })
 
+test_that("Kobo can a single asset", {
+    vcr::use_cassette("kobo-get-single-asset", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
+    })
+    expect_identical(
+        class(asset),
+        c("Asset", "R6")
+    )
+})
 
+# ERRORS -----------
 vcr::use_cassette("kobo-get-404", {
     test_that("non existing route throws 404 error", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
