@@ -119,71 +119,6 @@ Kobo <- R6::R6Class("Kobo",
         #' @description
         #' Wrapper for the POST method of internal session objects.
         #' @param path character. Path component of the endpoint.
-        #' @param body R list or json-like string. A data payload to be sent
-        #' to the server.
-        #' @param version character. Indicates on which API version the request
-        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
-        #' @param format character. the format to request from the server. either
-        #'  'json' or 'csv'. defaults to 'json'
-        #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
-        #' @return a list encoding of the json server reply if parse=TRUE.
-        #'   Otherwise, it returns the server response as a crul::HttpResponse
-        #'   object.
-
-        get = function(path, query = list(), version = "v2", format = "json",
-                       parse = TRUE) {
-            if (!format %in% c("json", "csv")) {
-                usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
-            }
-
-            query$format <- format
-
-            if (version == "v2") {
-                res <- self$session_v2$get(
-                    path = paste0("api/v2/", path),
-                    query = query
-                )
-            } else if (version == "v1") {
-                if (checkmate::test_null(self$session_v1)) {
-                    usethis::ui_stop(
-                        paste(
-                            "Session for API v1 is not initalized.",
-                            "Please re-initalize the Kobo client with the",
-                            "base_url_v1 argument."
-                        )
-                    )
-                }
-                res <- self$session_v1$get(
-                    path = paste0("api/v1/", path),
-                    query = query
-                )
-            } else {
-                usethis::ui_stop(
-                    "Invalid version. Must be either v1 or v2.
-                    Come back in a couple of years."
-                )
-            }
-
-            res$raise_for_status()
-
-            if (format == "json" & parse) {
-                res$raise_for_ct_json()
-                return(res$parse("UTF-8") %>% jsonlite::fromJSON())
-            } else if (format == "csv" & parse) {
-                usethis::ui_stop(
-                    "TODO: Not supported yet"
-                )
-            } else if (parse) {
-                usethis::ui_stop(
-                    "TODO: Not supported yet"
-                )
-            }
-            return(res)
-        },
-
-        #' @description
-        #' Wrapper for the POST method of internal session objects.
-        #' @param path character. Path component of the endpoint.
         #' @param body R list. A data payload to be sent to the server.
         #' @param version character. Indicates on which API version the request
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
@@ -224,7 +159,7 @@ Kobo <- R6::R6Class("Kobo",
             res <- self$get(glue::glue("assets/{id}/"))
             Asset$new(res, self)
         },
-      
+
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         #' @param clone_from character. UID of the asset to be cloned.

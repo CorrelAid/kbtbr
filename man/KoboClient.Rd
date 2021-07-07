@@ -90,7 +90,7 @@ the server response as a crul::HttpResponse object.
 \if{html}{\out{<a id="method-post"></a>}}
 \if{latex}{\out{\hypertarget{method-post}{}}}
 \subsection{Method \code{post()}}{
-Perform a POST request (with additional checks)
+Perform a POST request
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{KoboClient$post(path, body, ...)}\if{html}{\out{</div>}}
 }
@@ -99,14 +99,15 @@ Perform a POST request (with additional checks)
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
+
 \item{\code{body}}{R list. A data payload to be sent to the server.}
+
 \item{\code{...}}{crul-options. Additional option arguments, see
 \code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Details}{
-
 Extension of the \code{crul::HttpClient$post()} method.
 }
 

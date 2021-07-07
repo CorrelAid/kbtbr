@@ -114,39 +114,6 @@ Wrapper for the POST method of internal session objects.
 \describe{
 \item{\code{path}}{character. Path component of the endpoint.}
 
-\item{\code{body}}{R list or json-like string. A data payload to be sent
-to the server.}
-
-\item{\code{version}}{character. Indicates on which API version the request
-should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
-
-\item{\code{format}}{character. the format to request from the server. either
-'json' or 'csv'. defaults to 'json'}
-
-\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-a list encoding of the json server reply if parse=TRUE.
-Otherwise, it returns the server response as a crul::HttpResponse
-object.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-post"></a>}}
-\if{latex}{\out{\hypertarget{method-post}{}}}
-\subsection{Method \code{post()}}{
-Wrapper for the POST method of internal session objects.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$post(path, body, version = "v2")}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{path}}{character. Path component of the endpoint.}
-
 \item{\code{body}}{R list. A data payload to be sent to the server.}
 
 \item{\code{version}}{character. Indicates on which API version the request
@@ -176,11 +143,25 @@ Example method to send a GET request to the \code{assets} endpoint
 Get an asset given its id.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$get_asset(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{character. ID of the asset within the Kobo API.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Asset. object of class \link{Asset}
+High-level POST request to clone an asset. \code{assets} endpoint
+(due to default to \code{v2}, no further specification is needed).
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone_asset"></a>}}
 \if{latex}{\out{\hypertarget{method-clone_asset}{}}}
 \subsection{Method \code{clone_asset()}}{
-High-level POST request to clone an asset. \code{assets} endpoint
-(due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
 }
@@ -188,7 +169,6 @@ High-level POST request to clone an asset. \code{assets} endpoint
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{id}}{character. ID of the asset within the Kobo API.}
 \item{\code{clone_from}}{character. UID of the asset to be cloned.}
 
 \item{\code{new_name}}{character. Name of the new asset.}
@@ -244,7 +224,6 @@ High-level POST request to import an XLS form. \code{imports} endpoint
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Asset. object of class \link{Asset}
 Returns an object of class \code{crul::HttpResponse}.
 }
 }
