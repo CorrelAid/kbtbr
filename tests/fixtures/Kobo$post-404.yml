@@ -1,0 +1,33 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/doesnotexist/
+    body:
+      encoding: ''
+      string: clone_from=a5jjyWLUEmi49EHML6t9Nr,name=vcr_test_name,asset_type=survey
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '404'
+      message: Not Found
+      explanation: Nothing matches the given URI
+    headers:
+      status: HTTP/1.1 404 Not Found
+      server: nginx
+      date: Tue, 06 Jul 2021 20:16:18 GMT
+      content-type: text/html; charset=utf-8
+      content-length: '77'
+      connection: keep-alive
+      x-frame-options: SAMEORIGIN
+      vary: Accept-Language, Cookie, Origin
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: <h1>Not Found</h1><p>The requested resource was not found on this server.</p>
+  recorded_at: 2021-07-06 20:16:18 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

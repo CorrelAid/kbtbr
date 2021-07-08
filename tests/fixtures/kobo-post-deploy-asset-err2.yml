@@ -1,0 +1,35 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/deployment/
+    body:
+      encoding: ''
+      string: active=true
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '405'
+      message: Method Not Allowed
+      explanation: Specified method is invalid for this resource.
+    headers:
+      status: HTTP/1.1 405 Method Not Allowed
+      server: nginx
+      date: Tue, 06 Jul 2021 20:08:48 GMT
+      content-type: application/json
+      content-length: '55'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, PATCH, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"detail":"Use PATCH to update an existing deployment"}'
+  recorded_at: 2021-07-06 20:08:48 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0
