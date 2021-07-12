@@ -201,6 +201,41 @@ Kobo <- R6::R6Class("Kobo",
                 "file" = crul::upload(file_path)
             )
             self$post("imports/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to create an empty asset. `assets/` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param name character. Name of the new asset.
+        #' @param description character. Optional.
+        #' @param sector character. Optional.
+        #' @param country character. Optional.
+        #' @param share_metadata boolean. Optional.
+        #' @param asset_type character. Type of the new asset. Can be
+        #' "block", "question", "survey", "template".
+        #' @return Returns an object of class `crul::HttpResponse`.
+        create_asset = function(name,
+                                asset_type,
+                                description = "",
+                                sector = "",
+                                country = "",
+                                share_metadata = FALSE) {
+
+            list_as_json_char <- function(list) {
+                jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+                    as.character()
+            }
+
+          body <- list(
+            "name" = name,
+            "asset_type" = asset_type,
+            "settings" = list_as_json_char(
+                list("description"= description,
+                     "sector"= sector,
+                     "country"= country,
+                     "share-metadata"= share_metadata))
+          )
+          self$post("assets/", body = body)
         }
     ) # <end public>
 )
