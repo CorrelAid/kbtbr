@@ -221,10 +221,10 @@ Kobo <- R6::R6Class("Kobo",
                                 country = "",
                                 share_metadata = FALSE) {
 
-            list_as_json_char <- function(list) {
-                jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-                    as.character()
-            }
+            # list_as_json_char <- function(list) {
+            #     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+            #         as.character()
+            # }
 
           body <- list(
             "name" = name,
