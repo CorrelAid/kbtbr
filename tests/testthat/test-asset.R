@@ -76,3 +76,32 @@ test_that("get asset returns asset instance", {
     expect_equal(length(asset_obj$to_list()), 6)
     expect_setequal(names(asset_obj$to_list()), c("uid", "name", "asset_url", "data_url", "type", "owner_username"))
 })
+
+test_that("can get survey submissions from survey", {
+    vcr::use_cassette("kobo-asset-submissions-asset", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        asset_obj <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
+    })
+    
+    vcr::use_cassette("kobo-asset-submissions-data", {
+        submissions_df  <- asset_obj$get_submissions()
+    })
+    expect_true(tibble::is_tibble(submissions_df))
+    expect_equal(nrow(submissions_df), 4)
+    print(str(submissions_df))
+})
+
+test_that("getting submissions works for survey without submissions so far", {
+    vcr::use_cassette("kobo-asset-submissions-asset-nosubs", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        asset_obj <- kobo$get_asset("ajzghKK6NELaixPQqsm49e")
+    })
+    
+    vcr::use_cassette("kobo-asset-submissions-data-nosubs", {
+        submissions_df  <- asset_obj$get_submissions()
+    })
+    expect_true(tibble::is_tibble(submissions_df))
+    expect_equal(nrow(submissions_df), 0)
+    expect_equal(ncol(submissions_df), 0)
+    print(str(submissions_df))
+})

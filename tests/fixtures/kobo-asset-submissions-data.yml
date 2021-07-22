@@ -1,0 +1,37 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://kobo.correlaid.org/api/v2/assets/aRo4wg5utWT7dwdnQQEAE7/data/?format=json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Thu, 22 Jul 2021 06:42:41 GMT
+      content-type: application/json
+      content-length: '6510'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"count":4,"next":null,"previous":null,"results":[{"_id":104,"_notes":[],"Q1/Leisure_time":"3","Taking_all_things_to_ould_you_say_you_are":"2","I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally":"2","_validation_status":{},"_uuid":"aca8c44f-6327-4024-9187-c9e10151c940","_tags":[],"I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time":"2","Generally_speaking_dealing_with_people":"1","Did_you_do_voluntary_in_the_last_6_months":"2","_xform_id_string":"aRo4wg5utWT7dwdnQQEAE7","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality":"2","I_would_like_to_ask_y_much_or_not_at_all/Your_family":"2","meta/instanceID":"uuid:aca8c44f-6327-4024-9187-c9e10151c940","_status":"submitted_via_web","I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood":"2","formhub/uuid":"1f37921296654b91b8cc11e152956764","end":"2021-05-02T14:35:35.092+02:00","Q1/Friends_and_acquaintances":"1","_submission_time":"2021-05-02T12:35:45","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion":"2","Q1/Politics":"3","_attachments":[],"Q1/Family":"3","start":"2021-05-02T14:34:33.302+02:00","_submitted_by":null,"_geolocation":[null,null],"Q1/Work":"2","All_in_all_how_woul_would_you_say_it_is":"4","__version__":"vhWtJRry8cSn5PBEda3oDy","Some_people_feel_the_your_life_turns_out":"6","Q1/Religion":"2"},{"_id":105,"_notes":[],"Q1/Leisure_time":"4","Taking_all_things_to_ould_you_say_you_are":"1","I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally":"3","_validation_status":{},"_uuid":"7ab504ec-1a1e-49e5-960c-39b77f5e00c5","_tags":[],"I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time":"3","Generally_speaking_dealing_with_people":"1","Did_you_do_voluntary_in_the_last_6_months":"2","_xform_id_string":"aRo4wg5utWT7dwdnQQEAE7","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality":"3","I_would_like_to_ask_y_much_or_not_at_all/Your_family":"2","meta/instanceID":"uuid:7ab504ec-1a1e-49e5-960c-39b77f5e00c5","_status":"submitted_via_web","I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood":"1","formhub/uuid":"1f37921296654b91b8cc11e152956764","end":"2021-05-02T14:36:36.740+02:00","Q1/Friends_and_acquaintances":"3","_submission_time":"2021-05-02T12:36:47","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion":"2","Q1/Politics":"3","_attachments":[],"Q1/Family":"2","start":"2021-05-02T14:36:11.481+02:00","_submitted_by":null,"_geolocation":[null,null],"Q1/Work":"1","All_in_all_how_woul_would_you_say_it_is":"8","__version__":"vhWtJRry8cSn5PBEda3oDy","Some_people_feel_the_your_life_turns_out":"3","Q1/Religion":"2"},{"_id":106,"_notes":[],"Q1/Leisure_time":"1","Upload_an_arbitrary_file":"E0QLjvNUYAAe-s_-14_44_17.jpeg","Taking_all_things_to_ould_you_say_you_are":"2","I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally":"1","_validation_status":{},"_uuid":"3b98cf99-b651-422b-ace9-c242ca8f9717","_tags":[],"I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time":"3","Generally_speaking_dealing_with_people":"8","Did_you_do_voluntary_in_the_last_6_months":"9","_xform_id_string":"aRo4wg5utWT7dwdnQQEAE7","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality":"2","I_would_like_to_ask_y_much_or_not_at_all/Your_family":"1","meta/instanceID":"uuid:3b98cf99-b651-422b-ace9-c242ca8f9717","_status":"submitted_via_web","I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood":"2","formhub/uuid":"1f37921296654b91b8cc11e152956764","end":"2021-05-02T14:44:30.817+02:00","Q1/Friends_and_acquaintances":"2","Please_indicate_wher_the_map_is_Hamburg":"53.555892
+        9.948884 0 0","_submission_time":"2021-05-02T12:44:41","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion":"2","Q1/Politics":"2","_attachments":[{"mimetype":"image/jpeg","download_small_url":"https://kc.correlaid.org/media/small?media_file=api_user%2Fattachments%2F1f37921296654b91b8cc11e152956764%2F3b98cf99-b651-422b-ace9-c242ca8f9717%2FE0QLjvNUYAAe-s_-14_44_17.jpeg","download_large_url":"https://kc.correlaid.org/media/large?media_file=api_user%2Fattachments%2F1f37921296654b91b8cc11e152956764%2F3b98cf99-b651-422b-ace9-c242ca8f9717%2FE0QLjvNUYAAe-s_-14_44_17.jpeg","download_url":"https://kc.correlaid.org/media/original?media_file=api_user%2Fattachments%2F1f37921296654b91b8cc11e152956764%2F3b98cf99-b651-422b-ace9-c242ca8f9717%2FE0QLjvNUYAAe-s_-14_44_17.jpeg","filename":"api_user/attachments/1f37921296654b91b8cc11e152956764/3b98cf99-b651-422b-ace9-c242ca8f9717/E0QLjvNUYAAe-s_-14_44_17.jpeg","instance":106,"download_medium_url":"https://kc.correlaid.org/media/medium?media_file=api_user%2Fattachments%2F1f37921296654b91b8cc11e152956764%2F3b98cf99-b651-422b-ace9-c242ca8f9717%2FE0QLjvNUYAAe-s_-14_44_17.jpeg","id":1,"xform":18}],"Q1/Family":"3","start":"2021-05-02T14:42:11.950+02:00","_submitted_by":null,"_geolocation":[53.555892,9.948884],"Q1/Work":"4","All_in_all_how_woul_would_you_say_it_is":"5","__version__":"vGEYKrPXZhge2uYk4toEKs","Some_people_feel_the_your_life_turns_out":"8","Q1/Religion":"3"},{"_id":107,"_notes":[],"Q1/Leisure_time":"3","Taking_all_things_to_ould_you_say_you_are":"4","I_would_like_to_ask_y_much_or_not_at_all/People_you_know_personally":"4","_validation_status":{},"_uuid":"8a12d9e0-68ab-4df6-a7e7-294a8eb66d15","_tags":[],"I_would_like_to_ask_y_much_or_not_at_all/People_you_meet_for_the_first_time":"1","Generally_speaking_dealing_with_people":"8","Did_you_do_voluntary_in_the_last_6_months":"9","_xform_id_string":"aRo4wg5utWT7dwdnQQEAE7","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_nationality":"1","I_would_like_to_ask_y_much_or_not_at_all/Your_family":"4","meta/instanceID":"uuid:8a12d9e0-68ab-4df6-a7e7-294a8eb66d15","_status":"submitted_via_web","I_would_like_to_ask_y_much_or_not_at_all/People_in_your_neighborhood":"1","formhub/uuid":"1f37921296654b91b8cc11e152956764","end":"2021-05-02T16:17:10.920+02:00","Q1/Friends_and_acquaintances":"2","Please_indicate_wher_the_map_is_Hamburg":"53.894588
+        10.79745 0 0","_submission_time":"2021-05-02T14:17:12","I_would_like_to_ask_y_much_or_not_at_all/People_of_another_religion":"1","Q1/Politics":"2","_attachments":[],"Q1/Family":"3","start":"2021-05-02T14:44:30.930+02:00","_submitted_by":null,"_geolocation":[53.894588,10.79745],"Q1/Work":"2","All_in_all_how_woul_would_you_say_it_is":"3","__version__":"vGEYKrPXZhge2uYk4toEKs","Some_people_feel_the_your_life_turns_out":"10","Q1/Religion":"3"}]}'
+  recorded_at: 2021-07-22 06:42:41 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

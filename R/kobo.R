@@ -160,6 +160,14 @@ Kobo <- R6::R6Class("Kobo",
             Asset$new(res, self)
         },
 
+        #' @description
+        #' Get the submissions for a survey.
+        #' @param id character. ID of the survey asset within the Kobo API.
+        #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
+        get_submissions = function(id) {
+            asset <- self$get_asset(id)
+            asset$get_submissions()
+        },
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         #' @param clone_from character. UID of the asset to be cloned.

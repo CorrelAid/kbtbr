@@ -26,6 +26,7 @@ interactions with the various endpoints.
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
 \item \href{#method-get_asset}{\code{Kobo$get_asset()}}
+\item \href{#method-get_submissions}{\code{Kobo$get_submissions()}}
 \item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
 \item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
 \item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
@@ -154,6 +155,26 @@ Get an asset given its id.
 }
 \subsection{Returns}{
 Asset. object of class \link{Asset}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_submissions"></a>}}
+\if{latex}{\out{\hypertarget{method-get_submissions}{}}}
+\subsection{Method \code{get_submissions()}}{
+Get the submissions for a survey.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get_submissions(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{character. ID of the survey asset within the Kobo API.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
 High-level POST request to clone an asset. \code{assets} endpoint
 (due to default to \code{v2}, no further specification is needed).
 }
