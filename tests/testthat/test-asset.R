@@ -82,9 +82,9 @@ test_that("can get survey submissions from survey", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         asset_obj <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
     })
-    
+
     vcr::use_cassette("kobo-asset-submissions-data", {
-        submissions_df  <- asset_obj$get_submissions()
+        submissions_df <- asset_obj$get_submissions()
     })
     expect_true(tibble::is_tibble(submissions_df))
     expect_equal(nrow(submissions_df), 4)
@@ -96,12 +96,20 @@ test_that("getting submissions works for survey without submissions so far", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         asset_obj <- kobo$get_asset("ajzghKK6NELaixPQqsm49e")
     })
-    
+
     vcr::use_cassette("kobo-asset-submissions-data-nosubs", {
-        submissions_df  <- asset_obj$get_submissions()
+        submissions_df <- asset_obj$get_submissions()
     })
     expect_true(tibble::is_tibble(submissions_df))
     expect_equal(nrow(submissions_df), 0)
     expect_equal(ncol(submissions_df), 0)
-    print(str(submissions_df))
+})
+
+test_that("get_submissions throws error for asset which is not a survey", {
+    vcr::use_cassette("kobo-asset-submissions-asset-notsurvey", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        asset_obj <- kobo$get_asset("apxYrm7i4mGc3Wxqu2eZ2r")
+    })
+
+    expect_error(asset_obj$get_submissions(), regexp = "Only valid for assets of type 'survey'. Current asset is of type 'block'.")
 })
