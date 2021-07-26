@@ -224,6 +224,9 @@ Kobo <- R6::R6Class("Kobo",
                                 share_metadata = FALSE) {
             
             # Input validation / assertions
+            assertCharacter(name)
+            assertCharacter(asset_type)
+            assertLogical(share_metadata)
             assertList(sector, names = "named")
             assertList(country, names = "named")
             assertSetEqual(names(sector), c("label", "value"))
