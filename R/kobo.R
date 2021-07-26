@@ -208,8 +208,10 @@ Kobo <- R6::R6Class("Kobo",
         #' (due to default to `v2`, no further specification is needed).
         #' @param name character. Name of the new asset.
         #' @param description character. Optional.
-        #' @param sector character. Optional.
-        #' @param country character. Optional.
+        #' @param sector A list with elements `label` and `value`.
+        #'  Optional.
+        #' @param country A list with elements `label` and `value`.
+        #'  Optional.
         #' @param share_metadata boolean. Optional.
         #' @param asset_type character. Type of the new asset. Can be
         #' "block", "question", "survey", "template".
@@ -217,9 +219,15 @@ Kobo <- R6::R6Class("Kobo",
         create_asset = function(name,
                                 asset_type,
                                 description = "",
-                                sector = "",
-                                country = "",
+                                sector = list(label = "", value = ""),
+                                country = list(label = "", value = ""),
                                 share_metadata = FALSE) {
+            
+            # Input validation / assertions
+            assertList(sector, names = "named")
+            assertList(country, names = "named")
+            assertSetEqual(names(sector), c("label", "value"))
+            assertSetEqual(names(country), c("label", "value"))
 
             # list_as_json_char <- function(list) {
             #     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
