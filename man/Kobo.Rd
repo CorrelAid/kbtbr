@@ -239,8 +239,8 @@ High-level POST request to create an empty asset. \verb{assets/} endpoint
   name,
   asset_type,
   description = "",
-  sector = "",
-  country = "",
+  sector = list(label = "", value = ""),
+  country = list(label = "", value = ""),
   share_metadata = FALSE
 )}\if{html}{\out{</div>}}
 }
@@ -255,9 +255,11 @@ High-level POST request to create an empty asset. \verb{assets/} endpoint
 
 \item{\code{description}}{character. Optional.}
 
-\item{\code{sector}}{character. Optional.}
+\item{\code{sector}}{A list with elements \code{label} and \code{value}.
+Optional.}
 
-\item{\code{country}}{character. Optional.}
+\item{\code{country}}{A list with elements \code{label} and \code{value}.
+Optional.}
 
 \item{\code{share_metadata}}{boolean. Optional.}
 }
