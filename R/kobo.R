@@ -6,11 +6,14 @@
 #' interactions with the various endpoints.
 #' @export
 Kobo <- R6::R6Class("Kobo",
-    private = list(
-        session_v2 = NULL,
-        session_v1 = NULL
-    ),
+    # private = list(
+    # ),
     public = list(
+        #' @field session_v2 KoboClient session for v2 of the API
+        session_v2 = NULL,
+        #' @field session_v1 KoboClient session for v1 of the API
+        session_v1 = NULL,
+
         #' @description
         #' Initialization method for class "Kobo".
         #' @param base_url_v2 character. The base URL of the API version 2
@@ -37,15 +40,15 @@ Kobo <- R6::R6Class("Kobo",
             }
 
             if (!checkmate::test_null(base_url_v2)) {
-                private$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
+                self$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
             } else {
-                private$session_v2 <- session_v2
+                self$session_v2 <- session_v2
             }
 
             if (!checkmate::test_null(base_url_v1)) {
-                private$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
+                self$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
             } else if (!checkmate::test_null(session_v1)) {
-                private$session_v1 <- session_v1
+                self$session_v1 <- session_v1
             } else {
                 # TODO: add to warning once we know what functnality is covered by v1.
                 usethis::ui_info("You have not passed base_url_v1. This means you cannot use the following functions:")
@@ -56,22 +59,61 @@ Kobo <- R6::R6Class("Kobo",
         #' @param path character. Path component of the endpoint.
         #' @param query list. A named list which is parsed to the query
         #'  component. The order is not hierarchical.
-        #' @param version character. Indicates on which API version the request
-        #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
-        get = function(path, query = list(format = "json"), version = "v2") {
+        #' @param version character. Indicates on which API version the request should be executed (available: `v1`, `v2`). Defaults to `v2`.
+        #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
+        #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
+        #' @return a list encoding of the json server reply if parse=TRUE.
+        #'   Otherwise, it returns the server response as a crul::HttpResponse
+        #'   object.
+        get = function(path, query = list(), version = "v2", format = "json",
+                       parse = TRUE) {
+            if (!format %in% c("json", "csv")) {
+                usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
+            }
+
+            query$format <- format
+
             if (version == "v2") {
-                private$session_v2$get(path = paste0("api/v2/", path), query = query)
+                res <- self$session_v2$get(
+                    path = paste0("api/v2/", path),
+                    query = query
+                )
             } else if (version == "v1") {
-                if (checkmate::test_null(private$session_v1)) {
-                    usethis::ui_stop("Session for API v1 is not initalized. Please re-initalize the Kobo client with the base_url_v1 argument.")
+                if (checkmate::test_null(self$session_v1)) {
+                    usethis::ui_stop(
+                        paste(
+                            "Session for API v1 is not initalized.",
+                            "Please re-initalize the Kobo client with the",
+                            "base_url_v1 argument."
+                        )
+                    )
                 }
-                private$session_v1$get(path = paste0("api/v1/", path), query = query)
+                res <- self$session_v1$get(
+                    path = paste0("api/v1/", path),
+                    query = query
+                )
             } else {
                 usethis::ui_stop(
                     "Invalid version. Must be either v1 or v2.
                     Come back in a couple of years."
                 )
             }
+
+            res$raise_for_status()
+
+            if (format == "json" & parse) {
+                res$raise_for_ct_json()
+                return(res$parse("UTF-8") %>% jsonlite::fromJSON())
+            } else if (format == "csv" & parse) {
+                usethis::ui_stop(
+                    "TODO: Not supported yet"
+                )
+            } else if (parse) {
+                usethis::ui_stop(
+                    "TODO: Not supported yet"
+                )
+            }
+            return(res)
         },
 
         #' @description
@@ -84,16 +126,16 @@ Kobo <- R6::R6Class("Kobo",
         post = function(path, body, version = "v2") {
             if (version == "v2") {
                 if (path != "imports/") {
-                    private$session_v2$post(path = paste0("api/v2/", path), body = body)
+                    self$session_v2$post(path = paste0("api/v2/", path), body = body)
                 } else {
-                    private$session_v2$post(path = path, body = body)
+                    self$session_v2$post(path = path, body = body)
                 }
             } else if (version == "v1") {
-                if (checkmate::test_null(private$session_v1)) {
+                if (checkmate::test_null(self$session_v1)) {
                     usethis::ui_stop("Session for API v1 is not initalized.
           Please re-initalize the Kobo client with the base_url_v1 argument.")
                 }
-                private$session_v1$post(path = paste0("api/v1/", path), body = body)
+                self$session_v1$post(path = paste0("api/v1/", path), body = body)
             } else {
                 usethis::ui_stop(
                     "Invalid version. Must be either v1 or v2.
@@ -106,10 +148,18 @@ Kobo <- R6::R6Class("Kobo",
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
-            res_list <- self$get("assets/")
+            self$get("assets/")
         },
 
         #' @description
+        #' Get an asset given its id.
+        #' @param id character. ID of the asset within the Kobo API.
+        #' @return Asset. object of class [kbtbr::Asset]
+        get_asset = function(id) {
+            res <- self$get(glue::glue("assets/{id}/"))
+            Asset$new(res, self)
+        },
+
         #' High-level POST request to clone an asset. `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         #' @param clone_from character. UID of the asset to be cloned.
