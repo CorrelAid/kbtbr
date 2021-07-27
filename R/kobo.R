@@ -224,13 +224,13 @@ Kobo <- R6::R6Class("Kobo",
                                 share_metadata = FALSE) {
 
             # Input validation / assertions
-            assertCharacter(name)
-            assertCharacter(asset_type)
-            assertLogical(share_metadata)
-            assertList(sector, names = "named")
-            assertList(country, names = "named")
-            assertSetEqual(names(sector), c("label", "value"))
-            assertSetEqual(names(country), c("label", "value"))
+            checkmate::assert_character(name)
+            checkmate::assert_character(asset_type)
+            checkmate::assert_logical(share_metadata)
+            checkmate::assert_list(sector, names = "named")
+            checkmate::assert_list(country, names = "named")
+            checkmate::assertSetEqual(names(sector), c("label", "value"))
+            checkmate::assertSetEqual(names(country), c("label", "value"))
 
             # list_as_json_char <- function(list) {
             #     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
