@@ -11,6 +11,6 @@
 #' @param list R list to be converted.
 
 list_as_json_char <- function(list) {
-  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-    as.character()
+    jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+        as.character()
 }

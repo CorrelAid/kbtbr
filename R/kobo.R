@@ -222,7 +222,7 @@ Kobo <- R6::R6Class("Kobo",
                                 sector = list(label = "", value = ""),
                                 country = list(label = "", value = ""),
                                 share_metadata = FALSE) {
-            
+
             # Input validation / assertions
             assertCharacter(name)
             assertCharacter(asset_type)
@@ -237,16 +237,19 @@ Kobo <- R6::R6Class("Kobo",
             #         as.character()
             # }
 
-          body <- list(
-            "name" = name,
-            "asset_type" = asset_type,
-            "settings" = list_as_json_char(
-                list("description"= description,
-                     "sector"= sector,
-                     "country"= country,
-                     "share-metadata"= share_metadata))
-          )
-          self$post("assets/", body = body)
+            body <- list(
+                "name" = name,
+                "asset_type" = asset_type,
+                "settings" = list_as_json_char(
+                    list(
+                        "description" = description,
+                        "sector" = sector,
+                        "country" = country,
+                        "share-metadata" = share_metadata
+                    )
+                )
+            )
+            self$post("assets/", body = body)
         }
     ) # <end public>
 )
