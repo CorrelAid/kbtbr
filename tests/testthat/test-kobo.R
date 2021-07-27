@@ -139,14 +139,18 @@ vcr::use_cassette("Kobo$post-404", {
     test_that("Kobo$post with non existing route throws 404 error", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
 
         expect_error(kobo$post("doesnotexist/",
-                               body = list("clone_from" = "a5jjyWLUEmi49EHML6t9Nr",
-                                           "name" = "vcr_test_name",
-                                           "asset_type" = "survey")),
-                     regexp = "404")
+            body = list(
+                "clone_from" = "a5jjyWLUEmi49EHML6t9Nr",
+                "name" = "vcr_test_name",
+                "asset_type" = "survey"
+            )
+        ),
+        regexp = "404"
+        )
     })
 })
 
@@ -176,11 +180,13 @@ test_that("kobo$clone_asset returns error for the attempt to clone non-existing 
     vcr::use_cassette("kobo-post-clone-asset-err1", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-    expect_error(kobo$clone_asset(clone_from = "smth_wrong",
-                                  new_name = "vcr_test_name",
-                                  asset_type = "survey"), regexp = "404")
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+        expect_error(kobo$clone_asset(
+            clone_from = "smth_wrong",
+            new_name = "vcr_test_name",
+            asset_type = "survey"
+        ), regexp = "404")
     })
 })
 
@@ -188,11 +194,13 @@ test_that("kobo$clone_asset returns error when cloning question to block", {
     vcr::use_cassette("kobo-post-clone-asset-err2", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-        expect_error(kobo$clone_asset(clone_from = "a7AV5JhRHKf8EWGBJLswwC",
-                                      new_name = "vcr_test_name",
-                                      asset_type = "block"), regexp = "500")
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+        expect_error(kobo$clone_asset(
+            clone_from = "a7AV5JhRHKf8EWGBJLswwC",
+            new_name = "vcr_test_name",
+            asset_type = "block"
+        ), regexp = "500")
     })
 })
 
@@ -200,11 +208,13 @@ test_that("kobo$clone_asset returns error when cloning template to block", {
     vcr::use_cassette("kobo-post-clone-asset-err3", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-        expect_error(kobo$clone_asset(clone_from = "anxTvsL3xZd7CSvpt63qAd",
-                                      new_name = "vcr_test_name",
-                                      asset_type = "block"), regexp = "500")
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+        expect_error(kobo$clone_asset(
+            clone_from = "anxTvsL3xZd7CSvpt63qAd",
+            new_name = "vcr_test_name",
+            asset_type = "block"
+        ), regexp = "500")
     })
 })
 
@@ -212,39 +222,47 @@ test_that("kobo$clone_asset returns error when cloning template to question", {
     vcr::use_cassette("kobo-post-clone-asset-err4", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-        expect_error(kobo$clone_asset(clone_from = "anxTvsL3xZd7CSvpt63qAd",
-                                      new_name = "vcr_test_name",
-                                      asset_type = "question"), regexp = "500")
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+        expect_error(kobo$clone_asset(
+            clone_from = "anxTvsL3xZd7CSvpt63qAd",
+            new_name = "vcr_test_name",
+            asset_type = "question"
+        ), regexp = "500")
     })
 })
 
 test_that("kobo$clone_asset returns error when asset id isn't provided", {
-        kobo <- suppressMessages(Kobo$new(
-            base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-    expect_error(kobo$clone_asset(new_name = "vcr_test_name",
-                                  asset_type = "survey"), regexp = "is missing")
+    kobo <- suppressMessages(Kobo$new(
+        base_url_v2 = BASE_URL,
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
+    expect_error(kobo$clone_asset(
+        new_name = "vcr_test_name",
+        asset_type = "survey"
+    ), regexp = "is missing")
 })
 
 test_that("kobo$clone_asset returns error when asset name isn't provided", {
-        kobo <- suppressMessages(Kobo$new(
-            base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-    expect_error(kobo$clone_asset(clone_from = "a84jmwwdPEsZMhK7s2i4SL",
-                                  asset_type = "survey"), regexp = "is missing")
+    kobo <- suppressMessages(Kobo$new(
+        base_url_v2 = BASE_URL,
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
+    expect_error(kobo$clone_asset(
+        clone_from = "a84jmwwdPEsZMhK7s2i4SL",
+        asset_type = "survey"
+    ), regexp = "is missing")
 })
 
 test_that("kobo$clone_asset returns error when asset type isn't provided", {
-        kobo <- suppressMessages(Kobo$new(
-            base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-    expect_error(kobo$clone_asset(clone_from = "a84jmwwdPEsZMhK7s2i4SL",
-                                  new_name = "vcr_test_name"), regexp = "is missing")
+    kobo <- suppressMessages(Kobo$new(
+        base_url_v2 = BASE_URL,
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
+    expect_error(kobo$clone_asset(
+        clone_from = "a84jmwwdPEsZMhK7s2i4SL",
+        new_name = "vcr_test_name"
+    ), regexp = "is missing")
 })
 
 
@@ -274,8 +292,8 @@ test_that("kobo$deploy_asset returns error when asset doesn't exist", {
     vcr::use_cassette("kobo-post-deploy-asset-err1", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
         expect_error(kobo$deploy_asset(uid = "smth_wrong"), regexp = "404")
     })
 })
@@ -284,8 +302,8 @@ test_that("kobo$deploy_asset returns error when asset has deployment", {
     vcr::use_cassette("kobo-post-deploy-asset-err2", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
         expect_error(kobo$deploy_asset(uid = "ajzghKK6NELaixPQqsm49e"), regexp = "405")
     })
 })
@@ -294,8 +312,8 @@ test_that("kobo$deploy_asset returns error when asset is template", {
     vcr::use_cassette("kobo-post-deploy-asset-err3", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
         expect_error(kobo$deploy_asset(uid = "anxTvsL3xZd7CSvpt63qAd"), regexp = "500")
     })
 })
@@ -304,8 +322,8 @@ test_that("kobo$deploy_asset returns error when asset is question", {
     vcr::use_cassette("kobo-post-deploy-asset-err4", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
         expect_error(kobo$deploy_asset(uid = "a7AV5JhRHKf8EWGBJLswwC"), regexp = "500")
     })
 })
@@ -314,18 +332,18 @@ test_that("kobo$deploy_asset returns error when asset is block", {
     vcr::use_cassette("kobo-post-deploy-asset-err5", {
         kobo <- suppressMessages(Kobo$new(
             base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
         expect_error(kobo$deploy_asset(uid = "aYKJ5czzHiustZFpBBiWHk"), regexp = "500")
     })
 })
 
 test_that("kobo$deploy_asset returns error when asset id isn't provided", {
-        kobo <- suppressMessages(Kobo$new(
-            base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-        expect_error(kobo$deploy_asset(), regexp = "is missing")
+    kobo <- suppressMessages(Kobo$new(
+        base_url_v2 = BASE_URL,
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
+    expect_error(kobo$deploy_asset(), regexp = "is missing")
 })
 
 
@@ -354,28 +372,32 @@ test_that("kobo$import_xls_form can import forms", {
 })
 
 test_that("kobo$import_xls_form fails because of an incorrect path", {
-        kobo <- suppressMessages(Kobo$new(
-            base_url_v2 = BASE_URL,
-            kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        )
-    expect_error(kobo$import_xls_form(name = "vcr_test_name",
-                                      file_path = "smth_wrong.xlsx"))
+    kobo <- suppressMessages(Kobo$new(
+        base_url_v2 = BASE_URL,
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
+    expect_error(kobo$import_xls_form(
+        name = "vcr_test_name",
+        file_path = "smth_wrong.xlsx"
+    ))
 })
 
 test_that("kobo$import_xls_form fails because of the missing path", {
     kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
-        kobo_token = Sys.getenv("KBTBR_TOKEN"))
-    )
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
     expect_error(kobo$import_xls_form(file_path = "xls_form_via_post.xlsx"),
-                 regexp = "is missing")
+        regexp = "is missing"
+    )
 })
 
 test_that("kobo$import_xls_form fails because of the missing name", {
     kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
-        kobo_token = Sys.getenv("KBTBR_TOKEN"))
-    )
+        kobo_token = Sys.getenv("KBTBR_TOKEN")
+    ))
     expect_error(kobo$import_xls_form(name = "vcr_test_name"),
-                 regexp = "is missing")
+        regexp = "is missing"
+    )
 })
