@@ -211,8 +211,8 @@ test_that("kobo$create_asset can create assets with settings as parameters", {
             name = "vcr_test_name",
             asset_type = "survey",
             description = "description",
-            sector = "Environment",
-            country = "Angola",
+            sector = list(label = "Environment", value = "ENV"),
+            country = list(label = "Angola", value = "AGO"),
             share_metadata = FALSE
         )
     })
