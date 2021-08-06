@@ -124,7 +124,7 @@ Kobo <- R6::R6Class("Kobo",
                                  parse = TRUE) {
 
             obj <- private$select_prep_client(path, version)
-            paginator <- Paginator$new(client = obj$client)
+            paginator <- KoboPaginator$new(client = obj$client)
             res <- paginator$get(path, query)
         },
 
