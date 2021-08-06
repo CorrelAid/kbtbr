@@ -6,8 +6,34 @@
 #' interactions with the various endpoints.
 #' @export
 Kobo <- R6::R6Class("Kobo",
-    # private = list(
-    # ),
+    private = list(
+        select_prep_client = function(path, version) {
+            if (version == "v2") {
+                return(list(
+                    client = self$session_v2,
+                    path = paste0("api/v2/", path))
+                )
+            } else if (version == "v1") {
+                if (checkmate::test_null(self$session_v1)) {
+                    usethis::ui_stop(
+                        paste(
+                            "Session for API v1 is not initalized.",
+                            "Please re-initalize the Kobo client with the",
+                            "base_url_v1 argument.")
+                    )
+                } 
+                return(list(
+                    client = self$session_v1,
+                    path = paste0("api/v1/", path)
+                ))
+            } else {
+                usethis::ui_stop(
+                    "Invalid version. Must be either v1 or v2.
+                    Come back in a couple of years."
+                )
+            }
+        }
+    ),
     public = list(
         #' @field session_v2 KoboClient session for v2 of the API
         session_v2 = NULL,
@@ -70,35 +96,12 @@ Kobo <- R6::R6Class("Kobo",
             if (!format %in% c("json", "csv")) {
                 usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
             }
-
+            
             query$format <- format
-
-            if (version == "v2") {
-                res <- self$session_v2$get(
-                    path = paste0("api/v2/", path),
-                    query = query
-                )
-            } else if (version == "v1") {
-                if (checkmate::test_null(self$session_v1)) {
-                    usethis::ui_stop(
-                        paste(
-                            "Session for API v1 is not initalized.",
-                            "Please re-initalize the Kobo client with the",
-                            "base_url_v1 argument."
-                        )
-                    )
-                }
-                res <- self$session_v1$get(
-                    path = paste0("api/v1/", path),
-                    query = query
-                )
-            } else {
-                usethis::ui_stop(
-                    "Invalid version. Must be either v1 or v2.
-                    Come back in a couple of years."
-                )
-            }
-
+            
+            # Select client
+            obj <- private$select_prep_client(path, version)
+            res <- obj$client$get(obj$path, query)
             res$raise_for_status()
 
             if (format == "json" & parse) {
