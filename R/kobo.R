@@ -119,6 +119,15 @@ Kobo <- R6::R6Class("Kobo",
             return(res)
         },
 
+        get_paginated = function(path, query, version = "v2",
+                                 format = "json",
+                                 parse = TRUE) {
+
+            obj <- private$select_prep_client(path, version)
+            paginator <- Paginator$new(client = obj$client)
+            res <- paginator$get(path, query)
+        },
+
         #' @description
         #' Wrapper for the POST method of internal session objects.
         #' @param path character. Path component of the endpoint.
