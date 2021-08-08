@@ -16,10 +16,16 @@ KoboPaginator <- R6::R6Class(
         },
         #' @description
         #' @param path
-        #' @inheritParams 
         get = function(path, query, ...) {
             private$page(method = "get")
         },
+        #' @description
+        #' Set the initial response
+        #' @details
+        #' Usually, the page method would revoke a first response in the
+        #' normal way, using its `next` element to walk over all subsequent
+        #' pages. In some settings, the user might provide this initial response
+        #' object already.
         set_first_response = function(response) {
             checkmate::assert_list(response)
             private$resps <- response
