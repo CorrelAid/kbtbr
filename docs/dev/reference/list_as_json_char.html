@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Helper function to convert R list to JSON-like string — list_as_json_char" />
 <meta property="og:description" content="Converts R lists to JSON-like strings for POST request's body.
-#' @keywords internal" />
+#' @keywords internal
+Converts R list into JSON-like string." />
 
 
 
@@ -125,26 +126,32 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Helper function to convert R list to JSON-like string</h1>
-    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/list_as_json_char.R'><code>R/list_as_json_char.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/list_as_json_char.R'><code>R/list_as_json_char.R</code></a>, <a href='https://github.com/CorrelAid/kbtbr/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
     <div class="hidden name"><code>list_as_json_char.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Converts R lists to JSON-like strings for POST request's body.</p>
 <p>#' @keywords internal</p>
+<p>Converts R list into JSON-like string.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>list_as_json_char</span><span class='op'>(</span><span class='va'>list</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>list_as_json_char</span><span class='op'>(</span><span class='va'>list</span><span class='op'>)</span>
+
+<span class='fu'>list_as_json_char</span><span class='op'>(</span><span class='va'>list</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>list</th>
-      <td><p>R list that should be converted to the JSON-like string</p></td>
+      <td><p>R list to be converted.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>JSON-like string</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
