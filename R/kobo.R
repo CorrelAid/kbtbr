@@ -8,30 +8,24 @@
 Kobo <- R6::R6Class("Kobo",
     private = list(
         select_prep_client = function(path, version) {
+            checkmate::assert_choice(version, c("v1", "v2"))
+
             if (version == "v2") {
-                return(list(
+                obj <- list(
                     client = self$session_v2,
                     path = paste0("api/v2/", path))
-                )
             } else if (version == "v1") {
                 if (checkmate::test_null(self$session_v1)) {
-                    usethis::ui_stop(
-                        paste(
+                    usethis::ui_stop(paste(
                             "Session for API v1 is not initalized.",
                             "Please re-initalize the Kobo client with the",
-                            "base_url_v1 argument.")
-                    )
-                } 
-                return(list(
+                            "base_url_v1 argument."))
+                }
+                obj <- list(
                     client = self$session_v1,
-                    path = paste0("api/v1/", path)
-                ))
-            } else {
-                usethis::ui_stop(
-                    "Invalid version. Must be either v1 or v2.
-                    Come back in a couple of years."
-                )
+                    path = paste0("api/v1/", path))
             }
+            return(obj)
         }
     ),
     public = list(
