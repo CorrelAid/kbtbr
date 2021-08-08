@@ -50,6 +50,11 @@ KoboPaginator <- R6::R6Class(
         },
         resolve_next = function(link) {
             # Subtract base path etc. from 
+            resolved <- gsub(
+                pattern = paste0("^", self$client$get_base_url()),
+                replacement = "",
+                x = link)
+            return(resolved)
         }
 
     )
