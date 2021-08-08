@@ -75,6 +75,13 @@ KoboClient <- R6::R6Class("KoboClient",
             res <- super$post(path = path, body = body, ...)
             res$raise_for_status()
             return(res)
+        },
+        # GETTERS and SETTERS (utils) ---
+        #' @description 
+        #' Retrieve the private `base_url` field
+        #' @return A character vector of length one.
+        get_base_url = function() {
+            return(private$base_url)
         }
     ) # <end public>
 )
