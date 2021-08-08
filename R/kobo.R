@@ -232,11 +232,6 @@ Kobo <- R6::R6Class("Kobo",
             checkmate::assertSetEqual(names(sector), c("label", "value"))
             checkmate::assertSetEqual(names(country), c("label", "value"))
 
-            # list_as_json_char <- function(list) {
-            #     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-            #         as.character()
-            # }
-
             body <- list(
                 "name" = name,
                 "asset_type" = asset_type,

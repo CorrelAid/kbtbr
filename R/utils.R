@@ -9,6 +9,7 @@
 #' @keywords internal
 #'
 #' @param list R list to be converted.
+#' @return JSON-like string
 
 list_as_json_char <- function(list) {
     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
