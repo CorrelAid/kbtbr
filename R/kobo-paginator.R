@@ -30,7 +30,7 @@ KoboPaginator <- R6::R6Class(
     ),
     private = list(
         resps = NULL,
-        page = function(path, query, ...) {
+        page = function(path, query, sleep = 0, ...) {
             checkmate::assert_choice(method, "get")
             tmp <- list()
             
@@ -39,11 +39,15 @@ KoboPaginator <- R6::R6Class(
                 self$client$get(path, query)
             cnt <- 1
             next_link <- tmp[[cnt]][["next"]]
+
             while (!is.null(next_link)) {
                 tmp_path <- private$resolve_next(next_link)
                 cnt <- cnt + 1
                 tmp[[cnt]] <- self$client$get(tmp_path, query)
+                tmp[[cnt]]$raise_for_status()
+
                 next_link <- tmp[[cnt]][["next"]]
+                Sys.sleep(sleep)
             }
 
             private$resps <- tmp
