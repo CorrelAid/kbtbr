@@ -209,9 +209,11 @@ Kobo <- R6::R6Class("Kobo",
         #' @param name character. Name of the new asset.
         #' @param description character. Optional.
         #' @param sector A list with elements `label` and `value`.
-        #'  Optional.
+        #'  Optional. Corresponding labels and values can be found
+        #'  \href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.
         #' @param country A list with elements `label` and `value`.
-        #'  Optional.
+        #'  Optional. Corresponding labels and values can be found
+        #'  \href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.
         #' @param share_metadata boolean. Optional.
         #' @param asset_type character. Type of the new asset. Can be
         #' "block", "question", "survey", "template".

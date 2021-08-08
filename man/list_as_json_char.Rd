@@ -11,6 +11,9 @@ list_as_json_char(list)
 \arguments{
 \item{list}{R list to be converted.}
 }
+\value{
+JSON-like string
+}
 \description{
 Converts R lists to JSON-like strings for POST request's body.
 

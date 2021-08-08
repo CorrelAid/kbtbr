@@ -256,10 +256,12 @@ High-level POST request to create an empty asset. \verb{assets/} endpoint
 \item{\code{description}}{character. Optional.}
 
 \item{\code{sector}}{A list with elements \code{label} and \code{value}.
-Optional.}
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
 
 \item{\code{country}}{A list with elements \code{label} and \code{value}.
-Optional.}
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
 
 \item{\code{share_metadata}}{boolean. Optional.}
 }
