@@ -7,6 +7,7 @@
 #' @title Check URL
 #' @param path The path, for example appended to the base URL.
 #' @return The path string with optionally an appended trailing slash.
+#' @noRd
 check_repair_path <- function(path) {
     if (substr(path, nchar(path), nchar(path)) != "/") {
         return(paste0(path, "/"))
