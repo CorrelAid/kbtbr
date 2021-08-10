@@ -148,7 +148,23 @@ Kobo <- R6::R6Class("Kobo",
         #' Example method to send a GET request to the `assets` endpoint
         #' (due to default to `v2`, no further specification is needed).
         get_assets = function() {
-            self$get("assets/")
+            assets_res <- self$get("assets/")
+
+        },
+
+        #' @description
+        #' High-level GET request for `surveys` endpoints endpoint
+        #' it provide an user-friendly summary of the available surveys
+        get_surveys = function() {
+            assets_res <- self$get_assets()
+            fil <- assets_res$results$asset_type == "survey"
+            columns_of_interest <- c(
+                "name", "uid", "date_created", "date_modified",
+                "owner__username", "parent", "has_deployment",
+                "deployment__active", "deployment__submission_count"
+            )
+            # TODO: possible improvement by including the permissions
+            return (assets_res$results[fil, columns_of_interest])
         },
 
         #' @description
