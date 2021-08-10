@@ -105,11 +105,6 @@ vcr::use_cassette("kobo-get-404", {
     })
 })
 
-test_that("non-existing kobo host throws error", {
-    kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
-    expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
-})
-
 #' -----------------------------------------------------------------------------
 #' Testing POST methods
 test_that("Kobo$post can clone assets", {
