@@ -1,0 +1,179 @@
+---
+title: "Survey Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+```
+
+<!-- Column {data-width=650} -->
+<!-- ----------------------------------------------------------------------- -->
+
+
+
+Column {.tabset}
+-------------------------------------
+
+
+
+### Q1: Family
+
+
+
+```{r}
+devtools::load_all()
+library(dplyr)
+library(purrr)
+library(tidyr)
+library(shiny)
+library(highcharter)
+
+
+# Initialize new Kobo class
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+kobo <- Kobo$new(base_url, token)
+assets <- kobo$get_assets()$results
+
+# Helper function
+removeBaseUrl <- function(url){
+  input_url <- gsub("https://kobo.correlaid.org/api/v2/", "", url)
+  gsub("\\?format=json", "", input_url)
+}
+
+
+test_elements <- assets %>%
+  group_by(asset_type) %>%
+  arrange(desc(deployment__submission_count)) %>% # reverse sort by submissions to get a survey with submissions
+  slice(1)
+
+
+
+submissions <- test_elements %>%
+  filter(asset_type == "survey") %>%
+  pull(data) %>%
+  removeBaseUrl() %>%
+  kobo$get()
+
+
+survey_url_data <- test_elements %>% 
+  filter(asset_type == "survey") %>% 
+  pull(url) %>% 
+  removeBaseUrl() %>% 
+  kobo$get()
+
+# Question of survey template
+q1_text <- survey_url_data$content$survey$label[[3]]
+q2_text <- survey_url_data$content$survey$label[[11]]
+q3_text <- survey_url_data$content$survey$label[[12]]
+q4_text <- survey_url_data$content$survey$label[[13]]
+q5_text <- survey_url_data$content$survey$label[[14]]
+q6_text <- survey_url_data$content$survey$label[[15]]
+q7_text <- survey_url_data$content$survey$label[[23]]
+q8_text <- survey_url_data$content$survey$label[[24]]
+
+
+# Character and numeric value of answers
+# survey_url_data$content$choices[3:5] 
+q1_label <- survey_url_data$content$choices[1:4, 3:5] 
+q2_label <- survey_url_data$content$choices[5:10, 3:5]
+q3_label <- survey_url_data$content$choices[11:17, 3:5]
+q4_label <- survey_url_data$content$choices[18:21, 3:5] 
+q5_label <- survey_url_data$content$choices[22:25, 3:5]
+q6_label <- survey_url_data$content$choices[26:29, 3:5]
+
+# getLabels <- function(survey_data){
+#   survey_data$content$choices[,c(3, 5)]
+# }
+
+
+q1_family <- submissions$results$`Q1/Family` %>% as.factor() 
+#levels(q1_family) <- c("1", "2", "3", "4")
+levels(q1_family) <- q1_label$`$autovalue`
+levels(q1_family) <- unlist(q1_label$label)
+q1_family <- q1_family %>% as_tibble() %>% rename("family" = "value") %>% group_by(family) %>%  count(family,.drop = FALSE)
+
+hchart(q1_family, "column", hcaes(x = family, y = n)) %>% 
+   hc_title(
+    text = q1_text)  %>% 
+  hc_yAxis(minorTickInterval = 1)
+  
+
+
+
+
+
+
+```
+
+### Q1: Leisure Time
+
+```{r}
+q1_leisure <- submissions$results$`Q1/Leisure_time` %>% as.factor() 
+levels(q1_leisure) <- q1_label$`$autovalue`
+levels(q1_leisure) <- unlist(q1_label$label)
+q1_leisure <- q1_leisure %>% as_tibble() %>% rename("leisure" = "value") %>% group_by(leisure) %>%  count(leisure,.drop = FALSE)
+
+hchart(q1_leisure, "column", hcaes(x = leisure, y = n)) %>% 
+   hc_title(
+    text = q1_text) %>% 
+  hc_yAxis(minorTickInterval = 1)
+  
+```
+
+
+### Q1: Religion
+
+```{r}
+q1_religion <- submissions$results$`Q1/Religion` %>% as.factor() 
+levels(q1_religion) <- q1_label$`$autovalue`
+levels(q1_religion) <- unlist(q1_label$label)
+q1_religion <- q1_religion %>% as_tibble() %>% rename("religion" = "value") %>% group_by(religion) %>%  count(religion,.drop = FALSE)
+
+hchart(q1_religion, "column", hcaes(x = religion, y = n)) %>% 
+   hc_title(
+    text = q1_text) %>% 
+  hc_yAxis(minorTickInterval = 1)
+  
+```
+
+
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Q2
+
+```{r}
+q2 <- submissions$results$Taking_all_things_to_ould_you_say_you_are %>% as.factor() 
+levels(q2) <- q2_label$`$autovalue`
+levels(q2) <- unlist(q2_label$label)
+q2 <- q2 %>% as_tibble() %>% rename("mood" = "value") %>% group_by(mood) %>%  count(mood,.drop = FALSE)
+
+hchart(q2, "column", hcaes(x = mood, y = n)) %>% 
+   hc_title(
+    text = q2_text) %>% 
+  hc_yAxis(minorTickInterval = 1)
+  
+```
+
+### Q3
+
+```{r}
+q3 <- submissions$results$All_in_all_how_woul_would_you_say_it_is %>% as.factor() 
+levels(q3) <- q3_label$`$autovalue`
+levels(q3) <- unlist(q3_label$label)
+q3 <- q3 %>% as_tibble() %>% rename("health" = "value") %>% group_by(health) %>%  count(health,.drop = FALSE)
+
+hchart(q3, "column", hcaes(x = health, y = n)) %>% 
+   hc_title(
+    text = q3_text) %>% 
+  hc_yAxis(minorTickInterval = 1)
+  
+```
+

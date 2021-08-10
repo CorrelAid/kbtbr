@@ -14,6 +14,7 @@ library(dplyr)
 library(purrr)
 library(tidyr)
 
+
 # utility function to remove the base url and the format=json part from the urls 
 # that are already part of the urls in the asset list
 # TODO: discuss whether our get functions should also take full urls 
