@@ -247,6 +247,18 @@ Kobo <- R6::R6Class("Kobo",
                 )
             )
             self$post("assets/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to import single submissions. `/api/v1/submissions` endpoint
+        #' @param uid character. Name of the new asset.
+        #' @param file_path  character. The path to the XLS submission file.
+        #' @return Returns an object of class `crul::HttpResponse`.
+        submit_submission = function(uid, file_path) {
+            body <- list(
+                "xml_submission_file" = crul::upload(file_path)
+            )
+            self$post(paste0("/api/v1/submissions/",uid,"/"), body = body, version = "v1")
         }
     ) # <end public>
 )
