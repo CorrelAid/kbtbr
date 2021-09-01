@@ -72,7 +72,6 @@ Kobo <- R6::R6Class("Kobo",
             }
 
             query$format <- format
-
             if (version == "v2") {
                 res <- self$session_v2$get(
                     path = paste0("api/v2/", path),
@@ -145,11 +144,9 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
-        #' Example method to send a GET request to the `assets` endpoint
-        #' (due to default to `v2`, no further specification is needed).
+        #' Returns a list of all assets available in the server as tibble
         get_assets = function() {
-            assets_res <- self$get("assets/")
-
+            return(tibble::tibble(self$get("assets/")$results))
         },
 
         #' @description
@@ -157,14 +154,14 @@ Kobo <- R6::R6Class("Kobo",
         #' it provide an user-friendly summary of the available surveys
         get_surveys = function() {
             assets_res <- self$get_assets()
-            fil <- assets_res$results$asset_type == "survey"
+            fil <- assets_res$asset_type == "survey"
             columns_of_interest <- c(
                 "name", "uid", "date_created", "date_modified",
                 "owner__username", "parent", "has_deployment",
                 "deployment__active", "deployment__submission_count"
             )
             # TODO: possible improvement by including the permissions
-            return (assets_res$results[fil, columns_of_interest])
+            return (assets_res[fil, columns_of_interest])
         },
 
         #' @description
@@ -217,6 +214,52 @@ Kobo <- R6::R6Class("Kobo",
                 "file" = crul::upload(file_path)
             )
             self$post("imports/", body = body)
+        },
+
+        #' @description
+        #' High-level POST request to create an empty asset. `assets/` endpoint
+        #' (due to default to `v2`, no further specification is needed).
+        #' @param name character. Name of the new asset.
+        #' @param description character. Optional.
+        #' @param sector A list with elements `label` and `value`.
+        #'  Optional. Corresponding labels and values can be found
+        #'  \href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.
+        #' @param country A list with elements `label` and `value`.
+        #'  Optional. Corresponding labels and values can be found
+        #'  \href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.
+        #' @param share_metadata boolean. Optional.
+        #' @param asset_type character. Type of the new asset. Can be
+        #' "block", "question", "survey", "template".
+        #' @return Returns an object of class `crul::HttpResponse`.
+        create_asset = function(name,
+                                asset_type,
+                                description = "",
+                                sector = list(label = "", value = ""),
+                                country = list(label = "", value = ""),
+                                share_metadata = FALSE) {
+
+            # Input validation / assertions
+            checkmate::assert_character(name)
+            checkmate::assert_character(asset_type)
+            checkmate::assert_logical(share_metadata)
+            checkmate::assert_list(sector, names = "named")
+            checkmate::assert_list(country, names = "named")
+            checkmate::assertSetEqual(names(sector), c("label", "value"))
+            checkmate::assertSetEqual(names(country), c("label", "value"))
+
+            body <- list(
+                "name" = name,
+                "asset_type" = asset_type,
+                "settings" = list_as_json_char(
+                    list(
+                        "description" = description,
+                        "sector" = sector,
+                        "country" = country,
+                        "share-metadata" = share_metadata
+                    )
+                )
+            )
+            self$post("assets/", body = body)
         }
     ) # <end public>
 )
