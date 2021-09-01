@@ -64,17 +64,20 @@ as private variable, or some method are further specialized like the `$get`
 method described in the next section.
 
 
-## Get Method
+## `get` Method
 
 The get method is based on the method  [`$get()`](https://docs.ropensci.org/crul/reference/HttpClient.html#method-get)
 of the parent class. 
-In the current implementation, the get method will query the APIs but also 
-check that the response is successful and automatically parse the result in the desired format, in this case list of lists. 
+The get method will query the APIs and return an R6 object of class `crul::HttpClient`. 
 
-```{r, results='hide'}
+```{r}
 assets = my_session$get(path="api/v2/assets/")
 str(assets, max.level=2)
 ```
+
+# The use of KoboClient in Kobo interface
+
+
 
 
 
