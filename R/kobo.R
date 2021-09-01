@@ -72,7 +72,6 @@ Kobo <- R6::R6Class("Kobo",
             }
 
             query$format <- format
-
             if (version == "v2") {
                 res <- self$session_v2$get(
                     path = paste0("api/v2/", path),
@@ -145,10 +144,9 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
-        #' Example method to send a GET request to the `assets` endpoint
-        #' (due to default to `v2`, no further specification is needed).
+        #' Returns a list of all assets available in the server as tibble
         get_assets = function() {
-            self$get("assets/")
+            return(tibble::tibble(self$get("assets/")$results))
         },
 
         #' @description

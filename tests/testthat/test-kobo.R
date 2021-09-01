@@ -1,4 +1,15 @@
 BASE_URL <- "https://kobo.correlaid.org"
+ASSET_COLUMNS <- c(
+  "url", "date_modified", "date_created", "owner", "summary", "owner__username",
+  "parent", "uid",
+  "tag_string", "settings",
+  "kind", "name",
+  "asset_type", "version_id",
+  "has_deployment", "deployed_version_id",
+  "deployment__identifier", "deployment__active",
+  "deployment__submission_count", "permissions",
+  "downloads", "data"
+)
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
 
@@ -71,8 +82,8 @@ test_that("Kobo can fetch assets", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         assets <- kobo$get_assets()
     })
-    expect_setequal(names(assets), c("count", "next", "previous", "results"))
-    expect_equal(nrow(assets$results), 8)
+    expect_setequal(names(assets), ASSET_COLUMNS)
+    expect_equal(nrow(assets), 8)
 })
 
 test_that("Kobo can fetch assets using simple get", {
