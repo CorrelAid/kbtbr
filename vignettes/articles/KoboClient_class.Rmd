@@ -77,6 +77,18 @@ str(assets, max.level=2)
 
 # The use of KoboClient in Kobo interface
 
+The Kobo interface uses KoboClient for its HTTP requests. 
+Kobo can create a session by initializing a KoboClient instance, or the user can pass a session, a KoboClient instance associated with an API base URL. 
+Since the API_v2 base URL 
+can be different from the API_v1 one, when the user provides the `base_url_v1`, the Kobo interface prepares a second KoboClient instance to communicate with the v1 version of the APIs. 
+
+The user can create their KoboClient instance and then pass it to the Kobo interface.  The Kobo interface will use the session for all the communication with the servers.
+
+```{r}
+my_session <- KoboClient$new(base_url)
+kobo <- Kobo$new(session_v2 = my_session)
+kobo$get_assets()
+```
 
 
 
