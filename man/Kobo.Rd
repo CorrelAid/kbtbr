@@ -9,6 +9,15 @@ Interface object for the Kobo API that can handle KoboClient instances
 The Class exposes both generic and specific methods for HTTP requests /
 interactions with the various endpoints.
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{session_v2}}{KoboClient session for v2 of the API}
+
+\item{\code{session_v1}}{KoboClient session for v1 of the API}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -16,9 +25,11 @@ interactions with the various endpoints.
 \item \href{#method-get}{\code{Kobo$get()}}
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
+\item \href{#method-get_asset}{\code{Kobo$get_asset()}}
 \item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
 \item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
 \item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
+\item \href{#method-create_asset}{\code{Kobo$create_asset()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -65,7 +76,7 @@ also a KoboClient instance for the API version v1.}
 \subsection{Method \code{get()}}{
 Wrapper for the GET method of internal session objects.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(format = "json"), version = "v2")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get(path, query = list(), version = "v2", format = "json", parse = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -76,10 +87,18 @@ Wrapper for the GET method of internal session objects.
 \item{\code{query}}{list. A named list which is parsed to the query
 component. The order is not hierarchical.}
 
-\item{\code{version}}{character. Indicates on which API version the request
-should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+\item{\code{version}}{character. Indicates on which API version the request should be executed (available: \code{v1}, \code{v2}). Defaults to \code{v2}.}
+
+\item{\code{format}}{character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'}
+
+\item{\code{parse}}{whether or not to parse the HTTP response. defaults to TRUE.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+a list encoding of the json server reply if parse=TRUE.
+Otherwise, it returns the server response as a crul::HttpResponse
+object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -119,11 +138,31 @@ Example method to send a GET request to the \code{assets} endpoint
 
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-get_asset}{}}}
+\subsection{Method \code{get_asset()}}{
+Get an asset given its id.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get_asset(id)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{character. ID of the asset within the Kobo API.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Asset. object of class \link{Asset}
+High-level POST request to clone an asset. \code{assets} endpoint
+(due to default to \code{v2}, no further specification is needed).
+}
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone_asset"></a>}}
 \if{latex}{\out{\hypertarget{method-clone_asset}{}}}
 \subsection{Method \code{clone_asset()}}{
-High-level POST request to clone an asset. \code{assets} endpoint
-(due to default to \code{v2}, no further specification is needed).
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
 }
@@ -182,6 +221,49 @@ High-level POST request to import an XLS form. \code{imports} endpoint
 \item{\code{name}}{character. Name of the new asset.}
 
 \item{\code{file_path}}{character. The path to the XLS form file.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-create_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-create_asset}{}}}
+\subsection{Method \code{create_asset()}}{
+High-level POST request to create an empty asset. \verb{assets/} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$create_asset(
+  name,
+  asset_type,
+  description = "",
+  sector = list(label = "", value = ""),
+  country = list(label = "", value = ""),
+  share_metadata = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{character. Name of the new asset.}
+
+\item{\code{asset_type}}{character. Type of the new asset. Can be
+"block", "question", "survey", "template".}
+
+\item{\code{description}}{character. Optional.}
+
+\item{\code{sector}}{A list with elements \code{label} and \code{value}.
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
+
+\item{\code{country}}{A list with elements \code{label} and \code{value}.
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
+
+\item{\code{share_metadata}}{boolean. Optional.}
 }
 \if{html}{\out{</div>}}
 }

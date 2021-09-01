@@ -1,0 +1,84 @@
+on:
+  push:
+    branches:
+      - pkgdown
+      - dev
+      - main
+
+name: pkgdown
+
+jobs:
+  pkgdown:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v1
+        with:
+          r-version: '4.0.0'
+
+      - uses: r-lib/actions/setup-pandoc@v1
+
+      - name: Install pak, query dependencies
+        run: |
+          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev")
+          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), ".github/r-depends.rds")
+        shell: Rscript {0}
+
+      - name: Restore R package cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ${{ env.R_LIBS_USER }}/*
+            !${{ env.R_LIBS_USER }}/pak
+          key: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ubuntu-18.04-${{ steps.install-r.outputs.installed-r-version }}-1-
+
+      - name: Install system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          pak::local_system_requirements(execute = TRUE)
+          pak::pkg_system_requirements("pkgdown", execute = TRUE)
+        shell: Rscript {0}
+
+      - name: Install R dependencies
+        run: |
+          pak::local_install_dev_deps(upgrade = TRUE)
+          pak::pkg_install("pkgdown")
+        shell: Rscript {0}
+
+      - name: Install package
+        run: R CMD INSTALL .
+
+
+      - name: Get current branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      
+      - name: Update pkgdown yml
+        shell: bash
+        run: |
+          echo "destination: /tmp/docs/${{ steps.extract_branch.outputs.branch }}" >> _pkgdown.yml
+
+      - name: Build page, check out gh-pages branch, copy from tmp directory
+        run: |
+          Rscript -e 'pkgdown::build_site(new_process = FALSE, )'
+          git checkout _pkgdown.yml 
+          git fetch --all
+          git checkout -t origin/gh-pages      
+          rm -rf docs/${{ steps.extract_branch.outputs.branch }}
+          mv /tmp/docs/${{ steps.extract_branch.outputs.branch }} docs/${{ steps.extract_branch.outputs.branch }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v7
+        with:
+          add: "docs/${{ steps.extract_branch.outputs.branch }}/* --force"
+          author_name: GitHub Action
+          author_email: actions@github.com
+          branch: gh-pages
+          message: "Update docs coming from ${{ steps.extract_branch.outputs.branch }}"
