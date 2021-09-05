@@ -38,3 +38,7 @@ docs/*/
 
 # R Environment Variables
 .Renviron
+inst/doc
+
+# mac
+.DS_Store
