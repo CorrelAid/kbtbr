@@ -87,7 +87,7 @@ test_that("can get survey submissions from survey", {
         submissions_df <- asset_obj$get_submissions()
     })
     expect_true(tibble::is_tibble(submissions_df))
-    expect_equal(nrow(submissions_df), 4)
+    expect_equal(nrow(submissions_df), 6)
     print(str(submissions_df))
 })
 
