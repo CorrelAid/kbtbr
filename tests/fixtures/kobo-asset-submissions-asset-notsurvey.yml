@@ -1,0 +1,42 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/?format=json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Thu, 22 Jul 2021 07:10:44 GMT
+      content-type: application/json
+      content-length: '3364'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/?format=json","owner":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","owner__username":"api_user","parent":null,"ancestors":null,"settings":{"sector":"Environment","country":"Angola","description":"description","share-metadata":"false"},"asset_type":"block","date_created":"2021-07-12T20:11:25.852585Z","summary":{},"date_modified":"2021-07-12T20:11:25.852606Z","version_id":"vfSHxcWLJfhG4JknBJHzCj","version__content_hash":"4724ddb07034559d7fb5a3d18288dfb683a2d082","version_count":1,"has_deployment":false,"deployed_version_id":null,"deployed_versions":{"count":0,"next":null,"previous":null,"results":[]},"deployment__identifier":null,"deployment__links":{},"deployment__active":false,"deployment__data_download_links":{},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{},"kuid_names":{}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"schema":"1","survey":[],"settings":{}},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/?format=json.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/?format=json.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/xls/?format=json"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/xform/?format=json"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/koboform/?format=json","xform_link":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/xform/?format=json","hooks_link":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/hooks/?format=json","tag_string":"","uid":"apxYrm7i4mGc3Wxqu2eZ2r","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/xls/?format=json","name":"test
+        create block, with settings provided as parameters","assignable_permissions":[{"url":"https://kobo.correlaid.org/api/v2/permissions/view_asset/?format=json","label":"View
+        block"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_asset/?format=json","label":"Edit
+        block"},{"url":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/?format=json","label":"Manage
+        block"}],"permissions":[{"url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/permission-assignments/psvGSqLLw4KivCL6RTaU4J/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/change_asset/?format=json","label":"Edit
+        block"},{"url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/permission-assignments/pLVrYUPVn4z9cNSHUUXtvs/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/?format=json","label":"Manage
+        block"},{"url":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/permission-assignments/pEmvTvUK9Xqj4U9vm7H8yy/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/view_asset/?format=json","label":"View
+        block"}],"data":"https://kobo.correlaid.org/api/v2/assets/apxYrm7i4mGc3Wxqu2eZ2r/data/?format=json"}'
+  recorded_at: 2021-07-22 07:10:44 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

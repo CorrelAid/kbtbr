@@ -32,8 +32,8 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
     withr::with_envvar(
         new = c("KBTBR_TOKEN" = ""),
         code = {
-            koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo" )
-            kobo_obj <- Kobo$new(session_v2 = koboclient_instance )
+            koboclient_instance <- KoboClient$new(BASE_URL, kobo_token = "foo")
+            kobo_obj <- Kobo$new(session_v2 = koboclient_instance)
             expect_identical(
                 class(kobo_obj),
                 c("Kobo", "R6")
@@ -43,13 +43,16 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
-    expect_message({
-        kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
-    }, regexp = "You have not passed base_url_v1. This means you cannot use")
+    expect_message(
+        {
+            kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
+        },
+        regexp = "You have not passed base_url_v1. This means you cannot use"
+    )
     expect_identical(
-                class(kobo_obj),
-                c("Kobo", "R6")
-            )
+        class(kobo_obj),
+        c("Kobo", "R6")
+    )
 })
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
@@ -69,15 +72,13 @@ test_that("Kobo can fetch assets", {
         assets <- kobo$get_assets()
     })
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
-    expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
     expect_equal(nrow(assets$results), 8)
-    expect_equal(assets$count, 8)
 })
 
 test_that("Kobo can fetch assets using simple get", {
     vcr::use_cassette("kobo-get-assets-simple-get", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        assets <- kobo$get("assets/") # trailing slash again!
+        assets <- kobo$get("assets/", parse = TRUE) # trailing slash again!
     })
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
     expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
@@ -85,7 +86,26 @@ test_that("Kobo can fetch assets using simple get", {
     expect_equal(assets$count, 8)
 })
 
+test_that("Kobo can get a single asset", {
+    vcr::use_cassette("kobo-get-single-asset", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
+    })
+    expect_identical(
+        class(asset),
+        c("Asset", "R6")
+    )
+})
 
+test_that("Kobo can get submissions for a survey", {
+    vcr::use_cassette("kobo-get-submissions", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        response_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
+    })
+    expect_true(tibble::is_tibble(response_df))
+    expect_equal(nrow(response_df), 4)
+})
+# ERRORS -----------
 vcr::use_cassette("kobo-get-404", {
     test_that("non existing route throws 404 error", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
@@ -94,7 +114,96 @@ vcr::use_cassette("kobo-get-404", {
 })
 
 test_that("non-existing kobo host throws error", {
-        kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
+    kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
+    expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
 })
 
+#' -----------------------------------------------------------------------------
+#' Testing POST methods
+test_that("Kobo$post can clone assets", {
+    vcr::use_cassette("kobo-clone-assets-simple-post", {
+        kobo <- suppressMessages(Kobo$new(
+            base_url_v2 = BASE_URL,
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+
+        clone_asset <- kobo$post("assets/",
+            body = list(
+                "clone_from" = "a84jmwwdPEsZMhK7s2i4SL",
+                "name" = "vcr_test_name",
+                "asset_type" = "survey"
+            )
+        )
+    })
+    expect_equal(clone_asset$url, "https://kobo.correlaid.org/api/v2/assets/")
+    expect_equal(clone_asset$method, "post")
+    expect_equal(clone_asset$status_code, 201)
+    expect_true(clone_asset$success())
+    expect_equal(clone_asset$status_http()$message, "Created")
+    expect_equal(clone_asset$status_http()$explanation, "Document created, URL follows")
+})
+
+test_that("kobo$clone_asset can clone assets", {
+    vcr::use_cassette("kobo-post-clone-asset", {
+        kobo <- suppressMessages(Kobo$new(
+            base_url_v2 = BASE_URL,
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+
+        clone_asset <- kobo$clone_asset(
+            clone_from = "a84jmwwdPEsZMhK7s2i4SL",
+            new_name = "vcr_test_name",
+            asset_type = "survey"
+        )
+    })
+    expect_equal(clone_asset$url, "https://kobo.correlaid.org/api/v2/assets/")
+    expect_equal(clone_asset$method, "post")
+    expect_equal(clone_asset$status_code, 201)
+    expect_true(clone_asset$success())
+    expect_equal(clone_asset$status_http()$message, "Created")
+    expect_equal(clone_asset$status_http()$explanation, "Document created, URL follows")
+})
+
+test_that("kobo$deploy_asset can deploy assets", {
+    vcr::use_cassette("kobo-post-deploy-asset", {
+        kobo <- suppressMessages(Kobo$new(
+            base_url_v2 = BASE_URL,
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+
+        deploy_asset <- kobo$deploy_asset(uid = "aQVGH8G68EP737tDBABRwC")
+    })
+    expect_equal(
+        deploy_asset$url,
+        "https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/deployment/"
+    )
+    expect_equal(deploy_asset$method, "post")
+    expect_equal(deploy_asset$status_code, 200) # i don't understand why not 201.
+    # but with 200 it successfully deployed
+    expect_true(deploy_asset$success())
+    expect_equal(deploy_asset$status_http()$message, "OK")
+    expect_equal(deploy_asset$status_http()$explanation, "Request fulfilled, document follows")
+})
+
+test_that("kobo$import_xls_form can import forms", {
+    vcr::use_cassette("kobo-post-import-xls-form", {
+        kobo <- suppressMessages(Kobo$new(
+            base_url_v2 = BASE_URL,
+            kobo_token = Sys.getenv("KBTBR_TOKEN")
+        ))
+
+        import_xls_form <- kobo$import_xls_form(
+            name = "vcr_test_name",
+            file_path = "xls_form_via_post.xlsx"
+        )
+    })
+    expect_equal(import_xls_form$url, "https://kobo.correlaid.org/imports/")
+    expect_equal(import_xls_form$method, "post")
+    expect_equal(import_xls_form$status_code, 201)
+    expect_true(import_xls_form$success())
+    expect_equal(import_xls_form$status_http()$message, "Created")
+    expect_equal(
+        import_xls_form$status_http()$explanation,
+        "Document created, URL follows"
+    )
+})

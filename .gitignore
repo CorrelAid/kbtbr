@@ -30,6 +30,7 @@ vignettes/*.pdf
 # knitr and R markdown default cache directories
 *_cache/
 /cache/
+docs/*/
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -37,4 +38,11 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+<<<<<<< HEAD
 .Rproj.user
+=======
+inst/doc
+
+# mac
+.DS_Store
+>>>>>>> origin/4-survey-responses-df

@@ -7,9 +7,13 @@
 
 R Wrapper for the [KoboToolbox API](https://support.kobotoolbox.org/api.html).
 
+
 **This package is still under development. So far, there are no features here! Check back in a couple of weeks / months :)**
+# Documentation
+HTML documentation is available for:
 
-
+- the latest version on the `main` branch: [https://correlaid.github.io/kbtbr/main/](https://correlaid.github.io/kbtbr/main/)
+- the `dev` branch [here](https://correlaid.github.io/kbtbr/dev/)
 
 # Contribute
 ## Development setup
@@ -20,6 +24,13 @@ To install the package dependencies:
 ```r
 install.packages("renv")
 renv::install()
+```
+
+## Code styling
+Please style any code with the following [styler](https://styler.r-lib.org/) command:
+
+```r
+styler::style_pkg(style = styler::tidyverse_style, indent_by = 4) 
 ```
 ## Package development workflow
 

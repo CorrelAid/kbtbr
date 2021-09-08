@@ -18,8 +18,12 @@ vcr::use_cassette("kobo-client-403", {
 test_that("Kobo Client can fetch assets", {
     vcr::use_cassette("kobo-client-get-assets-simple-get", {
         koboclient <- KoboClient$new(base_url = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        assets <- koboclient$get("api/v2/assets/", query = list(format = "json")) # trailing slash again!
+        res <- koboclient$get("api/v2/assets/", query = list(format = "json")) # trailing slash again!
     })
+
+    assets <- res$
+        parse() %>%
+        jsonlite::fromJSON()
     expect_setequal(names(assets), c("count", "next", "previous", "results"))
     expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
     expect_equal(nrow(assets$results), 8)
@@ -30,6 +34,6 @@ test_that("Kobo Client can fetch assets", {
 vcr::use_cassette("kobo-client-get-404", {
     test_that("non existing route throws 404 error", {
         koboclient <- KoboClient$new(base_url = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        expect_error(koboclient$get("api/v2/doesnotexist/"), regexp = "404")
+        expect_error(koboclient$get("api/v2/doesnotexist/")$raise_for_status(), regexp = "404")
     })
 })

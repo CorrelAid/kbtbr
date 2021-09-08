@@ -10,18 +10,15 @@ output:
 library(flexdashboard)
 ```
 
-<!-- Column {data-width=650} -->
-<!-- ----------------------------------------------------------------------- -->
-
-
-
-Column {.tabset}
+Page 1
+=====================================  
+    
+Column {data-width=480}
 -------------------------------------
 
 
 
 ### Q1: Family
-
 
 
 ```{r}
@@ -67,7 +64,7 @@ survey_url_data <- test_elements %>%
   removeBaseUrl() %>% 
   kobo$get()
 
-# Question of survey template
+# Questions of survey template
 q1_text <- survey_url_data$content$survey$label[[3]]
 q2_text <- survey_url_data$content$survey$label[[11]]
 q3_text <- survey_url_data$content$survey$label[[12]]
@@ -176,4 +173,13 @@ hchart(q3, "column", hcaes(x = health, y = n)) %>%
   hc_yAxis(minorTickInterval = 1)
   
 ```
+
+Page 2
+===================================== 
+
+```{r, echo=FALSE}
+geo_location <- na.omit(submissions$results$Please_indicate_wher_the_map_is_Hamburg)[1:3] 
+```
+
+
 

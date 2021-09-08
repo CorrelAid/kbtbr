@@ -14,6 +14,7 @@ A class to interact with the KoboToolbox API, extending \code{\link[crul:HttpCli
 \itemize{
 \item \href{#method-new}{\code{KoboClient$new()}}
 \item \href{#method-get}{\code{KoboClient$get()}}
+\item \href{#method-post}{\code{KoboClient$post()}}
 \item \href{#method-clone}{\code{KoboClient$clone()}}
 }
 }
@@ -24,7 +25,6 @@ A class to interact with the KoboToolbox API, extending \code{\link[crul:HttpCli
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="handle_pop">}\href{../../crul/html/HttpClient.html#method-handle_pop}{\code{crul::HttpClient$handle_pop()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="head">}\href{../../crul/html/HttpClient.html#method-head}{\code{crul::HttpClient$head()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="patch">}\href{../../crul/html/HttpClient.html#method-patch}{\code{crul::HttpClient$patch()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="post">}\href{../../crul/html/HttpClient.html#method-post}{\code{crul::HttpClient$post()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="print">}\href{../../crul/html/HttpClient.html#method-print}{\code{crul::HttpClient$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="put">}\href{../../crul/html/HttpClient.html#method-put}{\code{crul::HttpClient$put()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="retry">}\href{../../crul/html/HttpClient.html#method-retry}{\code{crul::HttpClient$retry()}}\out{</span>}
@@ -83,35 +83,37 @@ JSON to R list representation.
 }
 
 \subsection{Returns}{
-Returns a list, parsed from the HttpResponse JSON object.
+the server response as a crul::HttpResponse object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
+\if{html}{\out{<a id="method-post"></a>}}
+\if{latex}{\out{\hypertarget{method-post}{}}}
+\subsection{Method \code{post()}}{
+Perform a POST request
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{KoboClient$post(path, body, ...)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{body}}{R list. A data payload to be sent to the server.}
+
+\item{\code{...}}{crul-options. Additional option arguments, see
+\code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
 }
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Extension of the \code{crul::HttpClient$post()} method.
 }
 
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
-\subsection{Method \code{get()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
