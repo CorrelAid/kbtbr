@@ -10,134 +10,136 @@ output:
 library(flexdashboard)
 ```
 
+
+
+
 Page 1
 =====================================  
     
-Column {data-width=480}
+Column {data-width=350}
 -------------------------------------
 
 
 
-### Q1: Family
-
-
-```{r}
+```{r, echo=FALSE, warning=FALSE, include=FALSE}
 devtools::load_all()
-library(dplyr)
-library(purrr)
+
+# Dependencies
+library(kbtbr)
 library(tidyr)
+library(stringr)
+library(dplyr)
 library(shiny)
-library(highcharter)
+library(janitor)
+library(ggplot2)
+library(plotly)
 
 
 # Initialize new Kobo class
-base_url <- Sys.getenv("KBTBR_BASE_URL")
-token <- Sys.getenv("KBTBR_TOKEN")
+BASE_URL <- "https://kobo.correlaid.org"
 
-kobo <- Kobo$new(base_url, token)
-assets <- kobo$get_assets()$results
+kobo <-
+  Kobo$new(base_url_v2 = BASE_URL,
+           kobo_token = Sys.getenv("KBTBR_TOKEN"))
+vcr::use_cassette("kobo-asset-submissions-data", {
+  submissions_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
+})
 
-# Helper function
-removeBaseUrl <- function(url){
-  input_url <- gsub("https://kobo.correlaid.org/api/v2/", "", url)
-  gsub("\\?format=json", "", input_url)
+kobo <-
+  Kobo$new(base_url_v2 = BASE_URL,
+           kobo_token = Sys.getenv("KBTBR_TOKEN"))
+asset_id <- "aRo4wg5utWT7dwdnQQEAE7"
+submissions_df <- kobo$get_submissions(asset_id)
+
+
+# Data cleaning
+submissions_df <- submissions_df %>%
+  select(starts_with("_"), start, end, everything())
+
+submissions_df <- submissions_df %>%
+  select(
+    starts_with("_"),
+    start,
+    end,
+    Taking_all_things_to_ould_you_say_you_are,
+    starts_with("importance_in_life"),
+    trust_in_others,
+    starts_with("trust_in_groups"),
+    control_over_life,
+    voluntary_activity,
+    locate_hamburg,
+    health_self_assessment,
+    file_upload
+  )
+
+
+renamed_meta <- submissions_df %>%
+  rename_with(make_clean_names, starts_with("_"))
+
+renamed_except_rating <- submissions_df %>%
+  rename_with(make_clean_names,-starts_with(c("importance_in_life", "trust_in_groups")))
+
+submissions_df <- renamed_except_rating
+
+submissions_df <- submissions_df %>%
+  mutate(across(c(starts_with(
+    c("importance_in_life", "trust_in_groups")
+  ),
+  any_of(
+    c(
+      "voluntary_activity",
+      "control_over_life",
+      "health_self_assessment",
+      "trust_in_others",
+      "Taking_all_things_to_ould_you_say_you_are"
+    )
+  )), as.integer))
+
+
+new_column_names <-
+  paste("locate_hamburg", c("lat", "lon", "altitude", "accuracy"), sep = "_")
+
+# use separate to split the column into four columns
+# submissions_df <- submissions_df %>%
+#   separate(locate_hamburg, new_column_names, sep = " ") %>%
+#   mutate(across(starts_with("locate_hamburg"), as.numeric)) # convert to double
+
+
+# Helper function to put tibble in appropriate format
+pivot_longer_rating <- function(data, question_name) {
+  data %>%
+    select(id, starts_with(question_name)) %>%
+    pivot_longer(-id, names_to = "category", values_to = "level") %>%
+    mutate(category = str_remove(category, paste0(question_name, "/")) %>% str_replace_all("_", " "))
 }
 
 
-test_elements <- assets %>%
-  group_by(asset_type) %>%
-  arrange(desc(deployment__submission_count)) %>% # reverse sort by submissions to get a survey with submissions
-  slice(1)
-
-
-
-submissions <- test_elements %>%
-  filter(asset_type == "survey") %>%
-  pull(data) %>%
-  removeBaseUrl() %>%
-  kobo$get()
-
-
-survey_url_data <- test_elements %>% 
-  filter(asset_type == "survey") %>% 
-  pull(url) %>% 
-  removeBaseUrl() %>% 
-  kobo$get()
-
-# Questions of survey template
-q1_text <- survey_url_data$content$survey$label[[3]]
-q2_text <- survey_url_data$content$survey$label[[11]]
-q3_text <- survey_url_data$content$survey$label[[12]]
-q4_text <- survey_url_data$content$survey$label[[13]]
-q5_text <- survey_url_data$content$survey$label[[14]]
-q6_text <- survey_url_data$content$survey$label[[15]]
-q7_text <- survey_url_data$content$survey$label[[23]]
-q8_text <- survey_url_data$content$survey$label[[24]]
-
-
-# Character and numeric value of answers
-# survey_url_data$content$choices[3:5] 
-q1_label <- survey_url_data$content$choices[1:4, 3:5] 
-q2_label <- survey_url_data$content$choices[5:10, 3:5]
-q3_label <- survey_url_data$content$choices[11:17, 3:5]
-q4_label <- survey_url_data$content$choices[18:21, 3:5] 
-q5_label <- survey_url_data$content$choices[22:25, 3:5]
-q6_label <- survey_url_data$content$choices[26:29, 3:5]
-
-# getLabels <- function(survey_data){
-#   survey_data$content$choices[,c(3, 5)]
-# }
-
-
-q1_family <- submissions$results$`Q1/Family` %>% as.factor() 
-#levels(q1_family) <- c("1", "2", "3", "4")
-levels(q1_family) <- q1_label$`$autovalue`
-levels(q1_family) <- unlist(q1_label$label)
-q1_family <- q1_family %>% as_tibble() %>% rename("family" = "value") %>% group_by(family) %>%  count(family,.drop = FALSE)
-
-hchart(q1_family, "column", hcaes(x = family, y = n)) %>% 
-   hc_title(
-    text = q1_text)  %>% 
-  hc_yAxis(minorTickInterval = 1)
-  
-
-
-
-
-
-
 ```
 
-### Q1: Leisure Time
+### Q1
 
-```{r}
-q1_leisure <- submissions$results$`Q1/Leisure_time` %>% as.factor() 
-levels(q1_leisure) <- q1_label$`$autovalue`
-levels(q1_leisure) <- unlist(q1_label$label)
-q1_leisure <- q1_leisure %>% as_tibble() %>% rename("leisure" = "value") %>% group_by(leisure) %>%  count(leisure,.drop = FALSE)
+```{r, echo=FALSE, warning=FALSE}
+p1 <- submissions_df %>% 
+  pivot_longer_rating("importance_in_life") %>% 
+  group_by(category) %>%
+  summarize(mean_level = mean(level)) %>% 
+  ggplot(aes(x = category, y = round(mean_level, 2))) +
+  theme_classic() +
+  geom_col(fill = "lightsteelblue3") +
+  coord_flip() +
+  xlab("") + 
+  ggtitle("Mean importance in life by category") +
+  labs(y = "mean importance") +
+  scale_x_discrete(labels = 
+                     function(x) str_wrap(str_replace_all(x, "foo" , " "),
+                                                 width = 15))
 
-hchart(q1_leisure, "column", hcaes(x = leisure, y = n)) %>% 
-   hc_title(
-    text = q1_text) %>% 
-  hc_yAxis(minorTickInterval = 1)
+ggplotly(p1)
   
 ```
 
 
-### Q1: Religion
 
-```{r}
-q1_religion <- submissions$results$`Q1/Religion` %>% as.factor() 
-levels(q1_religion) <- q1_label$`$autovalue`
-levels(q1_religion) <- unlist(q1_label$label)
-q1_religion <- q1_religion %>% as_tibble() %>% rename("religion" = "value") %>% group_by(religion) %>%  count(religion,.drop = FALSE)
-
-hchart(q1_religion, "column", hcaes(x = religion, y = n)) %>% 
-   hc_title(
-    text = q1_text) %>% 
-  hc_yAxis(minorTickInterval = 1)
-  
-```
 
 
 
@@ -147,38 +149,31 @@ Column {data-width=350}
 ### Q2
 
 ```{r}
-q2 <- submissions$results$Taking_all_things_to_ould_you_say_you_are %>% as.factor() 
-levels(q2) <- q2_label$`$autovalue`
-levels(q2) <- unlist(q2_label$label)
-q2 <- q2 %>% as_tibble() %>% rename("mood" = "value") %>% group_by(mood) %>%  count(mood,.drop = FALSE)
+p2 <- submissions_df %>% 
+  pivot_longer_rating("trust_in_groups") %>% 
+  group_by(category) %>%
+  summarize(mean_level = mean(level)) %>% 
+  ggplot(aes(x = category, y = round(mean_level, 2))) +
+  theme_classic() +
+  geom_col(fill = "lightsteelblue3") +
+  coord_flip() +
+  xlab("") + 
+  ggtitle("Trust in groups by category") +
+  labs(y = "mean trust") +
+  scale_x_discrete(labels = 
+                     function(x) str_wrap(str_replace_all(x, "foo" , " "),
+                                                 width = 15))
 
-hchart(q2, "column", hcaes(x = mood, y = n)) %>% 
-   hc_title(
-    text = q2_text) %>% 
-  hc_yAxis(minorTickInterval = 1)
+ggplotly(p2)
   
 ```
 
-### Q3
-
-```{r}
-q3 <- submissions$results$All_in_all_how_woul_would_you_say_it_is %>% as.factor() 
-levels(q3) <- q3_label$`$autovalue`
-levels(q3) <- unlist(q3_label$label)
-q3 <- q3 %>% as_tibble() %>% rename("health" = "value") %>% group_by(health) %>%  count(health,.drop = FALSE)
-
-hchart(q3, "column", hcaes(x = health, y = n)) %>% 
-   hc_title(
-    text = q3_text) %>% 
-  hc_yAxis(minorTickInterval = 1)
-  
-```
 
 Page 2
 ===================================== 
 
 ```{r, echo=FALSE}
-geo_location <- na.omit(submissions$results$Please_indicate_wher_the_map_is_Hamburg)[1:3] 
+#geo_location <- na.omit(submissions$results$Please_indicate_wher_the_map_is_Hamburg)[1:3] 
 ```
 
 

@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 This article demonstrates some techniques for cleaning and wrangling data returned by the `get_submissions` method of the `Kobo` and `Asset` classes. The vignette is broken down by the different question types. In general, users should make heavy use of the question options to give [custom column names](https://support.kobotoolbox.org/question_options.html#data-column-name) and labels for answer options. This will result in better behaving column names and make data cleaning easier.
 
 ```{r setup}
+devtools::load_all()
 library(kbtbr)
 library(tidyr)
 library(stringr)
