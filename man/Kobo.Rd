@@ -30,6 +30,7 @@ interactions with the various endpoints.
 \item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
 \item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
 \item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
+\item \href{#method-create_asset}{\code{Kobo$create_asset()}}
 \item \href{#method-clone}{\code{Kobo$clone()}}
 }
 }
@@ -241,6 +242,49 @@ High-level POST request to import an XLS form. \code{imports} endpoint
 \item{\code{name}}{character. Name of the new asset.}
 
 \item{\code{file_path}}{character. The path to the XLS form file.}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-create_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-create_asset}{}}}
+\subsection{Method \code{create_asset()}}{
+High-level POST request to create an empty asset. \verb{assets/} endpoint
+(due to default to \code{v2}, no further specification is needed).
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$create_asset(
+  name,
+  asset_type,
+  description = "",
+  sector = list(label = "", value = ""),
+  country = list(label = "", value = ""),
+  share_metadata = FALSE
+)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{character. Name of the new asset.}
+
+\item{\code{asset_type}}{character. Type of the new asset. Can be
+"block", "question", "survey", "template".}
+
+\item{\code{description}}{character. Optional.}
+
+\item{\code{sector}}{A list with elements \code{label} and \code{value}.
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
+
+\item{\code{country}}{A list with elements \code{label} and \code{value}.
+Optional. Corresponding labels and values can be found
+\href{https://github.com/kobotoolbox/kpi/blob/master/kobo/static_lists.py}{here}.}
+
+\item{\code{share_metadata}}{boolean. Optional.}
 }
 \if{html}{\out{</div>}}
 }
