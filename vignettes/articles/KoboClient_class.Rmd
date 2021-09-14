@@ -1,0 +1,96 @@
+---
+title: "The KoboClient class and how to use it"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+    %\VignetteIndexEntry{2. The KoboClient class and how to use it}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}
+
+---
+
+```{r setup, include=TRUE, echo=FALSE}
+devtools::load_all()
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`KoboClient` is an R6 class that manages the connection between R and the server that hosts the KoboToolbox. 
+Most users should not need the `KoboClient` class because `Kobo` takes care of the end-user services. `Kobo` uses `KoboClient` under the hood.
+
+`KoboClient` is effectively an HTTP client and inherits its features from the 
+[crul](https://github.com/ropensci/crul) library, in particular from 
+[`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html).
+
+# Getting started
+
+## Initialization
+To start a session, one needs to know the URL to the KoboToolbox server and the
+API token, a unique key that allows interaction with the Kobo server. You can get the API key in your account settings.
+
+One possibility is to store the token as an environment variable. 
+The `KoboClient` will check if the variable `KBTBR_TOKEN` is set during the initialization. Otherwise, one can pass the token to the initialization function. 
+
+The first step to start a session is to create an object from the R6 class by calling the `$new` method. 
+
+```{r}
+base_url <- "https://kobo.correlaid.org"
+my_session <- KoboClient$new(base_url)
+class(my_session)
+```
+
+
+## The power of inheritance
+Thanks to the inheritance mechanism, `my_session` can provide all the features of 
+[`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html)
+that is the parent R6 class.
+
+For example, 
+
+```{r, results='hide'}
+my_session$print()
+```
+will show you several properties set in the HTTP client, like the headers, the 
+URL and other properties. The `$print()` method is not implemented in the KoboClient class, but it is automatically inherited from its parent class.
+
+KoboClient is called a child of [`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html),
+the parent,  and by the inheritance mechanism can have all of its features
+(methods and fields) of the parent, but it can also provide more features or
+specialize some of the parent methods. In our case, for example, some features
+are added to work effectively with the KoboToolbox API: it stores the API token
+as private variable, or some method are further specialized like the `$get` 
+method described in the next section.
+
+
+## `get` Method
+
+The get method is based on the method  [`$get()`](https://docs.ropensci.org/crul/reference/HttpClient.html#method-get)
+of the parent class. 
+The get method will query the APIs and return an R6 object of class `crul::HttpClient`. 
+
+```{r}
+assets = my_session$get(path="api/v2/assets/")
+str(assets, max.level=2)
+```
+
+# The use of KoboClient in Kobo interface
+
+The Kobo interface uses KoboClient for its HTTP requests. 
+Kobo can create a session by initializing a KoboClient instance, or the user can pass a session, a KoboClient instance associated with an API base URL. 
+Since the API_v2 base URL 
+can be different from the API_v1 one, when the user provides the `base_url_v1`, the Kobo interface prepares a second KoboClient instance to communicate with the v1 version of the APIs. 
+
+The user can create their KoboClient instance and then pass it to the Kobo interface.  The Kobo interface will use the session for all the communication with the servers.
+
+```{r}
+my_session <- KoboClient$new(base_url)
+kobo <- Kobo$new(session_v2 = my_session)
+kobo$get_assets()
+```
+
+
+
+
+
