@@ -1,0 +1,42 @@
+---
+title: "Get started"
+output:
+  html_document:
+    toc: yes
+    toc_depth: 3
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
+devtools::load_all()
+library(kbtbr)
+library(dplyr)
+library(purrr)
+library(tidyr)
+
+```
+
+# Overview
+kbtbr uses R6 classes. 
+
+# Authentication
+
+# Setup
+```{r kobo}
+library(kbtbr)
+base_url_v2 <- Sys.getenv("KBTBR_BASE_URL") # e.g. https://kobo.correlaid.org
+token <- Sys.getenv("KBTBR_TOKEN")
+
+kobo <- Kobo$new(base_url_v2, token)
+kobo
+```
+
+```{r}
+assets <- kobo$get_assets()
+```
+
+```{r}
+surveys <- kobo$get_surveys()
+```
+

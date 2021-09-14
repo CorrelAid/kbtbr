@@ -1,0 +1,30 @@
+---
+title: "kbtbr"
+output: github_document
+---
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/CorrelAid/kbtbr/workflows/R-CMD-check/badge.svg)](https://github.com/CorrelAid/kbtbr/actions)
+[![Codecov test coverage](https://codecov.io/gh/CorrelAid/kbtbr/branch/main/graph/badge.svg)](https://codecov.io/gh/CorrelAid/kbtbr?branch=main)
+<!-- badges: end -->
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview 
+
+# Installation
+
+`kbtbr` is not on CRAN yet. You can install the current version from GitHub: 
+
+```{r installation, eval=FALSE}
+# using remotes 
+remotes::install_github("CorrelAid/kbtbr")
+
+# using devtools
+devtools::install_github("CorrelAid/kbtbr")
+```
+
+# Documentation
