@@ -108,6 +108,26 @@ test_that("Kobo can a single asset", {
     )
 })
 
+test_that("Kobo can fetch surveys", {
+    vcr::use_cassette("kobo-get-surveys", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        surveys <- kobo$get_surveys()
+        surveys_all <- kobo$get_surveys(show_all_cols=TRUE)
+    })
+    columns_of_interest <- c(
+        "name", "uid", "date_created", "date_modified",
+        "owner__username", "parent", "has_deployment",
+        "deployment__active", "deployment__submission_count"
+    )
+    expect_setequal(names(surveys), columns_of_interest)
+    expect_equal(nrow(surveys), 40)
+
+    expect_equal(ncol(surveys_all), 22)
+    expect_equal(nrow(surveys_all), 40)
+
+})
+
+
 # ERRORS -----------
 vcr::use_cassette("kobo-get-404", {
     test_that("non existing route throws 404 error", {

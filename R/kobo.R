@@ -150,6 +150,27 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
+        #' High-level GET request for `surveys` endpoints endpoint
+        #' @param show_all_cols if true returns all the columns available
+        #' for an asset
+        #' @return An user-friendly summary of the available surveys as a tibble
+        get_surveys = function(show_all_cols=FALSE) {
+            assets_res <- self$get_assets()
+            fil <- assets_res$asset_type == "survey"
+            columns_of_interest <- c(
+                "name", "uid", "date_created", "date_modified",
+                "owner__username", "parent", "has_deployment",
+                "deployment__active", "deployment__submission_count"
+            )
+            if (show_all_cols){
+                return(assets_res[fil,])
+            } else {
+                return(assets_res[fil, columns_of_interest])
+            }
+
+        },
+
+        #' @description
         #' Get an asset given its id.
         #' @param id character. ID of the asset within the Kobo API.
         #' @return Asset. object of class [kbtbr::Asset]
