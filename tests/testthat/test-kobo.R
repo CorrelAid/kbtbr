@@ -1,4 +1,15 @@
 BASE_URL <- "https://kobo.correlaid.org"
+ASSET_COLUMNS <- c(
+  "url", "date_modified", "date_created", "owner", "summary", "owner__username",
+  "parent", "uid",
+  "tag_string", "settings",
+  "kind", "name",
+  "asset_type", "version_id",
+  "has_deployment", "deployed_version_id",
+  "deployment__identifier", "deployment__active",
+  "deployment__submission_count", "permissions",
+  "downloads", "data"
+)
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
 
@@ -71,8 +82,8 @@ test_that("Kobo can fetch assets", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         assets <- kobo$get_assets()
     })
-    expect_setequal(names(assets), c("count", "next", "previous", "results"))
-    expect_equal(nrow(assets$results), 8)
+    expect_setequal(names(assets), ASSET_COLUMNS)
+    expect_equal(nrow(assets), 8)
 })
 
 test_that("Kobo can fetch assets using simple get", {
@@ -105,6 +116,27 @@ test_that("Kobo can get submissions for a survey", {
     expect_true(tibble::is_tibble(response_df))
     expect_equal(nrow(response_df), 4)
 })
+
+test_that("Kobo can fetch surveys", {
+    vcr::use_cassette("kobo-get-surveys", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        surveys <- kobo$get_surveys()
+        surveys_all <- kobo$get_surveys(show_all_cols=TRUE)
+    })
+    columns_of_interest <- c(
+        "name", "uid", "date_created", "date_modified",
+        "owner__username", "parent", "has_deployment",
+        "deployment__active", "deployment__submission_count"
+    )
+    expect_setequal(names(surveys), columns_of_interest)
+    expect_equal(nrow(surveys), 40)
+
+    expect_equal(ncol(surveys_all), 22)
+    expect_equal(nrow(surveys_all), 40)
+
+})
+
+
 # ERRORS -----------
 vcr::use_cassette("kobo-get-404", {
     test_that("non existing route throws 404 error", {
