@@ -15,6 +15,26 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+# setup vcr
+library(vcr)
+vcr_dir <- "."
+if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
+    if (dir.exists(vcr_dir)) {
+        # Fake API token to fool our package
+        Sys.setenv("KBTBR_TOKEN" = "fakebearertoken")
+    } else {
+        # If there's no mock files nor API token, impossible to run tests
+        stop("No API key nor cassettes, tests cannot be run.",
+            call. = FALSE
+        )
+    }
+}
+invisible(vcr::vcr_configure(
+    dir = vcr_dir,
+    filter_request_headers = list(Authorization = "fakebearertoken")
+))
+vcr::check_cassette_names()
 ```
 
 `KoboClient` is an R6 class that manages the connection between R and the server that hosts the KoboToolbox. 
@@ -70,12 +90,21 @@ The get method is based on the method  [`$get()`](https://docs.ropensci.org/crul
 of the parent class. 
 The get method will query the APIs and return an R6 object of class `crul::HttpClient`. 
 
-```{r}
-assets = my_session$get(path="api/v2/assets/")
-str(assets, max.level=2)
+```{r include=FALSE}
+vcr::use_cassette("kobo-assets", {
+  assets <- my_session$get(path = "api/v2/assets/")
+})
 ```
 
-# The use of KoboClient in Kobo interface
+```{r eval=FALSE}
+assets <- my_session$get(path = "api/v2/assets/")
+```
+
+```{r}
+str(assets, max.level = 2)
+```
+
+# The use of KoboClient in the Kobo interface
 
 The Kobo interface uses KoboClient for its HTTP requests. 
 Kobo can create a session by initializing a KoboClient instance, or the user can pass a session, a KoboClient instance associated with an API base URL. 
@@ -87,10 +116,23 @@ The user can create their KoboClient instance and then pass it to the Kobo inter
 ```{r}
 my_session <- KoboClient$new(base_url)
 kobo <- Kobo$new(session_v2 = my_session)
-kobo$get_assets()
 ```
 
 
 
+```{r eval=FALSE}
+kobo$get_assets()
+```
+
+
+```{r include=FALSE}
+vcr::use_cassette("kobo-assets2", {
+  assets <- kobo$get_assets()
+})
+```
+
+```{r echo=FALSE}
+head(assets)
+```
 
 
