@@ -13,7 +13,7 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Overview 
+`kbtbr` is a wrapper for the [KoBoToolbox APIs](https://support.kobotoolbox.org/api.html). It focuses on API v2 but also makes use of v1 if required.
 
 # Installation
 
@@ -27,4 +27,20 @@ remotes::install_github("CorrelAid/kbtbr")
 devtools::install_github("CorrelAid/kbtbr")
 ```
 
+# Get started
+
+Check out the _Get started_:
+
+- [stable version](https://correlaid.github.io/kbtbr/get-started) 
+- [development version](https://correlaid.github.io/kbtbr/dev/get-started)
+
 # Documentation
+
+Documentation is available as a [`pkgdown`](https://pkgdown.r-lib.org/) website:
+
+- [stable version](https://correlaid.github.io/kbtbr/) 
+- [development version](https://correlaid.github.io/kbtbr/dev/)
+
+# Contributing to kbtbr
+
+See the [CONTRIBUTING.md](https://github.com/correlaid/kbtbr/blob/main/.github/CONTRIBUTING.md).
