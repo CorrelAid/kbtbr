@@ -18,19 +18,67 @@ library(tidyr)
 ```
 
 # Overview
-kbtbr uses R6 classes. 
+kbtbr is a wrapper for the [KoBoToolbox APIs](https://support.kobotoolbox.org/api.html). It focuses on API v2 but also makes use of v1 if required.
 
-# Authentication
+kbtbr uses [R6](https://r6.r-lib.org/articles/Introduction.html) classes. This means it has an object-oriented user interface which might feel unfamiliar to R users at first. But don't worry - you should get used to it quickly!
+
+
 
 # Setup
+## Authentication
+
+Get an API token using any of the methods described in the [KoBoToolbox documentation](https://support.kobotoolbox.org/api.html#getting-your-api-token).
+Then store it as an environment variable by opening and editing your `.Renviron`:
+
+
+```{r eval=FALSE}
+usethis::edit_r_environ()
+```
+
+Add your token on a new line as follows:
+
+```
+KBTBR_TOKEN=yourapitokenhere
+```
+Save the file and restart R/RStudio.
+
+
+Of course, you can also use local environment files or any other method to securely store the API token. 
+
+## Base URL
+In order to use kbtbr, you need to know the _base URLs_ of your KoBoToolbox server (cf. [here](https://support.kobotoolbox.org/api.html#using-the-api)). There are two _base URLs_, one for API version 2 and one for version 1. 
+To use the kbtbr package, you only need to specify the _base URL_ for version 2. However, certain functionalities that rely on the version 1 API will require its _base URL_. 
+
+If you are using one of the [two hosted instances](https://support.kobotoolbox.org/server.html), those are the base URLs:
+
+
+```{r echo=FALSE, eval=TRUE}
+baseurls <- tibble::tribble(
+  ~version, ~`Humanitarian Server (OCHA)`, ~`Non-Humanitarian Server`,
+  "v2", "https://kobo.humanitarianresponse.info", "https://kf.kobotoolbox.org",
+  "v1", "https://kc.humanitarianresponse.info", "https://kc.kobotoolbox.org" 
+)
+
+knitr::kable(baseurls)
+
+```
+
+## Creating the Kobo instance 
+
+With the right base URL(s), we can create an instance of the Kobo class. 
+
 ```{r kobo}
 library(kbtbr)
-base_url_v2 <- Sys.getenv("KBTBR_BASE_URL") # e.g. https://kobo.correlaid.org
+base_url_v2 <- "https://kf.kobotoolbox.org" # replace with your base URL for v2
+base_url_v1  <- "https://kc.kobotoolbox.org" # replace with your base URL for v1 
 token <- Sys.getenv("KBTBR_TOKEN")
 
 kobo <- Kobo$new(base_url_v2, token)
 kobo
 ```
+
+
+# Working with the Kobo class 
 
 ```{r}
 assets <- kobo$get_assets()
