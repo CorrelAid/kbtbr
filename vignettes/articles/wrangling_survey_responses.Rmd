@@ -27,9 +27,34 @@ BASE_URL <- "https://kobo.correlaid.org"
 ```
 
 ```{r include=FALSE}
+# properly set up vcr
+library(vcr)
+vcr_dir <- "."
+if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
+    if (dir.exists(vcr_dir)) {
+        # Fake API token to fool our package
+        Sys.setenv("KBTBR_TOKEN" = "fakebearertoken")
+    } else {
+        # If there's no mock files nor API token, impossible to run tests
+        stop("No API key nor cassettes, tests cannot be run.",
+            call. = FALSE
+        )
+    }
+}
+
+invisible(vcr::vcr_configure(
+    dir = vcr_dir,
+    filter_request_headers = list(Authorization = "fakebearertoken")
+))
+vcr::check_cassette_names()
+```
+
+
+```{r include=FALSE}
 kobo <-
   Kobo$new(base_url_v2 = BASE_URL,
            kobo_token = Sys.getenv("KBTBR_TOKEN"))
+# this only executes if kobo-asset-submissions-data.yml is not present
 vcr::use_cassette("kobo-asset-submissions-data", {
   submissions_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
 })
@@ -43,6 +68,8 @@ kobo <-
 asset_id <- "aRo4wg5utWT7dwdnQQEAE7"
 submissions_df <- kobo$get_submissions(asset_id)
 ```
+
+
 
 Let's look at the column names:
 ```{r}
@@ -77,7 +104,7 @@ submissions_df <- submissions_df %>%
 colnames(submissions_df)
 ```
 
-For very large forms, it might be useful to investigate on how to sort the columns alphabetically or by the order they appeard in the form. With the small form here, we can still individually select the columns to put them into a meaningful order:
+For very large forms, it might be useful to investigate on how to sort the columns alphabetically or by the order they appeared in the form. With the small form here, we can still individually select the columns to put them into a meaningful order:
 
 
 ```{r}
