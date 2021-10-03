@@ -121,7 +121,7 @@ kobo <- Kobo$new(session_v2 = my_session)
 
 
 ```{r eval=FALSE}
-kobo$get_assets()
+assets <- kobo$get_assets()
 ```
 
 
