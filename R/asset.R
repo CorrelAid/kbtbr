@@ -92,6 +92,18 @@ Asset <- R6::R6Class("Asset",
             checkmate::assert_class(kobo, c("R6", "Kobo"))
             private$.kobo <- kobo
         },
+
+        #' get_submissions
+        #' @description get submissions to a survey/form
+        #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
+        get_submissions = function() {
+            if (private$.type != "survey") {
+                usethis::ui_stop("Only valid for assets of type 'survey'. Current asset is of type '{private$.type}'.")
+            }
+            path <- glue::glue("assets/{private$.uid}/data/")
+            private$.kobo$get(path)$results %>%
+                tibble::as_tibble()
+        },
         #' to_list
         #' @return list representation of asset
         to_list = function() {

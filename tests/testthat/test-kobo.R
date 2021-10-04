@@ -97,7 +97,7 @@ test_that("Kobo can fetch assets using simple get", {
     expect_equal(assets$count, 8)
 })
 
-test_that("Kobo can a single asset", {
+test_that("Kobo can get a single asset", {
     vcr::use_cassette("kobo-get-single-asset", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
@@ -106,6 +106,15 @@ test_that("Kobo can a single asset", {
         class(asset),
         c("Asset", "R6")
     )
+})
+
+test_that("Kobo can get submissions for a survey", {
+    vcr::use_cassette("kobo-get-submissions", {
+        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+        response_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
+    })
+    expect_true(tibble::is_tibble(response_df))
+    expect_equal(nrow(response_df), 4)
 })
 
 test_that("Kobo can fetch surveys", {

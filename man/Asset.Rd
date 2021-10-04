@@ -36,6 +36,7 @@ gives access to the submissions to the survey.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Asset$new()}}
+\item \href{#method-get_submissions}{\code{Asset$get_submissions()}}
 \item \href{#method-to_list}{\code{Asset$to_list()}}
 \item \href{#method-clone}{\code{Asset$clone()}}
 }
@@ -54,9 +55,23 @@ gives access to the submissions to the survey.}
 \item{\code{asset_list}}{list. a list with the asset data, such as obtained through a call to assets/{id}}
 
 \item{\code{kobo}}{Kobo instance. Instance of class Kobo used internally to make requests to the API.
-to_list}
+get_submissions}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_submissions"></a>}}
+\if{latex}{\out{\hypertarget{method-get_submissions}{}}}
+\subsection{Method \code{get_submissions()}}{
+get submissions to a survey/form
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Asset$get_submissions()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
+to_list
 }
 }
 \if{html}{\out{<hr>}}
