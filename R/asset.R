@@ -76,7 +76,7 @@ Asset <- R6::R6Class("Asset",
         initialize = function(asset_list, kobo) {
             # check that everything exists in list that we need
             needed_names <- c("uid", "name", "url", "data", "owner__username", "asset_type")
-            if (!checkmate::test_subset(needed_names, names(asset_list))) {
+            if (!test_subset(needed_names, names(asset_list))) {
                 missing_elements <- setdiff(needed_names, names(asset_list)) %>% paste(collapse = ", ")
                 usethis::ui_stop(glue::glue("Argument asset_list is missing the following required elements: {missing_elements}"))
             }
@@ -89,7 +89,7 @@ Asset <- R6::R6Class("Asset",
             private$.type <- asset_list$asset_type
 
             # kobo instance
-            checkmate::assert_class(kobo, c("R6", "Kobo"))
+            assert_class(kobo, c("R6", "Kobo"))
             private$.kobo <- kobo
         },
 

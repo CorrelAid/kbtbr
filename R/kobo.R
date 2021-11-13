@@ -33,21 +33,21 @@ Kobo <- R6::R6Class("Kobo",
 
             # one has to pass at least base_url_v2 or session_v2
             if (!xor(
-                checkmate::test_null(base_url_v2),
-                checkmate::test_null(session_v2)
+                test_null(base_url_v2),
+                test_null(session_v2)
             )) {
                 stop("Either base_url_v2 or session_v2 must be provided")
             }
 
-            if (!checkmate::test_null(base_url_v2)) {
+            if (!test_null(base_url_v2)) {
                 self$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
             } else {
                 self$session_v2 <- session_v2
             }
 
-            if (!checkmate::test_null(base_url_v1)) {
+            if (!test_null(base_url_v1)) {
                 self$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
-            } else if (!checkmate::test_null(session_v1)) {
+            } else if (!test_null(session_v1)) {
                 self$session_v1 <- session_v1
             } else {
                 # TODO: add to warning once we know what functnality is covered by v1.
@@ -78,7 +78,7 @@ Kobo <- R6::R6Class("Kobo",
                     query = query
                 )
             } else if (version == "v1") {
-                if (checkmate::test_null(self$session_v1)) {
+                if (test_null(self$session_v1)) {
                     usethis::ui_stop(
                         paste(
                             "Session for API v1 is not initalized.",
@@ -130,7 +130,7 @@ Kobo <- R6::R6Class("Kobo",
                     self$session_v2$post(path = path, body = body)
                 }
             } else if (version == "v1") {
-                if (checkmate::test_null(self$session_v1)) {
+                if (test_null(self$session_v1)) {
                     usethis::ui_stop("Session for API v1 is not initalized.
           Please re-initalize the Kobo client with the base_url_v1 argument.")
                 }
@@ -252,13 +252,13 @@ Kobo <- R6::R6Class("Kobo",
                                 share_metadata = FALSE) {
 
             # Input validation / assertions
-            checkmate::assert_character(name)
-            checkmate::assert_character(asset_type)
-            checkmate::assert_logical(share_metadata)
-            checkmate::assert_list(sector, names = "named")
-            checkmate::assert_list(country, names = "named")
-            checkmate::assertSetEqual(names(sector), c("label", "value"))
-            checkmate::assertSetEqual(names(country), c("label", "value"))
+            assert_character(name)
+            assert_character(asset_type)
+            assert_logical(share_metadata)
+            assert_list(sector, names = "named")
+            assert_list(country, names = "named")
+            assertSetEqual(names(sector), c("label", "value"))
+            assertSetEqual(names(country), c("label", "value"))
 
             body <- list(
                 "name" = name,

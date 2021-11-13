@@ -3,7 +3,7 @@
 export("%>%")
 export(Kobo)
 export(KoboClient)
-importFrom(checkmate,assert_character)
+import(checkmate)
 importFrom(crul,HttpClient)
 importFrom(magrittr,"%>%")
 importFrom(usethis,ui_stop)

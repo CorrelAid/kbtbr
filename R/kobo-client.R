@@ -2,7 +2,6 @@
 #' @description
 #' A class to interact with the KoboToolbox API, extending [`crul::HttpClient`].
 #' @importFrom crul HttpClient
-#' @importFrom checkmate assert_character
 #' @importFrom usethis ui_stop
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
@@ -22,7 +21,7 @@ KoboClient <- R6::R6Class("KoboClient",
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
 
             # Check and set private fields
-            checkmate::assert_character(kobo_token)
+            assert_character(kobo_token)
             if (kobo_token == "") {
                 usethis::ui_stop(
                     "No valid token detected. Set the KBTBR_TOKEN environment
