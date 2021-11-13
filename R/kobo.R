@@ -154,7 +154,7 @@ Kobo <- R6::R6Class("Kobo",
         #' @param show_all_cols if true returns all the columns available
         #' for an asset
         #' @return An user-friendly summary of the available surveys as a tibble
-        get_surveys = function(show_all_cols=FALSE) {
+        get_surveys = function(show_all_cols = FALSE) {
             assets_res <- self$get_assets()
             fil <- assets_res$asset_type == "survey"
             columns_of_interest <- c(
@@ -162,12 +162,11 @@ Kobo <- R6::R6Class("Kobo",
                 "owner__username", "parent", "has_deployment",
                 "deployment__active", "deployment__submission_count"
             )
-            if (show_all_cols){
-                return(assets_res[fil,])
+            if (show_all_cols) {
+                return(assets_res[fil, ])
             } else {
                 return(assets_res[fil, columns_of_interest])
             }
-
         },
 
         #' @description

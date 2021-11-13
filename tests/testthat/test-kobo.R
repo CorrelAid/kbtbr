@@ -1,14 +1,14 @@
 BASE_URL <- "https://kobo.correlaid.org"
 ASSET_COLUMNS <- c(
-  "url", "date_modified", "date_created", "owner", "summary", "owner__username",
-  "parent", "uid",
-  "tag_string", "settings",
-  "kind", "name",
-  "asset_type", "version_id",
-  "has_deployment", "deployed_version_id",
-  "deployment__identifier", "deployment__active",
-  "deployment__submission_count", "permissions",
-  "downloads", "data"
+    "url", "date_modified", "date_created", "owner", "summary", "owner__username",
+    "parent", "uid",
+    "tag_string", "settings",
+    "kind", "name",
+    "asset_type", "version_id",
+    "has_deployment", "deployed_version_id",
+    "deployment__identifier", "deployment__active",
+    "deployment__submission_count", "permissions",
+    "downloads", "data"
 )
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
@@ -121,7 +121,7 @@ test_that("Kobo can fetch surveys", {
     vcr::use_cassette("kobo-get-surveys", {
         kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
         surveys <- kobo$get_surveys()
-        surveys_all <- kobo$get_surveys(show_all_cols=TRUE)
+        surveys_all <- kobo$get_surveys(show_all_cols = TRUE)
     })
     columns_of_interest <- c(
         "name", "uid", "date_created", "date_modified",
@@ -133,7 +133,6 @@ test_that("Kobo can fetch surveys", {
 
     expect_equal(ncol(surveys_all), 22)
     expect_equal(nrow(surveys_all), 40)
-
 })
 
 
@@ -451,19 +450,19 @@ test_that("kobo$create_asset can create assets with dafault settings", {
 })
 
 test_that("kobo$create_asset returns error when name isn't provided", {
-	    kobo <- suppressMessages(Kobo$new(
+    kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
         kobo_token = Sys.getenv("KBTBR_TOKEN")
     ))
-	    expect_error(kobo$create_asset(asset_type = "survey"), regexp = "is missing")
+    expect_error(kobo$create_asset(asset_type = "survey"), regexp = "is missing")
 })
 
 test_that("kobo$create_asset returns error when asset_type isn't provided", {
-	   kobo <- suppressMessages(Kobo$new(
+    kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
         kobo_token = Sys.getenv("KBTBR_TOKEN")
     ))
-	   expect_error(kobo$create_asset(name = "vcr_test_name"), regexp = "is missing")
+    expect_error(kobo$create_asset(name = "vcr_test_name"), regexp = "is missing")
 })
 
 test_that("kobo$import_xls_form fails because of an incorrect path", {
@@ -478,7 +477,7 @@ test_that("kobo$import_xls_form fails because of an incorrect path", {
 })
 
 test_that("kobo$import_xls_form fails because of the missing path", {
-	   kobo <- suppressMessages(Kobo$new(
+    kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
         kobo_token = Sys.getenv("KBTBR_TOKEN")
     ))
@@ -488,11 +487,11 @@ test_that("kobo$import_xls_form fails because of the missing path", {
 })
 
 test_that("kobo$import_xls_form fails because of the missing name", {
-   kobo <- suppressMessages(Kobo$new(
+    kobo <- suppressMessages(Kobo$new(
         base_url_v2 = BASE_URL,
         kobo_token = Sys.getenv("KBTBR_TOKEN")
     ))
     expect_error(kobo$import_xls_form(name = "vcr_test_name"),
         regexp = "is missing"
     )
-    })
+})
