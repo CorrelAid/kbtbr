@@ -25,6 +25,7 @@ interactions with the various endpoints.
 \item \href{#method-get}{\code{Kobo$get()}}
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
+\item \href{#method-get_surveys}{\code{Kobo$get_surveys()}}
 \item \href{#method-get_asset}{\code{Kobo$get_asset()}}
 \item \href{#method-get_submissions}{\code{Kobo$get_submissions()}}
 \item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
@@ -131,12 +132,32 @@ Returns an object of class \code{crul::HttpResponse}.
 \if{html}{\out{<a id="method-get_assets"></a>}}
 \if{latex}{\out{\hypertarget{method-get_assets}{}}}
 \subsection{Method \code{get_assets()}}{
-Example method to send a GET request to the \code{assets} endpoint
-(due to default to \code{v2}, no further specification is needed).
+Returns a list of all assets available in the server as tibble
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$get_assets()}\if{html}{\out{</div>}}
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_surveys"></a>}}
+\if{latex}{\out{\hypertarget{method-get_surveys}{}}}
+\subsection{Method \code{get_surveys()}}{
+High-level GET request for \code{surveys} endpoints endpoint
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get_surveys(show_all_cols = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{show_all_cols}}{if true returns all the columns available
+for an asset}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An user-friendly summary of the available surveys as a tibble
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_asset"></a>}}
