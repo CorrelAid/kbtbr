@@ -72,7 +72,6 @@ Kobo <- R6::R6Class("Kobo",
             }
 
             query$format <- format
-
             if (version == "v2") {
                 res <- self$session_v2$get(
                     path = paste0("api/v2/", path),
@@ -145,10 +144,30 @@ Kobo <- R6::R6Class("Kobo",
         },
 
         #' @description
-        #' Example method to send a GET request to the `assets` endpoint
-        #' (due to default to `v2`, no further specification is needed).
+        #' Returns a list of all assets available in the server as tibble
         get_assets = function() {
-            self$get("assets/")
+            return(tibble::tibble(self$get("assets/")$results))
+        },
+
+        #' @description
+        #' High-level GET request for `surveys` endpoints endpoint
+        #' @param show_all_cols if true returns all the columns available
+        #' for an asset
+        #' @return An user-friendly summary of the available surveys as a tibble
+        get_surveys = function(show_all_cols=FALSE) {
+            assets_res <- self$get_assets()
+            fil <- assets_res$asset_type == "survey"
+            columns_of_interest <- c(
+                "name", "uid", "date_created", "date_modified",
+                "owner__username", "parent", "has_deployment",
+                "deployment__active", "deployment__submission_count"
+            )
+            if (show_all_cols){
+                return(assets_res[fil,])
+            } else {
+                return(assets_res[fil, columns_of_interest])
+            }
+
         },
 
         #' @description

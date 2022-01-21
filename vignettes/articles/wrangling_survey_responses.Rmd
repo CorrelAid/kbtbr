@@ -7,6 +7,7 @@ output:
 ---
 
 ```{r, include = FALSE}
+devtools::load_all()
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -27,9 +28,34 @@ BASE_URL <- "https://kobo.correlaid.org"
 ```
 
 ```{r include=FALSE}
+# properly set up vcr
+library(vcr)
+vcr_dir <- "."
+if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
+    if (dir.exists(vcr_dir)) {
+        # Fake API token to fool our package
+        Sys.setenv("KBTBR_TOKEN" = "fakebearertoken")
+    } else {
+        # If there's no mock files nor API token, impossible to run tests
+        stop("No API key nor cassettes, tests cannot be run.",
+            call. = FALSE
+        )
+    }
+}
+
+invisible(vcr::vcr_configure(
+    dir = vcr_dir,
+    filter_request_headers = list(Authorization = "fakebearertoken")
+))
+vcr::check_cassette_names()
+```
+
+
+```{r include=FALSE}
 kobo <-
   Kobo$new(base_url_v2 = BASE_URL,
            kobo_token = Sys.getenv("KBTBR_TOKEN"))
+# this only executes if kobo-asset-submissions-data.yml is not present
 vcr::use_cassette("kobo-asset-submissions-data", {
   submissions_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
 })

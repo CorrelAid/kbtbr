@@ -31,16 +31,16 @@ test_that("asset objects can be created for all asset types", {
     })
 
     # get one of each type to make sure it works for all asset types
-    survey <- assets$results %>%
+    survey <- assets %>%
         dplyr::filter(asset_type == "survey") %>%
         dplyr::slice(1)
-    question <- assets$results %>%
+    question <- assets %>%
         dplyr::filter(asset_type == "question") %>%
         dplyr::slice(1)
-    block <- assets$results %>%
+    block <- assets %>%
         dplyr::filter(asset_type == "block") %>%
         dplyr::slice(1)
-    template <- assets$results %>%
+    template <- assets %>%
         dplyr::filter(asset_type == "template") %>%
         dplyr::slice(1)
 
