@@ -12,7 +12,12 @@ coverage](https://codecov.io/gh/CorrelAid/kbtbr/branch/main/graph/badge.svg)](ht
 
 `kbtbr` is a wrapper for the [KoBoToolbox
 APIs](https://support.kobotoolbox.org/api.html). It focuses on API v2
-but also makes use of v1 if required.
+but also makes use of v1 if required (currently no dependencies on v1).
+`kbtbr` not only allows you to pull answers to your surveys directly
+into your R session but also lets you create and clone assets and import
+XLS forms straight from your R console. Finally, it provides flexible
+low-level functions to implement functionalities currently missing from
+the package yourself.
 
 # Installation
 
@@ -20,28 +25,36 @@ but also makes use of v1 if required.
 GitHub:
 
 ``` r
-# using remotes 
 remotes::install_github("CorrelAid/kbtbr")
+```
 
-# using devtools
-devtools::install_github("CorrelAid/kbtbr")
+Install the development version (unstable!)
+
+``` r
+remotes::install_github("CorrelAid/kbtbr", ref = "dev")
 ```
 
 # Get started
 
-Check out the *Get started*:
+``` r
+library(kbtbr)
+# replace with https://kobo.humanitarianresponse.info for the humanitarian server or your own if you self-host
+base_url_v2 <- "https://kf.kobotoolbox.org" 
+token <- Sys.getenv("KBTBR_TOKEN")
 
-  - [stable version](https://correlaid.github.io/kbtbr/get-started)
-  - [development
-    version](https://correlaid.github.io/kbtbr/dev/get-started)
+kobo <- Kobo$new(base_url_v2, base_url_v1, token)
+kobo$get_surveys()
+```
+
+See the documentation for more!
 
 # Documentation
 
 Documentation is available as a [`pkgdown`](https://pkgdown.r-lib.org/)
 website:
 
-  - [stable version](https://correlaid.github.io/kbtbr/)
-  - [development version](https://correlaid.github.io/kbtbr/dev/)
+-   [stable version](https://correlaid.github.io/kbtbr/)
+-   [development version](https://correlaid.github.io/kbtbr/dev/)
 
 # Contributing to kbtbr
 
