@@ -54,6 +54,7 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
+  testthat::skip("skipping because currently this message is not printed because no functionality depends on v1 API")
     expect_message(
         {
             kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
@@ -65,6 +66,7 @@ test_that("we get a message if we do not specify base_url_v1, but Kobo is initia
         c("Kobo", "R6")
     )
 })
+
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
 test_that("Request to v1 throws error if v1 session is not initialized", {

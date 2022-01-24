@@ -50,8 +50,8 @@ Kobo <- R6::R6Class("Kobo",
             } else if (!checkmate::test_null(session_v1)) {
                 self$session_v1 <- session_v1
             } else {
-                # TODO: add to warning once we know what functnality is covered by v1.
-                usethis::ui_info("You have not passed base_url_v1. This means you cannot use the following functions:")
+                # TODO: add to warning once we add functionality enabled by v1 only
+                # usethis::ui_info("You have not passed base_url_v1. You cannot use the following functions:")
             }
         },
         #' @description
