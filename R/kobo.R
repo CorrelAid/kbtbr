@@ -1,6 +1,6 @@
 #' @title Kobo Class
 #' @description
-#' Interface object for the Kobo API that can handle KoboClient instances
+#' Interface object for the Kobo API that can handle [KoboClient] instances
 #' (sessions) for both API versions.
 #' The Class exposes both generic and specific methods for HTTP requests /
 #' interactions with the various endpoints.
@@ -9,9 +9,9 @@ Kobo <- R6::R6Class("Kobo",
     # private = list(
     # ),
     public = list(
-        #' @field session_v2 KoboClient session for v2 of the API
+        #' @field session_v2 [kbtbr::KoboClient] session for v2 of the API
         session_v2 = NULL,
-        #' @field session_v1 KoboClient session for v1 of the API
+        #' @field session_v1 `KoboClient` session for v1 of the API
         session_v1 = NULL,
 
         #' @description
@@ -23,10 +23,10 @@ Kobo <- R6::R6Class("Kobo",
         #'  For example: https://kc.correlaid.org.
         #' @param kobo_token character. The API token. Defaults to requesting
         #'  the systen environment `KBTBR_TOKEN`.
-        #' @param session_v2 KoboClient. Alternatively, pass directly
-        #' a KoboClient instance for the API version v2.
-        #' @param session_v1 KoboKlient. In addition to session_v2 one can pass
-        #' also a KoboClient instance for the API version v1.
+        #' @param session_v2 [KoboClient] To pass directly
+        #' a [KoboClient] instance for the API version v2.
+        #' @param session_v1 [KoboClient] In addition to session_v2 one can pass
+        #' also a [KoboClient] instance for the API version v1.
         initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
                               kobo_token = Sys.getenv("KBTBR_TOKEN"),
                               session_v2 = NULL, session_v1 = NULL) {
@@ -145,6 +145,7 @@ Kobo <- R6::R6Class("Kobo",
 
         #' @description
         #' Returns a list of all assets available in the server as tibble
+        #' @importFrom tibble tibble
         get_assets = function() {
             return(tibble::tibble(self$get("assets/")$results))
         },
@@ -174,6 +175,7 @@ Kobo <- R6::R6Class("Kobo",
         #' Get an asset given its id.
         #' @param id character. ID of the asset within the Kobo API.
         #' @return Asset. object of class [kbtbr::Asset]
+        #' @importFrom glue glue
         get_asset = function(id) {
             res <- self$get(glue::glue("assets/{id}/"))
             Asset$new(res, self)

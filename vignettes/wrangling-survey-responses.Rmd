@@ -6,7 +6,7 @@ output:
     toc_depth: 3
 vignette: >
   %\VignetteIndexEntry{Data wrangling of responses}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 

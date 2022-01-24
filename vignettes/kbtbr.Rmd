@@ -3,17 +3,13 @@ title: "Get started"
 output:  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Get started}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
-library(dplyr)
-library(purrr)
-library(tidyr)
-
 
 # properly set up vcr
 library(vcr)
@@ -153,7 +149,7 @@ submissions <- kobo$get_submissions(test_id)
 ```
 
 ```{r}
-glimpse(submissions)
+str(submissions)
 ```
 
 Check out [Data wrangling of responses](/articles/wrangling-survey-responses.html) to see how to handle messy column names. 

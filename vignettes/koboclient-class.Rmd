@@ -4,7 +4,7 @@ date: "`r Sys.Date()`"
 output:  rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Advanced: The KoboClient class}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
 
