@@ -1,0 +1,261 @@
+---
+title: "Get started"
+output:  rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Get started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
+library(dplyr)
+library(purrr)
+library(tidyr)
+
+
+# properly set up vcr
+library(vcr)
+vcr_dir <- "./assets"
+if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
+    if (dir.exists(vcr_dir)) {
+        # Fake API token to fool our package
+        Sys.setenv("KBTBR_TOKEN" = "fakebearertoken")
+    } else {
+        # If there's no mock files nor API token, impossible to run tests
+        stop("No API key nor cassettes, tests cannot be run.",
+            call. = FALSE
+        )
+    }
+}
+
+invisible(vcr::vcr_configure(
+    dir = vcr_dir,
+    filter_request_headers = list(Authorization = "fakebearertoken")
+))
+vcr::check_cassette_names()
+```
+
+# Overview
+kbtbr is a wrapper for the [KoBoToolbox APIs](https://support.kobotoolbox.org/api.html). It focuses on API v2 but also makes use of v1 if required.
+
+kbtbr uses [R6](https://r6.r-lib.org/articles/Introduction.html) classes. This means it has an object-oriented user interface which might feel unfamiliar to R users at first. But don't worry - you should get used to it quickly!
+
+
+
+# Setup
+## Authentication
+
+Get an API token using any of the methods described in the [KoBoToolbox documentation](https://support.kobotoolbox.org/api.html#getting-your-api-token).
+Then store it as an environment variable by opening and editing your `.Renviron`:
+
+
+```{r eval=FALSE}
+usethis::edit_r_environ()
+```
+
+Add your token on a new line as follows:
+
+```
+KBTBR_TOKEN=yourapitokenhere
+```
+Save the file and restart R/RStudio.
+
+
+Of course, you can also use local environment files or any other method to securely store the API token. 
+
+## Base URL
+In order to use kbtbr, you need to know the _base URLs_ of your KoBoToolbox server (cf. [here](https://support.kobotoolbox.org/api.html#using-the-api)). There are two _base URLs_, one for API version 2 and one for version 1. 
+To use the kbtbr package, you only need to specify the _base URL_ for version 2. However, certain functionalities that rely on the version 1 API will require its _base URL_. 
+
+If you are using one of the [two hosted instances](https://support.kobotoolbox.org/server.html), those are the base URLs:
+
+
+```{r echo=FALSE, eval=TRUE}
+baseurls <- tibble::tribble(
+  ~version, ~`Humanitarian Server (OCHA)`, ~`Non-Humanitarian Server`,
+  "v2", "https://kobo.humanitarianresponse.info", "https://kf.kobotoolbox.org",
+  "v1", "https://kc.humanitarianresponse.info", "https://kc.kobotoolbox.org" 
+)
+
+knitr::kable(baseurls)
+
+```
+
+## Creating the Kobo instance 
+
+With the right base URL(s), we can create an instance of the `Kobo` class. The `base_url_v1` argument is optional.
+
+```{r kobo}
+library(kbtbr)
+base_url_v2 <- "https://kobo.correlaid.org" # replace with your base URL for v2
+base_url_v1  <- "https://kc.correlaid.org" # replace with your base URL for v1 
+token <- Sys.getenv("KBTBR_TOKEN")
+
+kobo <- Kobo$new(base_url_v2, base_url_v1, token)
+kobo
+```
+
+For alternative ways of initializing the `Kobo` class, see [here](/articles/koboclient-class.html#the-use-of-koboclient-in-the-kobo-interface).
+
+# Working with the Kobo class 
+
+A good first step is to get an overview over all your assets. Almost everything in KoBoToolbox is an asset: questions, blocks, forms, templates. 
+
+```{r include=FALSE}
+vcr::use_cassette("get-assets", {
+  assets <- kobo$get_assets()
+})
+```
+
+```{r eval=FALSE}
+assets <- kobo$get_assets()
+```
+
+```{r}
+table(assets$asset_type)
+```
+
+You can also just get your forms/surveys: 
+
+```{r include=FALSE}
+vcr::use_cassette("get-surveys", {
+  surveys <- kobo$get_surveys()
+})
+```
+
+```{r eval=FALSE}
+surveys <- kobo$get_surveys()
+```
+
+Inspect the data manually: 
+```{r}
+head(surveys)
+```
+
+You can then extract the ID of a single survey by filtering for its name. 
+
+```{r}
+test_id <- surveys$uid[surveys$name == "kbtbr Testing Survey"]
+```
+
+Get the answers (or _submissions_ in KoBoToolbox API lingo) to the form/survey:
+
+```{r include=FALSE}
+vcr::use_cassette("get-submissions", {
+  submissions <- kobo$get_submissions(test_id)
+})
+```
+
+```{r eval=FALSE}
+submissions <- kobo$get_submissions(test_id)
+```
+
+```{r}
+glimpse(submissions)
+```
+
+Check out [Data wrangling of responses](/articles/wrangling-survey-responses.html) to see how to handle messy column names. 
+
+# Kobo Administration with `kbtbr`
+
+With `kbtbr`, you can also manage your assets and do other useful administration tasks right from your R console. 
+
+
+## Create an Asset
+You can also create assets using the `create_asset()` method of the Kobo class. This can be useful if you need to create a lot of assets at once.
+
+```{r include=FALSE}
+vcr::use_cassette("create-asset", {
+  res <- kobo$create_asset("Question block", 
+                  asset_type = "block", 
+                  description = "this question block was created with the API.")
+})
+
+```
+
+```{r eval=FALSE}
+res <- kobo$create_asset("Question block", 
+                  asset_type = "block", 
+                  description = "this question block was created with the API.")
+```
+
+```{r}
+res$status_http()
+response_content <- res$parse("UTF-8") %>% jsonlite::fromJSON()
+str(response_content, max.level = 1)
+```
+
+
+## Cloning an Asset
+
+In order to clone an asset, you just have to specify its ID, a new name for the cloned asset and its type. 
+
+```{r include=FALSE}
+vcr::use_cassette("clone-asset", {
+  res <- kobo$clone_asset(test_id, "Test survey copy", "survey")
+})
+```
+
+```{r eval=FALSE}
+res <- kobo$clone_asset(test_id, "Test survey copy", "survey")
+```
+
+```{r}
+class(res)
+res$status_http()
+```
+
+Parse out the ID of the asset that was created:
+
+```{r}
+response_content <- res$parse("UTF-8") %>% jsonlite::fromJSON()
+str(response_content, max.level = 1)
+test_clone_id <- response_content$uid
+```
+
+
+## Deploying an asset
+
+To deploy an existing asset, e.g. after cloning or updating:
+
+```{r include=FALSE}
+vcr::use_cassette("deploy-asset", {
+  res <- kobo$deploy_asset(test_clone_id)
+})
+```
+
+```{r eval=FALSE}
+res <- kobo$deploy_asset(test_clone_id)
+```
+
+```{r}
+class(res)
+res$status_http()
+response_content <- res$parse("UTF-8") %>% jsonlite::fromJSON()
+str(response_content, max.level = 1)
+```
+
+## Importing XLS forms
+
+You can import an XLS form. This will create a draft survey/form which you could then again deploy using `kobo$deploy_asset()`. 
+
+```{r include=FALSE}
+vcr::use_cassette("import-xls-form", {
+  res <- kobo$import_xls_form(name = "XLS Form via import", "assets/xls_form_downloaded.xls")
+})
+```
+```{r eval=FALSE}
+res <- kobo$import_xls_form(name = "XLS Form via import", "assets/xls_form_downloaded.xls")
+```
+
+```{r}
+res$status_http()
+```
+
+# Making it your own: `post` and `get`
+
+`kbtbr` is by no means complete. So you might find that some of your use cases are not covered by the existing methods of the `Kobo` class. For this purpose, `Kobo` as well as the lower-level `KoboClient` class expose generic `get` and `post` functions which should allow you to implement more functionalities on your own. You can check out the existing high-level functions (e.g. `get_assets` or `clone_asset`) to get ideas how your code should look like. Of course, contributions to `kbtbr` are always welcome. 
+
+
