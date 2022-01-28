@@ -55,7 +55,7 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  [`crul::HttpClient`] for reference
         #' @return the server response as a crul::HttpResponse object.
         get = function(path, query = list(), ...) {
-            path <- check_repair_path(path)
+            path <- append_slash(path)
             res <- super$get(path = path, query = query, ...)
             return(res)
         },
@@ -71,7 +71,7 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  [`crul::HttpClient`] for reference
         #' @return Returns an object of class `crul::HttpResponse`.
         post = function(path, body, ...) {
-            path <- check_repair_path(path)
+            path <- append_slash(path)
             res <- super$post(path = path, body = body, ...)
             res$raise_for_status()
             return(res)

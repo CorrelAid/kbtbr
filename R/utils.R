@@ -3,11 +3,11 @@
 # if we write the functions outside the classes and set them later in the class
 # code readability is higher imo
 
-#' @title Check URL
+#' @title Repair URL by appending trailing slash
 #' @param path The path, for example appended to the base URL.
 #' @return The path string with optionally an appended trailing slash.
 #' @noRd
-check_repair_path <- function(path) {
+append_slash <- function(path) {
     if (substr(path, nchar(path), nchar(path)) != "/") {
         return(paste0(path, "/"))
     } else {
