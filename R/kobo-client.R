@@ -55,8 +55,11 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  [`crul::HttpClient`] for reference
         #' @return the server response as a crul::HttpResponse object.
         get = function(path, query = list(), ...) {
-            path <- append_slash(path)
-            res <- super$get(path = path, query = query, ...)
+            res <- super$get(
+                path = append_slash(path),
+                query = query,
+                ...
+            )
             return(res)
         },
 
