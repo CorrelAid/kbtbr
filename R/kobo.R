@@ -67,6 +67,10 @@ Kobo <- R6::R6Class("Kobo",
         #'   object.
         get = function(path, query = list(), version = "v2", format = "json",
                        parse = TRUE) {
+            assert_string(path)
+            assert_list(query)
+            assert_flag(parse)
+
             if (!format %in% c("json", "csv")) {
                 ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
             }
@@ -123,6 +127,9 @@ Kobo <- R6::R6Class("Kobo",
         #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
         #' @return Returns an object of class `crul::HttpResponse`.
         post = function(path, body, version = "v2") {
+            assert_string(path)
+            assert_list(body)
+
             if (version == "v2") {
                 if (path != "imports/") {
                     self$session_v2$post(path = paste0("api/v2/", path), body = body)
@@ -156,6 +163,8 @@ Kobo <- R6::R6Class("Kobo",
         #' for an asset
         #' @return An user-friendly summary of the available surveys as a tibble
         get_surveys = function(show_all_cols = FALSE) {
+            assert_flag(show_all_cols)
+
             assets_res <- self$get_assets()
             fil <- assets_res$asset_type == "survey"
             columns_of_interest <- c(
@@ -175,6 +184,8 @@ Kobo <- R6::R6Class("Kobo",
         #' @param id character. ID of the asset within the Kobo API.
         #' @return Asset. object of class [kbtbr::Asset]
         get_asset = function(id) {
+            assert_string(id)
+
             res <- self$get(sprintf("assets/%s/", id))
             Asset$new(res, self)
         },
@@ -184,6 +195,8 @@ Kobo <- R6::R6Class("Kobo",
         #' @param id character. ID of the survey asset within the Kobo API.
         #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
         get_submissions = function(id) {
+            assert_string(id)
+
             asset <- self$get_asset(id)
             asset$get_submissions()
         },
@@ -195,6 +208,10 @@ Kobo <- R6::R6Class("Kobo",
         #' "block", "question", "survey", "template".
         #' @return Returns an object of class `crul::HttpResponse`.
         clone_asset = function(clone_from, new_name, asset_type) {
+            assert_string(clone_from)
+            assert_string(new_name)
+            assert_choice(asset_type, choices = c("block", "question", "survey", "template"))
+
             body <- list(
                 "clone_from" = clone_from,
                 "name" = new_name,
@@ -210,8 +227,10 @@ Kobo <- R6::R6Class("Kobo",
         #' @param uid character. UID of the asset to be deployed.
         #' @return Returns an object of class `crul::HttpResponse`.
         deploy_asset = function(uid) {
+            assert_string(uid)
+
             body <- list("active" = "true")
-            endpoint <- paste0("assets/", uid, "/deployment/")
+            endpoint <- sprintf("assets/%s/deployment/", uid)
             self$post(endpoint, body = body)
         },
 
@@ -222,6 +241,9 @@ Kobo <- R6::R6Class("Kobo",
         #' @param file_path  character. The path to the XLS form file.
         #' @return Returns an object of class `crul::HttpResponse`.
         import_xls_form = function(name, file_path) {
+            assert_string(name)
+            assert_file_exists(file_path)
+
             body <- list(
                 "name" = name,
                 "library" = "false",
@@ -258,8 +280,8 @@ Kobo <- R6::R6Class("Kobo",
             assert_logical(share_metadata)
             assert_list(sector, names = "named")
             assert_list(country, names = "named")
-            assertSetEqual(names(sector), c("label", "value"))
-            assertSetEqual(names(country), c("label", "value"))
+            assert_set_equal(names(sector), c("label", "value"))
+            assert_set_equal(names(country), c("label", "value"))
 
             body <- list(
                 "name" = name,

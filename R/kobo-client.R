@@ -18,9 +18,9 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  the system environment variable `KBTBR_TOKEN`.
         initialize = function(base_url,
                               kobo_token = Sys.getenv("KBTBR_TOKEN")) {
+            assert_string(base_url)
+            assert_string(kobo_token)
 
-            # Check and set private fields
-            assert_character(kobo_token)
             if (kobo_token == "") {
                 ui_stop(
                     "No valid token detected. Set the KBTBR_TOKEN environment
@@ -74,6 +74,9 @@ KoboClient <- R6::R6Class("KoboClient",
         #'  [`crul::HttpClient`] for reference
         #' @return Returns an object of class `crul::HttpResponse`.
         post = function(path, body, ...) {
+            assert_string(path)
+            assert_list(body)
+
             path <- append_slash(path)
             res <- super$post(path = path, body = body, ...)
             res$raise_for_status()
