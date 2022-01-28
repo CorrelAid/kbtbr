@@ -31,7 +31,6 @@ Imports:
     checkmate,
     magrittr,
     jsonlite,
-    glue,
     tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1

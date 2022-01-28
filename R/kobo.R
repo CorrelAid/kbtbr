@@ -174,9 +174,8 @@ Kobo <- R6::R6Class("Kobo",
         #' Get an asset given its id.
         #' @param id character. ID of the asset within the Kobo API.
         #' @return Asset. object of class [kbtbr::Asset]
-        #' @importFrom glue glue
         get_asset = function(id) {
-            res <- self$get(glue::glue("assets/{id}/"))
+            res <- self$get(sprintf("assets/%s/", id))
             Asset$new(res, self)
         },
 

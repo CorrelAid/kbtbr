@@ -77,8 +77,10 @@ Asset <- R6::R6Class("Asset",
             # check that everything exists in list that we need
             needed_names <- c("uid", "name", "url", "data", "owner__username", "asset_type")
             if (!test_subset(needed_names, names(asset_list))) {
-                missing_elements <- setdiff(needed_names, names(asset_list)) %>% paste(collapse = ", ")
-                usethis::ui_stop(glue::glue("Argument asset_list is missing the following required elements: {missing_elements}"))
+                missing_elements <- setdiff(needed_names, names(asset_list))
+                usethis::ui_stop(
+                  sprintf("Argument asset_list is missing the following required elements: %s", toString(missing_elements))
+                )
             }
 
             private$.uid <- asset_list$uid
@@ -100,7 +102,7 @@ Asset <- R6::R6Class("Asset",
             if (private$.type != "survey") {
                 usethis::ui_stop("Only valid for assets of type 'survey'. Current asset is of type '{private$.type}'.")
             }
-            path <- glue::glue("assets/{private$.uid}/data/")
+            path <- sprintf("assets/%s/data/", private$.uid)
             private$.kobo$get(path)$results %>%
                 tibble::as_tibble()
         },
