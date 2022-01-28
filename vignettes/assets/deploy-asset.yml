@@ -1,0 +1,89 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/deployment/
+    body:
+      encoding: ''
+      string: active=true
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Mon, 24 Jan 2022 13:04:50 GMT
+      content-type: application/json
+      content-length: '13629'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, PATCH, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"backend":"kobocat","identifier":"https://kc.correlaid.org/api_user/forms/ackE4RGzXMjWBei3bRHPbb","active":true,"version_id":"vfAaB99KXQeGf2gMxWA57z","asset":{"url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/","owner":"https://kobo.correlaid.org/api/v2/users/api_user/","owner__username":"api_user","parent":null,"ancestors":null,"settings":{"sector":{"label":"Other","value":"Other"},"country":{"label":"Germany","value":"DEU"},"description":"Yet
+        another testing form for package development"},"asset_type":"survey","date_created":"2022-01-24T13:04:49.219153Z","summary":{"row_count":21,"languages":[null],"default_translation":null,"geo":true,"labels":["Please
+        say, for each of the following, how important it is in your life.","Work","Family","Friends
+        and acquaintances","Leisure time"],"columns":["name","type","label","required","kobo--score-choices","select_from_list_name","hint","parameters"]},"date_modified":"2022-01-24T13:04:50.010435Z","version_id":"vfAaB99KXQeGf2gMxWA57z","version__content_hash":"f3e28cf31d58b03c955935dedec741d31d4537b8","version_count":1,"has_deployment":true,"deployed_version_id":"vfAaB99KXQeGf2gMxWA57z","deployed_versions":{"count":1,"next":null,"previous":null,"results":[{"uid":"vfAaB99KXQeGf2gMxWA57z","url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/versions/vfAaB99KXQeGf2gMxWA57z/","content_hash":"f3e28cf31d58b03c955935dedec741d31d4537b8","date_deployed":"2022-01-24T13:04:49.240765Z","date_modified":"2022-01-24
+        13:04:49.240765+00:00"}]},"deployment__identifier":"https://kc.correlaid.org/api_user/forms/ackE4RGzXMjWBei3bRHPbb","deployment__links":{"url":"https://ee.correlaid.org/Ta4PiaKt","single_url":"https://ee.correlaid.org/single/Ta4PiaKt","single_once_url":"https://ee.correlaid.org/single/04e9d231ca0e82bb2dc05d9498cae70b","offline_url":"https://ee.correlaid.org/x/Ta4PiaKt","preview_url":"https://ee.correlaid.org/preview/Ta4PiaKt","iframe_url":"https://ee.correlaid.org/i/Ta4PiaKt","single_iframe_url":"https://ee.correlaid.org/single/i/Ta4PiaKt","single_once_iframe_url":"https://ee.correlaid.org/single/i/04e9d231ca0e82bb2dc05d9498cae70b"},"deployment__active":true,"deployment__data_download_links":{"xls_legacy":"https://kc.correlaid.org/api_user/exports/ackE4RGzXMjWBei3bRHPbb/xls/","csv_legacy":"https://kc.correlaid.org/api_user/exports/ackE4RGzXMjWBei3bRHPbb/csv/","zip_legacy":"https://kc.correlaid.org/api_user/exports/ackE4RGzXMjWBei3bRHPbb/zip/","kml_legacy":"https://kc.correlaid.org/api_user/exports/ackE4RGzXMjWBei3bRHPbb/kml/","xls":"https://kc.correlaid.org/api_user/reports/ackE4RGzXMjWBei3bRHPbb/export.xlsx","csv":"https://kc.correlaid.org/api_user/reports/ackE4RGzXMjWBei3bRHPbb/export.csv"},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{"end":{},"start":{},"ai6cp87":{},"ip2pc55":{},"ke1im15":{},"kr9ur31":{},"lr5sh35":{},"mk6mc53":{},"ob3me97":{},"or5gr65":{},"qy1kf43":{},"tf9rd50":{},"wh7ei00":{},"xg6fl64":{},"yj6dy23":{},"/dr9fq65":{},"/tb2px63":{},"file_upload":{},"locate_hamburg":{},"trust_in_groups":{},"trust_in_others":{},"control_over_life":{},"importance_in_life":{},"voluntary_activity":{},"health_self_assessment":{}},"kuid_names":{"end":"QdTRTdETf","start":"Bbu6GtD1G","ai6cp87":"ai6cp87","ip2pc55":"ip2pc55","ke1im15":"ke1im15","kr9ur31":"kr9ur31","lr5sh35":"lr5sh35","mk6mc53":"mk6mc53","ob3me97":"ob3me97","or5gr65":"or5gr65","qy1kf43":"qy1kf43","tf9rd50":"tf9rd50","wh7ei00":"wh7ei00","xg6fl64":"xg6fl64","yj6dy23":"yj6dy23","/dr9fq65":"/dr9fq65","/tb2px63":"/tb2px63","file_upload":"dq0sb99","locate_hamburg":"fd0cf28","trust_in_groups":"tb2px63","trust_in_others":"va0xx85","control_over_life":"gt1yj76","importance_in_life":"dr9fq65","voluntary_activity":"ks56k46","health_self_assessment":"uf68v87"}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"schema":"1","survey":[{"name":"start","type":"start","$kuid":"Bbu6GtD1G","$autoname":"start"},{"name":"end","type":"end","$kuid":"QdTRTdETf","$autoname":"end"},{"name":"importance_in_life","type":"begin_score","$kuid":"dr9fq65","label":["Please
+        say, for each of the following, how important it is in your life."],"required":false,"$autoname":"importance_in_life","kobo--score-choices":"ys4jh05"},{"type":"score__row","$kuid":"kr9ur31","label":["Work"],"required":false,"$autoname":"Work"},{"type":"score__row","$kuid":"tf9rd50","label":["Family"],"required":false,"$autoname":"Family"},{"type":"score__row","$kuid":"mk6mc53","label":["Friends
+        and acquaintances"],"required":false,"$autoname":"Friends_and_acquaintances"},{"type":"score__row","$kuid":"lr5sh35","label":["Leisure
+        time"],"required":false,"$autoname":"Leisure_time"},{"type":"score__row","$kuid":"ob3me97","label":["Politics"],"required":false,"$autoname":"Politics"},{"type":"score__row","$kuid":"ai6cp87","label":["Religion"],"required":false,"$autoname":"Religion"},{"type":"end_score","$kuid":"/dr9fq65"},{"type":"select_one","$kuid":"or5gr65","label":["Taking
+        all things together, would you say you are:"],"required":true,"$autoname":"Taking_all_things_to_ould_you_say_you_are","select_from_list_name":"rz4sr22"},{"name":"health_self_assessment","type":"select_one","$kuid":"uf68v87","label":["All
+        in all, how would you describe your state of health these days? would you
+        say it is"],"required":false,"$autoname":"health_self_assessment","select_from_list_name":"ve2ix92"},{"name":"voluntary_activity","type":"select_one","$kuid":"ks56k46","label":["Did
+        you do voluntary work in the last 6 months?"],"required":false,"$autoname":"voluntary_activity","select_from_list_name":"am8gn27"},{"name":"trust_in_others","type":"select_one","$kuid":"va0xx85","label":["Generally
+        speaking, would you say that most people can be trusted or that you can''t
+        be too careful in dealing with people?"],"required":false,"$autoname":"trust_in_others","select_from_list_name":"zl1iq13"},{"name":"trust_in_groups","type":"begin_score","$kuid":"tb2px63","label":["I
+        would like to ask you how much you trust people from various groups. Could
+        you tell me for each whether you trust people from this group completely,
+        somewhat, not very much or not at all?"],"required":false,"$autoname":"trust_in_groups","kobo--score-choices":"uy4om18"},{"type":"score__row","$kuid":"xg6fl64","label":["Your
+        family"],"required":false,"$autoname":"Your_family"},{"type":"score__row","$kuid":"yj6dy23","label":["People
+        in your neighborhood"],"required":false,"$autoname":"People_in_your_neighborhood"},{"type":"score__row","$kuid":"ke1im15","label":["People
+        you know personally"],"required":false,"$autoname":"People_you_know_personally"},{"type":"score__row","$kuid":"wh7ei00","label":["People
+        you meet for the first time"],"required":false,"$autoname":"People_you_meet_for_the_first_time"},{"type":"score__row","$kuid":"qy1kf43","label":["People
+        of another religion"],"required":false,"$autoname":"People_of_another_religion"},{"type":"score__row","$kuid":"ip2pc55","label":["People
+        of another nationality"],"required":false,"$autoname":"People_of_another_nationality"},{"type":"end_score","$kuid":"/tb2px63"},{"hint":["1
+        = \"None at all\", 10 = \"a great deal\""],"name":"control_over_life","type":"range","$kuid":"gt1yj76","label":["Some
+        people feel they have completely free choice and control over their lives,
+        and other people feel that what they do has no real effect on what happens
+        to them. Please use the scale to indicate how much freedom of choice and control
+        you feel you have over the way your life turns out?"],"required":false,"$autoname":"control_over_life","parameters":"start=1;end=10;step=1"},{"name":"locate_hamburg","type":"geopoint","$kuid":"fd0cf28","label":["Please
+        indicate where on the map is \"Hamburg\""],"required":false,"$autoname":"locate_hamburg"},{"name":"file_upload","type":"file","$kuid":"dq0sb99","label":["Upload
+        an arbitrary file..."],"required":false,"$autoname":"file_upload"}],"choices":[{"name":"1","$kuid":"NPp8OR3md","label":["Very
+        important"],"list_name":"ys4jh05","$autovalue":"1"},{"name":"2","$kuid":"LnI83gRXp","label":["quite
+        important"],"list_name":"ys4jh05","$autovalue":"2"},{"name":"3","$kuid":"u6ot3527d","label":["not
+        important"],"list_name":"ys4jh05","$autovalue":"3"},{"name":"4","$kuid":"gRoco4Pev","label":["not
+        at all important"],"list_name":"ys4jh05","$autovalue":"4"},{"name":"1","$kuid":"4oLFnV3ws","label":["Very
+        happy"],"list_name":"rz4sr22","$autovalue":"1"},{"name":"2","$kuid":"PAmAPsyFM","label":["Quite
+        happy"],"list_name":"rz4sr22","$autovalue":"2"},{"name":"3","$kuid":"G8ZTNvrsz","label":["Not
+        very happy"],"list_name":"rz4sr22","$autovalue":"3"},{"name":"4","$kuid":"p2PSwo7yN","label":["Not
+        at all happy"],"list_name":"rz4sr22","$autovalue":"4"},{"name":"8","$kuid":"ZUOsXVxA0","label":["Don''t
+        know"],"list_name":"rz4sr22","$autovalue":"8"},{"name":"9","$kuid":"gTT51LFcs","label":["No
+        answer"],"list_name":"rz4sr22","$autovalue":"9"},{"name":"1","$kuid":"FSr5OYH5Z","label":["Very
+        good"],"list_name":"ve2ix92","$autovalue":"1"},{"name":"2","$kuid":"ePIcIfywO","label":["Good"],"list_name":"ve2ix92","$autovalue":"2"},{"name":"3","$kuid":"97eDDuzaO","label":["Fair"],"list_name":"ve2ix92","$autovalue":"3"},{"name":"4","$kuid":"BIcgTk7PF","label":["Poor"],"list_name":"ve2ix92","$autovalue":"4"},{"name":"5","$kuid":"TI1TEmjKI","label":["Very
+        poor"],"list_name":"ve2ix92","$autovalue":"5"},{"name":"8","$kuid":"UPQRPVpZN","label":["Don''t
+        know"],"list_name":"ve2ix92","$autovalue":"8"},{"name":"9","$kuid":"696pTgkEM","label":["No
+        answer"],"list_name":"ve2ix92","$autovalue":"9"},{"name":"1","$kuid":"rhWu34seb","label":["Yes"],"list_name":"am8gn27","$autovalue":"1"},{"name":"2","$kuid":"eNbB8K507","label":["No"],"list_name":"am8gn27","$autovalue":"2"},{"name":"8","$kuid":"kg9naDqjC","label":["Don''t
+        know"],"list_name":"am8gn27","$autovalue":"8"},{"name":"9","$kuid":"7AFKIlHDu","label":["No
+        answer"],"list_name":"am8gn27","$autovalue":"9"},{"name":"1","$kuid":"IKCXDYXCk","label":["Most
+        people can be trusted"],"list_name":"zl1iq13","$autovalue":"1"},{"name":"2","$kuid":"Jvg4jninb","label":["Can''t
+        be too careful"],"list_name":"zl1iq13","$autovalue":"2"},{"name":"8","$kuid":"VSWHtAmIg","label":["Don''t
+        know"],"list_name":"zl1iq13","$autovalue":"8"},{"name":"9","$kuid":"Utj6uO20z","label":["No
+        answer"],"list_name":"zl1iq13","$autovalue":"9"},{"name":"1","$kuid":"UrdKQbo8g","label":["Trust
+        completely"],"list_name":"uy4om18","$autovalue":"1"},{"name":"2","$kuid":"mCJO9kEu8","label":["Trust
+        somewhat"],"list_name":"uy4om18","$autovalue":"2"},{"name":"3","$kuid":"UlmwVnpew","label":["Do
+        not trust very much"],"list_name":"uy4om18","$autovalue":"3"},{"name":"4","$kuid":"cMmSDIUwH","label":["Do 
+        not trust at all"],"list_name":"uy4om18","$autovalue":"4"}],"settings":{},"translated":["hint","label"],"translations":[null]},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/xls/"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/xform/"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/koboform/","xform_link":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/xform/","hooks_link":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/hooks/","tag_string":"","uid":"ackE4RGzXMjWBei3bRHPbb","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/ackE4RGzXMjWBei3bRHPbb/xls/","name":"Test
+        survey copy","permissions":[{"uid":"peVKTUv8pqYeGbpX44sQJP","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/peVKTUv8pqYeGbpX44sQJP/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"add_submissions","deny":false,"inherited":true},{"uid":"pj4mgpo6MJjW3SUhz4Mf4B","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pj4mgpo6MJjW3SUhz4Mf4B/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"change_asset","deny":false,"inherited":true},{"uid":"pyZPpcVRMCBAt7EYGCarjW","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pyZPpcVRMCBAt7EYGCarjW/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"change_submissions","deny":false,"inherited":true},{"uid":"pQDkVBcYbWmqkVmXDJfK33","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pQDkVBcYbWmqkVmXDJfK33/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"delete_submissions","deny":false,"inherited":true},{"uid":"p85HRzWZGHRRSeeTXLbAvg","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/p85HRzWZGHRRSeeTXLbAvg/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"manage_asset","deny":false,"inherited":true},{"uid":"pqNrCPfkZsejLdXHzCn8yn","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pqNrCPfkZsejLdXHzCn8yn/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"validate_submissions","deny":false,"inherited":true},{"uid":"pWuKjqFRKXZ9wufeiP9HvW","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pWuKjqFRKXZ9wufeiP9HvW/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"view_asset","deny":false,"inherited":true},{"uid":"pNuuAcH3rTz5ki2GvUv7s5","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pNuuAcH3rTz5ki2GvUv7s5/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"view_submissions","deny":false,"inherited":true}]}}'
+  recorded_at: 2022-01-24 13:04:48 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

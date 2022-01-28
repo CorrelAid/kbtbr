@@ -1,0 +1,19 @@
+template:
+  bootstrap: 5
+navbar:
+  structure:
+    left:  [intro, reference, articles, tutorials, news]
+    right: [search, github]
+
+articles:
+- title: Working with kbtbr
+  navbar: ~
+  contents:
+  - kbtbr
+  - wrangling-survey-responses
+  - koboclient-class
+- title: For kbtbr developers
+  desc: >
+    These articles might be useful for developers who want to contribute to kbtbr. They were written in the process of developing kbtbr.
+  contents:
+  - starts_with("dev_only")

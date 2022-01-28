@@ -54,6 +54,7 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
+  testthat::skip("skipping because currently this message is not printed because no functionality depends on v1 API")
     expect_message(
         {
             kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
@@ -65,6 +66,7 @@ test_that("we get a message if we do not specify base_url_v1, but Kobo is initia
         c("Kobo", "R6")
     )
 })
+
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
 test_that("Request to v1 throws error if v1 session is not initialized", {
@@ -116,26 +118,6 @@ test_that("Kobo can get submissions for a survey", {
     expect_true(tibble::is_tibble(response_df))
     expect_equal(nrow(response_df), 4)
 })
-
-test_that("Kobo can fetch surveys", {
-    vcr::use_cassette("kobo-get-surveys", {
-        kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
-        surveys <- kobo$get_surveys()
-        surveys_all <- kobo$get_surveys(show_all_cols = TRUE)
-    })
-    columns_of_interest <- c(
-        "name", "uid", "date_created", "date_modified",
-        "owner__username", "parent", "has_deployment",
-        "deployment__active", "deployment__submission_count"
-    )
-    expect_setequal(names(surveys), columns_of_interest)
-    expect_equal(nrow(surveys), 40)
-
-    expect_equal(ncol(surveys_all), 22)
-    expect_equal(nrow(surveys_all), 40)
-})
-
-
 # ERRORS -----------
 vcr::use_cassette("kobo-get-404", {
     test_that("non existing route throws 404 error", {

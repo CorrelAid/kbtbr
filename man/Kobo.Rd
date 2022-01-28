@@ -4,7 +4,7 @@
 \alias{Kobo}
 \title{Kobo Class}
 \description{
-Interface object for the Kobo API that can handle KoboClient instances
+Interface object for the Kobo API that can handle \link{KoboClient} instances
 (sessions) for both API versions.
 The Class exposes both generic and specific methods for HTTP requests /
 interactions with the various endpoints.
@@ -12,9 +12,9 @@ interactions with the various endpoints.
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{session_v2}}{KoboClient session for v2 of the API}
+\item{\code{session_v2}}{\link{KoboClient} session for v2 of the API}
 
-\item{\code{session_v1}}{KoboClient session for v1 of the API}
+\item{\code{session_v1}}{\code{KoboClient} session for v1 of the API}
 }
 \if{html}{\out{</div>}}
 }
@@ -63,11 +63,11 @@ For example: https://kc.correlaid.org.}
 \item{\code{kobo_token}}{character. The API token. Defaults to requesting
 the systen environment \code{KBTBR_TOKEN}.}
 
-\item{\code{session_v2}}{KoboClient. Alternatively, pass directly
-a KoboClient instance for the API version v2.}
+\item{\code{session_v2}}{\link{KoboClient} To pass directly
+a \link{KoboClient} instance for the API version v2.}
 
-\item{\code{session_v1}}{KoboKlient. In addition to session_v2 one can pass
-also a KoboClient instance for the API version v1.}
+\item{\code{session_v1}}{\link{KoboClient} In addition to session_v2 one can pass
+also a \link{KoboClient} instance for the API version v1.}
 }
 \if{html}{\out{</div>}}
 }
