@@ -15,13 +15,23 @@ check_repair_path <- function(path) {
     }
 }
 
+#' Helper function to convert R list to JSON-like string
+#'
 #' @description
-#' Converts R list into JSON-like string.
+#' Converts R lists to JSON-like strings for POST request's body.
 #'
-#' @keywords internal
+#' #' @keywords internal
 #'
-#' @param list R list to be converted.
-#' @return JSON-like string
+#' @param list R list that should be converted to the JSON-like string
+#'
+#' @examples
+#' \dontrun{
+#' example_body <- list_as_json_char(list(
+#'     "name" = "A survey object created via API/R",
+#'     "asset_type" = "survey"
+#' ))
+#' }
+#'
 list_as_json_char <- function(list) {
     jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
         as.character()
