@@ -147,7 +147,7 @@ Kobo <- R6::R6Class("Kobo",
         #' Returns a list of all assets available in the server as tibble
         #' @importFrom tibble tibble
         get_assets = function() {
-            return(tibble::tibble(self$get("assets/")$results))
+            return(tibble(self$get("assets/")$results))
         },
 
         #' @description
