@@ -23,7 +23,10 @@ Suggests:
     withr,
     dplyr,
     tidyr,
-    knitr
+    knitr,
+    janitor,
+    ggplot2,
+    stringr
 Config/testthat/edition: 3
 Imports: 
     crul,
