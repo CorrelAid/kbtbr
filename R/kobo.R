@@ -1,6 +1,6 @@
 #' @title Kobo Class
 #' @description
-#' Interface object for the Kobo API that can handle [KoboClient] instances
+#' Interface class for the Kobo API that can handle [KoboClient] instances
 #' (sessions) for both API versions.
 #' The Class exposes both generic and specific methods for HTTP requests /
 #' interactions with the various endpoints.
