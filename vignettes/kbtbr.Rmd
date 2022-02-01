@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE, eval = TRUE)
 
 # properly set up vcr
 library(vcr)
+library(dplyr)
 vcr_dir <- "./assets"
 if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
     if (dir.exists(vcr_dir)) {
@@ -85,6 +86,7 @@ With the right base URL(s), we can create an instance of the `Kobo` class. The `
 
 ```{r kobo}
 library(kbtbr)
+library(dplyr)
 base_url_v2 <- "https://kobo.correlaid.org" # replace with your base URL for v2
 base_url_v1  <- "https://kc.correlaid.org" # replace with your base URL for v1 
 token <- Sys.getenv("KBTBR_TOKEN")
@@ -133,7 +135,7 @@ head(surveys)
 You can then extract the ID of a single survey by filtering for its name. 
 
 ```{r}
-test_id <- surveys$uid[surveys$name == "kbtbr Testing Survey"]
+test_id <- surveys %>% filter(name == "kbtbr Testing Survey") %>% pull(uid)
 ```
 
 Get the answers (or _submissions_ in KoBoToolbox API lingo) to the form/survey:

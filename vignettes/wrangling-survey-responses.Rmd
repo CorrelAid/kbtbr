@@ -107,7 +107,9 @@ submissions_df <- submissions_df %>%
 colnames(submissions_df)
 ```
 
-For very large forms, it might be useful to investigate on how to sort the columns alphabetically or by the order they appeard in the form. With the small form here, we can still individually select the columns to put them into a meaningful order:
+For very large forms, it might be useful to investigate on how to sort the columns alphabetically or by the 
+order they appeared in the form. With the small form here, we can still individually select 
+the columns to put them into a meaningful order:
 
 
 ```{r}
