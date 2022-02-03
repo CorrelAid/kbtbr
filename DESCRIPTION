@@ -22,7 +22,11 @@ Suggests:
     vcr, 
     withr,
     dplyr,
-    tidyr
+    tidyr,
+    knitr,
+    janitor,
+    ggplot2,
+    stringr
 Config/testthat/edition: 3
 Imports: 
     crul,
@@ -31,7 +35,7 @@ Imports:
     magrittr,
     jsonlite,
     glue,
-    tibble,
-    janitor
+    tibble
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+VignetteBuilder: knitr

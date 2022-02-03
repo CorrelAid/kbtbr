@@ -1,24 +1,23 @@
 ---
-title: "The KoboClient class and how to use it"
+title: "Advanced: The KoboClient class"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:  rmarkdown::html_vignette
 vignette: >
-    %\VignetteIndexEntry{2. The KoboClient class and how to use it}
-    %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}
-
+  %\VignetteIndexEntry{Advanced: The KoboClient class}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include=TRUE, echo=FALSE}
-devtools::load_all()
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>", 
+  echo = TRUE
 )
 
 # setup vcr
 library(vcr)
-vcr_dir <- "."
+vcr_dir <- "./assets"
 if (!nzchar(Sys.getenv("KBTBR_TOKEN"))) {
     if (dir.exists(vcr_dir)) {
         # Fake API token to fool our package
@@ -41,8 +40,7 @@ vcr::check_cassette_names()
 Most users should not need the `KoboClient` class because `Kobo` takes care of the end-user services. `Kobo` uses `KoboClient` under the hood.
 
 `KoboClient` is effectively an HTTP client and inherits its features from the 
-[crul](https://github.com/ropensci/crul) library, in particular from 
-[`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html).
+[crul](https://github.com/ropensci/crul) library, in particular from `crul::HttpClient`.
 
 # Getting started
 
@@ -56,8 +54,9 @@ The `KoboClient` will check if the variable `KBTBR_TOKEN` is set during the init
 The first step to start a session is to create an object from the R6 class by calling the `$new` method. 
 
 ```{r}
+library(kbtbr)
 base_url <- "https://kobo.correlaid.org"
-my_session <- KoboClient$new(base_url)
+my_session <- KoboClient$new(base_url, kobo_token = "faketoken")
 class(my_session)
 ```
 
@@ -69,13 +68,13 @@ that is the parent R6 class.
 
 For example, 
 
-```{r, results='hide'}
+```{r}
 my_session$print()
 ```
 will show you several properties set in the HTTP client, like the headers, the 
 URL and other properties. The `$print()` method is not implemented in the KoboClient class, but it is automatically inherited from its parent class.
 
-KoboClient is called a child of [`crul::HttpClient`](https://docs.ropensci.org/crul/reference/HttpClient.html),
+KoboClient is called a child of `crul::HttpClient`,
 the parent,  and by the inheritance mechanism can have all of its features
 (methods and fields) of the parent, but it can also provide more features or
 specialize some of the parent methods. In our case, for example, some features
@@ -88,11 +87,11 @@ method described in the next section.
 
 The get method is based on the method  [`$get()`](https://docs.ropensci.org/crul/reference/HttpClient.html#method-get)
 of the parent class. 
-The get method will query the APIs and return an R6 object of class `crul::HttpClient`. 
+Hence, the `get` method will query the APIs and return an R6 object of class `crul::HttpResponse`. 
 
-```{r include=FALSE}
-vcr::use_cassette("kobo-assets", {
-  assets <- my_session$get(path = "api/v2/assets/")
+```{r include=FALSE, results='hide'}
+vcr::use_cassette("get-assets", {
+  assets <- my_session$get(path = "api/v2/assets/", query = list(format = "json"))
 })
 ```
 
@@ -101,38 +100,46 @@ assets <- my_session$get(path = "api/v2/assets/")
 ```
 
 ```{r}
-str(assets, max.level = 2)
+str(assets, max.level = 1)
 ```
 
-# The use of KoboClient in the Kobo interface
 
-The Kobo interface uses KoboClient for its HTTP requests. 
-Kobo can create a session by initializing a KoboClient instance, or the user can pass a session, a KoboClient instance associated with an API base URL. 
-Since the API_v2 base URL 
-can be different from the API_v1 one, when the user provides the `base_url_v1`, the Kobo interface prepares a second KoboClient instance to communicate with the v1 version of the APIs. 
+# The use of KoboClient in the Kobo class
 
-The user can create their KoboClient instance and then pass it to the Kobo interface.  The Kobo interface will use the session for all the communication with the servers.
+The `Kobo` class uses `KoboClient` for its HTTP requests. 
+Kobo can create a session by initializing a `KoboClient` instance itself based on `base_url_v2`. This is probably the easiest way to initialize a `Kobo` instance.
 
 ```{r}
+kobo <- Kobo$new(base_url)
+```
+
+Alternatively, the user can pass a session - a `KoboClient` instance associated with an API base URL - via the `session_v2` argument of `Kobo$new()`. The Kobo instance will then use this session for all the communication with the servers.
+
+```{r}
+# passing a KoboClient instance / a session to Kobo
 my_session <- KoboClient$new(base_url)
 kobo <- Kobo$new(session_v2 = my_session)
 ```
 
+If the user specifies `base_url_v1` as an argument to `Kobo$new()` to make use of functionality based on KoBoToolbox API v1, the initializer of `Kobo` will initialize a second `KoboClient` instance to communicate with the v1 version of the API. The `Kobo` instance will then have two sessions, one for v2 and one for v1.
 
-
-```{r eval=FALSE}
-assets <- kobo$get_assets()
+```{r}
+# specifying session for API v2 directly, but letting Kobo initialize the one for API v1
+kobo <- Kobo$new(session_v2 = my_session, base_url_v1 = "kc.correlaid.org")
+kobo
 ```
 
 
+
 ```{r include=FALSE}
-vcr::use_cassette("kobo-assets2", {
+vcr::use_cassette("get-assets", {
   assets <- kobo$get_assets()
 })
 ```
 
-```{r echo=FALSE}
-head(assets)
+```{r eval=FALSE}
+assets <- kobo$get_assets()
 ```
-
-
+```{r}
+colnames(assets)
+```

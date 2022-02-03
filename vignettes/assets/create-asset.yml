@@ -1,0 +1,56 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/
+    body:
+      encoding: ''
+      string: |-
+        name=Question block,asset_type=block,settings={
+          "description": "this question block was created with the API.",
+          "sector": {
+            "label": "",
+            "value": ""
+          },
+          "country": {
+            "label": "",
+            "value": ""
+          },
+          "share-metadata": false
+        }
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '201'
+      message: Created
+      explanation: Document created, URL follows
+    headers:
+      status: HTTP/1.1 201 Created
+      server: nginx
+      date: Mon, 24 Jan 2022 13:24:29 GMT
+      content-type: application/json
+      content-length: '3102'
+      connection: keep-alive
+      location: https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/","owner":"https://kobo.correlaid.org/api/v2/users/api_user/","owner__username":"api_user","parent":null,"ancestors":null,"settings":{"description":"this
+        question block was created with the API.","sector":{"label":"","value":""},"country":{"label":"","value":""},"share-metadata":false},"asset_type":"block","date_created":"2022-01-24T13:24:29.331033Z","summary":{},"date_modified":"2022-01-24T13:24:29.331054Z","version_id":"vZpxcU8qvJ9N6wHSiPsSpv","version__content_hash":"4724ddb07034559d7fb5a3d18288dfb683a2d082","version_count":1,"has_deployment":false,"deployed_version_id":null,"deployed_versions":{"count":0,"next":null,"previous":null,"results":[]},"deployment__identifier":null,"deployment__links":{},"deployment__active":false,"deployment__data_download_links":{},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{},"kuid_names":{}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"settings":{},"survey":[],"schema":"1"},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/xls/"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/xform/"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/koboform/","xform_link":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/xform/","hooks_link":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/hooks/","tag_string":"","uid":"avJyi8RUCjQ4RSFA7qdWPG","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/xls/","name":"Question
+        block","assignable_permissions":[{"url":"https://kobo.correlaid.org/api/v2/permissions/view_asset/","label":"View
+        block"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_asset/","label":"Edit
+        block"},{"url":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/","label":"Manage
+        block"}],"permissions":[{"url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/permission-assignments/pxv6JbKjKeSxxdxFsu5BZT/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/change_asset/","label":"Edit
+        block"},{"url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/permission-assignments/pVXnE7LgHG2pX8BaRfrZ5V/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/","label":"Manage
+        block"},{"url":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/permission-assignments/pCcEqGEQhXUSytLNB7aST8/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/view_asset/","label":"View
+        block"}],"data":"https://kobo.correlaid.org/api/v2/assets/avJyi8RUCjQ4RSFA7qdWPG/data/"}'
+  recorded_at: 2022-01-24 13:24:27 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

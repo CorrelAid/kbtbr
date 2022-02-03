@@ -46,15 +46,17 @@ kobo <- Kobo$new(base_url_v2, base_url_v1, token)
 kobo$get_surveys()
 ```
 
-See the documentation for more!
+See the [Get started](articles/kbtbr.html) and the other
+[articles](articles/index.html) for more examples!
 
-# Documentation
+# Limitations
 
-Documentation is available as a [`pkgdown`](https://pkgdown.r-lib.org/)
-website:
+The following limitations of `kbtbr` are known to the developers:
 
--   [stable version](https://correlaid.github.io/kbtbr/)
--   [development version](https://correlaid.github.io/kbtbr/dev/)
+-   not all endpoints have dedicated functions in the `Kobo` class. This
+    is a conscious choice. Implementing high-level functions for all
+    endpoints would be a lot of work.
+-   no support for pagination
 
 # Contributing to kbtbr
 
