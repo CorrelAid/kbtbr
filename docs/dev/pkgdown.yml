@@ -1,9 +1,11 @@
 pandoc: 2.7.3
-pkgdown: 1.6.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  articles/KoboClient_class: KoboClient_class.html
-  articles/response_overview: response_overview.html
-  articles/using_crul: using_crul.html
-last_built: 2021-10-03T18:00Z
+  response_overview: dev_only/response_overview.html
+  using_crul: dev_only/using_crul.html
+  kbtbr: kbtbr.html
+  koboclient-class: koboclient-class.html
+  wrangling-survey-responses: wrangling-survey-responses.html
+last_built: 2022-02-03T11:15Z
 
