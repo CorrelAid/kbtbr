@@ -6,31 +6,6 @@
 #' interactions with the various endpoints.
 #' @export
 Kobo <- R6::R6Class("Kobo",
-  private = list(
-    select_prep_client = function(path, version) {
-      checkmate::assert_choice(version, c("v1", "v2"))
-
-      if (version == "v2") {
-        obj <- list(
-          client = self$session_v2,
-          path = paste0("api/v2/", path)
-        )
-      } else if (version == "v1") {
-        if (checkmate::test_null(self$session_v1)) {
-          usethis::ui_stop(paste(
-            "Session for API v1 is not initalized.",
-            "Please re-initalize the Kobo client with the",
-            "base_url_v1 argument."
-          ))
-        }
-        obj <- list(
-          client = self$session_v1,
-          path = paste0("api/v1/", path)
-        )
-      }
-      return(obj)
-    }
-  ),
   public = list(
 
     # Public Fields ============================================================
@@ -310,5 +285,35 @@ Kobo <- R6::R6Class("Kobo",
       )
       self$post("assets/", body = body)
     }
-  ) # <end public>
+  ), # <end public>
+  private = list(
+
+    # Private Methods ==========================================================
+
+    #' @description
+    #' Logic to select and prepare a client
+    select_prep_client = function(path, version) {
+      checkmate::assert_choice(version, c("v1", "v2"))
+
+      if (version == "v2") {
+        obj <- list(
+          client = self$session_v2,
+          path = paste0("api/v2/", path)
+        )
+      } else if (version == "v1") {
+        if (checkmate::test_null(self$session_v1)) {
+          usethis::ui_stop(paste(
+            "Session for API v1 is not initalized.",
+            "Please re-initalize the Kobo client with the",
+            "base_url_v1 argument."
+          ))
+        }
+        obj <- list(
+          client = self$session_v1,
+          path = paste0("api/v1/", path)
+        )
+      }
+      return(obj)
+    }
+  )
 )
