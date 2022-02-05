@@ -9,10 +9,15 @@ Kobo <- R6::R6Class("Kobo",
   # private = list(
   # ),
   public = list(
+
+    # Public Fields ============================================================
+
     #' @field session_v2 [kbtbr::KoboClient] session for v2 of the API
     session_v2 = NULL,
     #' @field session_v1 `KoboClient` session for v1 of the API
     session_v1 = NULL,
+
+    # Public Methods ===========================================================
 
     #' @description
     #' Initialization method for class "Kobo".

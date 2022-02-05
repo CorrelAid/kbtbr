@@ -4,6 +4,9 @@
 #' @param kobo Kobo instance. Instance of class Kobo used internally to make requests to the API.
 Asset <- R6::R6Class("Asset",
   public = list(
+
+    # Public Methods ===========================================================
+
     initialize = function(asset_list, kobo) {
       # check that everything exists in list that we need
       needed_names <- c("uid", "name", "url", "data", "owner__username", "asset_type")
@@ -50,6 +53,11 @@ Asset <- R6::R6Class("Asset",
     }
   ),
   private = list(
+
+    # Private Fields ===========================================================
+
+    # Storage fields for Active Bindings ---------------------------------------
+
     .uid = NA,
     .name = NA,
     .asset_url = NA,
@@ -59,6 +67,9 @@ Asset <- R6::R6Class("Asset",
     .kobo = NULL
   ),
   active = list(
+
+    # Active Bindings ==========================================================
+
     #' @field uid
     #' uid of the asset.
     uid = function(value) {

@@ -6,6 +6,9 @@
 KoboClient <- R6::R6Class("KoboClient",
   inherit = crul::HttpClient,
   public = list(
+
+    # Public Methods ===========================================================
+
     #' @description
     #' Initialization method for class "KoboClient".
     #' @param base_url character. The full base URL of the API.
@@ -79,6 +82,9 @@ KoboClient <- R6::R6Class("KoboClient",
     }
   ), # <end public>
   private = list(
+
+    # Private Fields ===========================================================
+
     base_url = "",
     kobo_token = ""
   ) # <end private>
