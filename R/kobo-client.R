@@ -85,7 +85,9 @@ KoboClient <- R6::R6Class("KoboClient",
 
     # Private Fields ===========================================================
 
+    # @field base_url (`character(1)`)
     base_url = "",
+    # @field kobo_token (`character(1)`)
     kobo_token = ""
   ) # <end private>
 )

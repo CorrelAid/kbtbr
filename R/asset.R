@@ -59,7 +59,7 @@ Asset <- R6::R6Class("Asset",
     # Private Fields ===========================================================
 
     # Storage fields for Active Bindings ---------------------------------------
-
+    #
     .uid = NA,
     .name = NA,
     .asset_url = NA,
