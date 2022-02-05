@@ -6,7 +6,7 @@
 #' @title Infix Coalesce Operator
 #' @describtion Makes coalesce chainable, as often used in
 #' tidyverse packages.
-#' @noRd 
+#' @noRd
 `%||%` <- function(x, y) {
   if (is.null(x)) y else x
 }
@@ -16,11 +16,11 @@
 #' @return The path string with optionally an appended trailing slash.
 #' @noRd
 check_repair_path <- function(path) {
-    if (substr(path, nchar(path), nchar(path)) != "/") {
-        return(paste0(path, "/"))
-    } else {
-        return(path)
-    }
+  if (substr(path, nchar(path), nchar(path)) != "/") {
+    return(paste0(path, "/"))
+  } else {
+    return(path)
+  }
 }
 
 #' @description
@@ -31,6 +31,6 @@ check_repair_path <- function(path) {
 #' @param list R list to be converted.
 #' @return JSON-like string
 list_as_json_char <- function(list) {
-    jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-        as.character()
+  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+    as.character()
 }
