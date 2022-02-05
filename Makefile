@@ -11,7 +11,7 @@ GIT_BRANCH := $(shell git branch --show-current)
 GIT_LAST_COMMIT := $(shell git log -1 --pretty=%s)
 LATEST_TAG := $(shell git tag -l --sort -version:refname | head -n1)
 
-.PHONY: test docs deps build build-cran install check format clean release
+.PHONY: test docs deps build build-cran install check format clean release pr
 
 
 # Update Code (docs, format) --------------------------------------------------
@@ -39,6 +39,9 @@ check: build-cran
 	R CMD check $(PKG_NAME)_$(PKG_VERS).tar.gz --as-cran
 
 # GitHub Interaction ----------------------------------------------------------
+
+pr:
+	gh pr create --web
 
 release:
 ifneq ($(GIT_BRANCH), main)
