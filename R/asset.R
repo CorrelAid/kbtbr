@@ -62,36 +62,36 @@ Asset <- R6::R6Class("Asset",
     #' @field uid
     #' uid of the asset.
     uid = function(value) {
-      read_only_active(private, ".uid", value)
+      read_only_active(private, "uid", value)
     },
     #' @field name
     #' name of the asset.
     name = function(value) {
-      read_only_active(private, ".name", value)
+      read_only_active(private, "name", value)
     },
     #' @field asset_url
     #' asset_url of the asset. takes the form of assets/{uid}/
     #' Contains most of the information about an asset such as meta data, permissions, xls form content and
     #' links to other related endpoints.
     asset_url = function(value) {
-      read_only_active(private, ".asset_url", value)
+      read_only_active(private, "asset_url", value)
     },
     #' @field data_url
     #' data_url of the asset. This can be used to get data related to the asset.
     #' Most useful for the asset type `survey` where this URL
     #' gives access to the submissions to the survey.
     data_url = function(value) {
-      read_only_active(private, ".data_url", value)
+      read_only_active(private, "data_url", value)
     },
     #' @field owner_username
     #' username of the owner of the asset.
     owner_username = function(value) {
-      read_only_active(private, ".owner_username", value)
+      read_only_active(private, "owner_username", value)
     },
     #' @field type
     #' type of the asset. Type of the asset, e.g. survey, question, block or template.
     type = function(value) {
-      read_only_active(private, ".type", value)
+      read_only_active(private, "type", value)
     }
   )
 )
