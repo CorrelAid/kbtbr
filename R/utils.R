@@ -8,11 +8,11 @@
 #' @return The path string with optionally an appended trailing slash.
 #' @noRd
 append_slash <- function(path) {
-    if (substr(path, nchar(path), nchar(path)) != "/") {
-        return(paste0(path, "/"))
-    } else {
-        return(path)
-    }
+  if (substr(path, nchar(path), nchar(path)) != "/") {
+    return(paste0(path, "/"))
+  } else {
+    return(path)
+  }
 }
 
 #' Helper function to convert R list to JSON-like string
@@ -27,12 +27,12 @@ append_slash <- function(path) {
 #' @examples
 #' \dontrun{
 #' example_body <- list_as_json_char(list(
-#'     "name" = "A survey object created via API/R",
-#'     "asset_type" = "survey"
+#'   "name" = "A survey object created via API/R",
+#'   "asset_type" = "survey"
 #' ))
 #' }
 #'
 list_as_json_char <- function(list) {
-    jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-        as.character()
+  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+    as.character()
 }
