@@ -45,6 +45,7 @@ gives access to the submissions to the survey.}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Constructs a new instance of class \link{Asset}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Asset$new(asset_list, kobo)}\if{html}{\out{</div>}}
 }
