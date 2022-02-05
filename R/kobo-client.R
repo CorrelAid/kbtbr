@@ -5,11 +5,6 @@
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
   inherit = crul::HttpClient,
-  private = list(
-    base_url = "",
-    kobo_token = ""
-  ), # <end private>
-
   public = list(
     #' @description
     #' Initialization method for class "KoboClient".
@@ -82,5 +77,9 @@ KoboClient <- R6::R6Class("KoboClient",
       res$raise_for_status()
       return(res)
     }
-  ) # <end public>
+  ), # <end public>
+  private = list(
+    base_url = "",
+    kobo_token = ""
+  ) # <end private>
 )
