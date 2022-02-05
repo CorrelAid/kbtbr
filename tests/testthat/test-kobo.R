@@ -1,4 +1,15 @@
 BASE_URL <- "https://kobo.correlaid.org"
+ASSET_COLUMNS <- c(
+  "url", "date_modified", "date_created", "owner", "summary", "owner__username",
+  "parent", "uid",
+  "tag_string", "settings",
+  "kind", "name",
+  "asset_type", "version_id",
+  "has_deployment", "deployed_version_id",
+  "deployment__identifier", "deployment__active",
+  "deployment__submission_count", "permissions",
+  "downloads", "data"
+)
 #' -----------------------------------------------------------------------------
 #' Testing basic properties, construction
 
@@ -43,6 +54,10 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
+<<<<<<< HEAD
+=======
+  testthat::skip("skipping because currently this message is not printed because no functionality depends on v1 API")
+>>>>>>> dev
   expect_message(
     {
       kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
@@ -54,6 +69,7 @@ test_that("we get a message if we do not specify base_url_v1, but Kobo is initia
     c("Kobo", "R6")
   )
 })
+
 #' -----------------------------------------------------------------------------
 #' Testing $get_* methods
 test_that("Request to v1 throws error if v1 session is not initialized", {
@@ -71,8 +87,13 @@ test_that("Kobo can fetch assets", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
     assets <- kobo$get_assets()
   })
+<<<<<<< HEAD
   expect_setequal(names(assets), c("count", "next", "previous", "results"))
   expect_equal(nrow(assets$results), 8)
+=======
+  expect_setequal(names(assets), ASSET_COLUMNS)
+  expect_equal(nrow(assets), 8)
+>>>>>>> dev
 })
 
 test_that("Kobo can fetch assets using simple get", {
@@ -86,7 +107,11 @@ test_that("Kobo can fetch assets using simple get", {
   expect_equal(assets$count, 8)
 })
 
+<<<<<<< HEAD
 test_that("Kobo can a single asset", {
+=======
+test_that("Kobo can get a single asset", {
+>>>>>>> dev
   vcr::use_cassette("kobo-get-single-asset", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
     asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
@@ -97,17 +122,22 @@ test_that("Kobo can a single asset", {
   )
 })
 
+test_that("Kobo can get submissions for a survey", {
+  vcr::use_cassette("kobo-get-submissions", {
+    kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
+    response_df <- kobo$get_submissions("aRo4wg5utWT7dwdnQQEAE7")
+  })
+  expect_true(tibble::is_tibble(response_df))
+  expect_equal(nrow(response_df), 4)
+})
+
 # ERRORS -----------
+
 vcr::use_cassette("kobo-get-404", {
   test_that("non existing route throws 404 error", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
     expect_error(kobo$get("doesnotexist/"), regexp = "404")
   })
-})
-
-test_that("non-existing kobo host throws error", {
-  kobo <- Kobo$new(base_url_v2 = "https://nokobohere.correlaid.org", kobo_token = Sys.getenv("KBTBR_TOKEN"))
-  expect_error(kobo$get("assets/"), regexp = "^SSL.+certificate.+")
 })
 
 #' -----------------------------------------------------------------------------

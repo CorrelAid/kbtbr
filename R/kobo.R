@@ -1,6 +1,6 @@
 #' @title Kobo Class
 #' @description
-#' Interface object for the Kobo API that can handle KoboClient instances
+#' Interface class for the Kobo API that can handle [KoboClient] instances
 #' (sessions) for both API versions.
 #' The Class exposes both generic and specific methods for HTTP requests /
 #' interactions with the various endpoints.
@@ -32,9 +32,9 @@ Kobo <- R6::R6Class("Kobo",
     }
   ),
   public = list(
-    #' @field session_v2 KoboClient session for v2 of the API
+    #' @field session_v2 [KoboClient] session for v2 of the API
     session_v2 = NULL,
-    #' @field session_v1 KoboClient session for v1 of the API
+    #' @field session_v1 [KoboClient] session for v1 of the API
     session_v1 = NULL,
 
     #' @description
@@ -46,10 +46,10 @@ Kobo <- R6::R6Class("Kobo",
     #'  For example: https://kc.correlaid.org.
     #' @param kobo_token character. The API token. Defaults to requesting
     #'  the systen environment `KBTBR_TOKEN`.
-    #' @param session_v2 KoboClient. Alternatively, pass directly
-    #' a KoboClient instance for the API version v2.
+    #' @param session_v2 [KoboClient]. Alternatively, pass directly
+    #' a [KoboClient] instance for the API version v2.
     #' @param session_v1 KoboKlient. In addition to session_v2 one can pass
-    #' also a KoboClient instance for the API version v1.
+    #' also a [KoboClient] instance for the API version v1.
     initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
                           kobo_token = Sys.getenv("KBTBR_TOKEN"),
                           session_v2 = NULL, session_v1 = NULL) {
@@ -74,7 +74,7 @@ Kobo <- R6::R6Class("Kobo",
         self$session_v1 <- session_v1
       } else {
         # TODO: add to warning once we know what functnality is covered by v1.
-        usethis::ui_info("You have not passed base_url_v1. This means you cannot use the following functions:")
+        # usethis::ui_info("You have not passed base_url_v1. This means you cannot use the following functions:")
       }
     },
     #' @description
@@ -86,7 +86,7 @@ Kobo <- R6::R6Class("Kobo",
     #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
     #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
     #' @return a list encoding of the json server reply if parse=TRUE.
-    #'   Otherwise, it returns the server response as a crul::HttpResponse
+    #'   Otherwise, it returns the server response as a [crul::HttpResponse]
     #'   object.
     get = function(path, query = list(), version = "v2", format = "json",
                    parse = TRUE) {
@@ -152,21 +152,50 @@ Kobo <- R6::R6Class("Kobo",
     },
 
     #' @description
-    #' Example method to send a GET request to the `assets` endpoint
-    #' (due to default to `v2`, no further specification is needed).
+    #' Returns a list of all assets available in the server as tibble
+    #' @importFrom tibble tibble
     get_assets = function() {
-      self$get("assets/")
+      return(tibble(self$get("assets/")$results))
+    },
+
+    #' @description
+    #' High-level GET request for `surveys` endpoints endpoint
+    #' @param show_all_cols if true returns all the columns available
+    #' for an asset
+    #' @return An user-friendly summary of the available surveys as a tibble
+    get_surveys = function(show_all_cols = FALSE) {
+      assets_res <- self$get_assets()
+      fil <- assets_res$asset_type == "survey"
+      columns_of_interest <- c(
+        "name", "uid", "date_created", "date_modified",
+        "owner__username", "parent", "has_deployment",
+        "deployment__active", "deployment__submission_count"
+      )
+      if (show_all_cols) {
+        return(assets_res[fil, ])
+      } else {
+        return(assets_res[fil, columns_of_interest])
+      }
     },
 
     #' @description
     #' Get an asset given its id.
     #' @param id character. ID of the asset within the Kobo API.
     #' @return Asset. object of class [kbtbr::Asset]
+    #' @importFrom glue glue
     get_asset = function(id) {
       res <- self$get(glue::glue("assets/{id}/"))
       Asset$new(res, self)
     },
 
+    #' @description
+    #' Get the submissions for a survey.
+    #' @param id character. ID of the survey asset within the Kobo API.
+    #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
+    get_submissions = function(id) {
+      asset <- self$get_asset(id)
+      asset$get_submissions()
+    },
     #' High-level POST request to clone an asset. `assets` endpoint
     #' (due to default to `v2`, no further specification is needed).
     #' @param clone_from character. UID of the asset to be cloned.

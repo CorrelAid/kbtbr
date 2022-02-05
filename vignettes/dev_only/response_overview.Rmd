@@ -1,15 +1,12 @@
 ---
-title: "Response overview"
+title: "Overview over different API endpoints"
 output:
-  html_document:
-    toc: yes
-    toc_depth: 3
+  github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval=FALSE)
 devtools::load_all()
-library(kbtbr)
 library(dplyr)
 library(purrr)
 library(tidyr)
