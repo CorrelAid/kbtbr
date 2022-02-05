@@ -1,12 +1,14 @@
 #' Asset
 #' Class to hold an asset
-#' @param asset_list list. a list with the asset data, such as obtained through a call to assets/{id}
-#' @param kobo Kobo instance. Instance of class Kobo used internally to make requests to the API.
 Asset <- R6::R6Class("Asset",
   public = list(
 
     # Public Methods ===========================================================
 
+    #' @description
+    #' Constructs a new instance of class [Asset].
+    #' @param asset_list list. a list with the asset data, such as obtained through a call to assets/{id}
+    #' @param kobo Kobo instance. Instance of class Kobo used internally to make requests to the API.
     initialize = function(asset_list, kobo) {
       # check that everything exists in list that we need
       needed_names <- c("uid", "name", "url", "data", "owner__username", "asset_type")
