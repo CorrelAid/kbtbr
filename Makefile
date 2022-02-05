@@ -1,5 +1,10 @@
 # Main ideas from: github.com/yihui/knitr
 # Adapted by: MK
+#
+# Dependencies:
+# - GitHub CLI (gh) 
+# - R Package development with devtools
+# - R Package 'styler'
 
 # Main variables
 PKG_NAME := $(shell sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION)
