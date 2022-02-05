@@ -75,8 +75,6 @@ test_that("get asset returns asset instance", {
   # to list function
   expect_equal(length(asset_obj$to_list()), 6)
   expect_setequal(names(asset_obj$to_list()), c("uid", "name", "asset_url", "data_url", "type", "owner_username"))
-<<<<<<< HEAD
-=======
 })
 
 test_that("can get survey submissions from survey", {
@@ -114,5 +112,4 @@ test_that("get_submissions throws error for asset which is not a survey", {
   })
 
   expect_error(asset_obj$get_submissions(), regexp = "Only valid for assets of type 'survey'. Current asset is of type 'block'.")
->>>>>>> dev
 })

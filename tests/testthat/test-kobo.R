@@ -54,10 +54,7 @@ test_that("Kobo is initialized correctly if we provide a KoboClient instance", {
 })
 
 test_that("we get a message if we do not specify base_url_v1, but Kobo is initialized.", {
-<<<<<<< HEAD
-=======
   testthat::skip("skipping because currently this message is not printed because no functionality depends on v1 API")
->>>>>>> dev
   expect_message(
     {
       kobo_obj <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = "foo")
@@ -87,13 +84,8 @@ test_that("Kobo can fetch assets", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
     assets <- kobo$get_assets()
   })
-<<<<<<< HEAD
-  expect_setequal(names(assets), c("count", "next", "previous", "results"))
-  expect_equal(nrow(assets$results), 8)
-=======
   expect_setequal(names(assets), ASSET_COLUMNS)
   expect_equal(nrow(assets), 8)
->>>>>>> dev
 })
 
 test_that("Kobo can fetch assets using simple get", {
@@ -107,11 +99,7 @@ test_that("Kobo can fetch assets using simple get", {
   expect_equal(assets$count, 8)
 })
 
-<<<<<<< HEAD
-test_that("Kobo can a single asset", {
-=======
 test_that("Kobo can get a single asset", {
->>>>>>> dev
   vcr::use_cassette("kobo-get-single-asset", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
     asset <- kobo$get_asset("aRo4wg5utWT7dwdnQQEAE7")
