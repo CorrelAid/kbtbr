@@ -36,3 +36,23 @@ list_as_json_char <- function(list) {
   jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
     as.character()
 }
+
+
+#' @title Access Read-Only Active Bindings
+#'
+#' @description
+#' Template function to create a read-only active binding.
+#' @param private Pointer to the private env of an object
+#' @param field character(1) the (private) field name used as a storage
+#' for the active field
+#' @param val The value passed to the active binding. If it is not missing,
+#' the function will stop.
+#' @return The value of the active binding-related storage field.
+read_only_active <- function(private, field, val) {
+  assert_string(field)
+  if (!missing(val)) {
+    ui_stop("Field '%s' is read-only.", field)
+  } else {
+    return(private[[field]])
+  }
+}
