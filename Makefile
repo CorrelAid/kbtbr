@@ -6,21 +6,39 @@ PKG_NAME := $(shell sed -n "s/Package: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKG_VERS := $(shell sed -n "s/Version: *\([^ ]*\)/\1/p" DESCRIPTION)
 PKG_SRC := $(shell basename `pwd`)
 
-# For reales: GIT informations
+# For releases: GIT informations
 GIT_BRANCH := $(shell git branch --show-current)
 GIT_LAST_COMMIT := $(shell git log -1 --pretty=%s)
 LATEST_TAG := $(shell git tag -l --sort -version:refname | head -n1)
 
 .PHONY: test docs deps build build-cran install check format clean release
 
-test:
-	@Rscript -e "devtools::test()"
+
+# Update Code (docs, format) --------------------------------------------------
 
 docs:
 	@Rscript -e "devtools::document()"
+format:
+	@Rscript -e "styler::style_pkg(style = styler::tidyverse_style, indent_by = 2)"
 
-renv_deps:
-	@Rscript -e "renv::install()"
+# Build / Check / Test --------------------------------------------------------
+
+test:
+	@Rscript -e "devtools::test()"
+
+build:
+	R CMD build --no-manual ./
+
+build-cran:
+	R CMD build ./
+
+install: build
+	R CMD INSTALL $(PKG_NAME)_$(PKG_VERS).tar.gz
+
+check: build-cran
+	R CMD check $(PKG_NAME)_$(PKG_VERS).tar.gz --as-cran
+
+# GitHub Interaction ----------------------------------------------------------
 
 release:
 ifneq ($(GIT_BRANCH), main)
@@ -36,20 +54,10 @@ else
 	@echo "Created release '$(PKG_VERS) - $(GIT_LAST_COMMIT)'"
 endif
 
-build:
-	R CMD build --no-manual ./
+# Other utilities -------------------------------------------------------------
 
-build-cran:
-	R CMD build ./
-
-install: build
-	R CMD INSTALL $(PKG_NAME)_$(PKG_VERS).tar.gz
-
-check: build-cran
-	R CMD check $(PKG_NAME)_$(PKG_VERS).tar.gz --as-cran
-
-format:
-	@Rscript -e "styler::style_pkg(style = styler::tidyverse_style, indent_by = 2)"
+renv_deps:
+	@Rscript -e "renv::install()"
 
 clean:
 	@rm -rf \
