@@ -44,7 +44,7 @@ list_as_json_char <- function(list) {
 #' Template function to create a read-only active binding.
 #' @param private Pointer to the private env of an object
 #' @param field character(1) the name of the active binding field. It is assumed
-#' that a private field prefixed with a single dot exists, that servers as
+#' that a private field prefixed with a single dot exists, that serves as
 #' storage.
 #' @param val The value passed to the active binding. If it is not missing,
 #' the function will stop.
