@@ -52,9 +52,15 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/kbtbr.html</loc>
+  </url>
+  <url>
     <loc>/reference/list_as_json_char.html</loc>
   </url>
   <url>
     <loc>/reference/pipe.html</loc>
+  </url>
+  <url>
+    <loc>/reference/read_only_active.html</loc>
   </url>
 </urlset>
