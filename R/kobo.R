@@ -9,10 +9,15 @@ Kobo <- R6::R6Class("Kobo",
   # private = list(
   # ),
   public = list(
+
+    # Public Fields ============================================================
+
     #' @field session_v2 [kbtbr::KoboClient] session for v2 of the API
     session_v2 = NULL,
     #' @field session_v1 `KoboClient` session for v1 of the API
     session_v1 = NULL,
+
+    # Public Methods ===========================================================
 
     #' @description
     #' Initialization method for class "Kobo".
@@ -33,25 +38,25 @@ Kobo <- R6::R6Class("Kobo",
 
       # one has to pass at least base_url_v2 or session_v2
       if (!xor(
-        checkmate::test_null(base_url_v2),
-        checkmate::test_null(session_v2)
+        test_null(base_url_v2),
+        test_null(session_v2)
       )) {
         stop("Either base_url_v2 or session_v2 must be provided")
       }
 
-      if (!checkmate::test_null(base_url_v2)) {
+      if (!test_null(base_url_v2)) {
         self$session_v2 <- KoboClient$new(base_url_v2, kobo_token)
       } else {
         self$session_v2 <- session_v2
       }
 
-      if (!checkmate::test_null(base_url_v1)) {
+      if (!test_null(base_url_v1)) {
         self$session_v1 <- KoboClient$new(base_url_v1, kobo_token)
-      } else if (!checkmate::test_null(session_v1)) {
+      } else if (!test_null(session_v1)) {
         self$session_v1 <- session_v1
       } else {
         # TODO: add to warning once we add functionality enabled by v1 only
-        # usethis::ui_info("You have not passed base_url_v1. You cannot use the following functions:")
+        # ui_info("You have not passed base_url_v1. You cannot use the following functions:")
       }
     },
     #' @description
@@ -67,8 +72,12 @@ Kobo <- R6::R6Class("Kobo",
     #'   object.
     get = function(path, query = list(), version = "v2", format = "json",
                    parse = TRUE) {
+      assert_string(path)
+      assert_list(query)
+      assert_flag(parse)
+
       if (!format %in% c("json", "csv")) {
-        usethis::ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
+        ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
       }
 
       query$format <- format
@@ -78,8 +87,8 @@ Kobo <- R6::R6Class("Kobo",
           query = query
         )
       } else if (version == "v1") {
-        if (checkmate::test_null(self$session_v1)) {
-          usethis::ui_stop(
+        if (test_null(self$session_v1)) {
+          ui_stop(
             paste(
               "Session for API v1 is not initalized.",
               "Please re-initalize the Kobo client with the",
@@ -92,7 +101,7 @@ Kobo <- R6::R6Class("Kobo",
           query = query
         )
       } else {
-        usethis::ui_stop(
+        ui_stop(
           "Invalid version. Must be either v1 or v2.
                     Come back in a couple of years."
         )
@@ -104,11 +113,11 @@ Kobo <- R6::R6Class("Kobo",
         res$raise_for_ct_json()
         return(res$parse("UTF-8") %>% jsonlite::fromJSON())
       } else if (format == "csv" & parse) {
-        usethis::ui_stop(
+        ui_stop(
           "TODO: Not supported yet"
         )
       } else if (parse) {
-        usethis::ui_stop(
+        ui_stop(
           "TODO: Not supported yet"
         )
       }
@@ -123,6 +132,9 @@ Kobo <- R6::R6Class("Kobo",
     #'  should be executed (available: `v1`, `v2`). Defaults to `v2`.
     #' @return Returns an object of class `crul::HttpResponse`.
     post = function(path, body, version = "v2") {
+      assert_string(path)
+      assert_list(body)
+
       if (version == "v2") {
         if (path != "imports/") {
           self$session_v2$post(path = paste0("api/v2/", path), body = body)
@@ -130,13 +142,13 @@ Kobo <- R6::R6Class("Kobo",
           self$session_v2$post(path = path, body = body)
         }
       } else if (version == "v1") {
-        if (checkmate::test_null(self$session_v1)) {
-          usethis::ui_stop("Session for API v1 is not initalized.
+        if (test_null(self$session_v1)) {
+          ui_stop("Session for API v1 is not initalized.
           Please re-initalize the Kobo client with the base_url_v1 argument.")
         }
         self$session_v1$post(path = paste0("api/v1/", path), body = body)
       } else {
-        usethis::ui_stop(
+        ui_stop(
           "Invalid version. Must be either v1 or v2.
           Come back in a couple of years."
         )
@@ -156,6 +168,8 @@ Kobo <- R6::R6Class("Kobo",
     #' for an asset
     #' @return An user-friendly summary of the available surveys as a tibble
     get_surveys = function(show_all_cols = FALSE) {
+      assert_flag(show_all_cols)
+
       assets_res <- self$get_assets()
       fil <- assets_res$asset_type == "survey"
       columns_of_interest <- c(
@@ -174,9 +188,10 @@ Kobo <- R6::R6Class("Kobo",
     #' Get an asset given its id.
     #' @param id character. ID of the asset within the Kobo API.
     #' @return Asset. object of class [kbtbr::Asset]
-    #' @importFrom glue glue
     get_asset = function(id) {
-      res <- self$get(glue::glue("assets/{id}/"))
+      assert_string(id)
+
+      res <- self$get(sprintf("assets/%s/", id))
       Asset$new(res, self)
     },
 
@@ -185,6 +200,8 @@ Kobo <- R6::R6Class("Kobo",
     #' @param id character. ID of the survey asset within the Kobo API.
     #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
     get_submissions = function(id) {
+      assert_string(id)
+
       asset <- self$get_asset(id)
       asset$get_submissions()
     },
@@ -196,6 +213,10 @@ Kobo <- R6::R6Class("Kobo",
     #' "block", "question", "survey", "template".
     #' @return Returns an object of class `crul::HttpResponse`.
     clone_asset = function(clone_from, new_name, asset_type) {
+      assert_string(clone_from)
+      assert_string(new_name)
+      assert_choice(asset_type, choices = c("block", "question", "survey", "template"))
+
       body <- list(
         "clone_from" = clone_from,
         "name" = new_name,
@@ -211,8 +232,10 @@ Kobo <- R6::R6Class("Kobo",
     #' @param uid character. UID of the asset to be deployed.
     #' @return Returns an object of class `crul::HttpResponse`.
     deploy_asset = function(uid) {
+      assert_string(uid)
+
       body <- list("active" = "true")
-      endpoint <- paste0("assets/", uid, "/deployment/")
+      endpoint <- sprintf("assets/%s/deployment/", uid)
       self$post(endpoint, body = body)
     },
 
@@ -223,6 +246,9 @@ Kobo <- R6::R6Class("Kobo",
     #' @param file_path  character. The path to the XLS form file.
     #' @return Returns an object of class `crul::HttpResponse`.
     import_xls_form = function(name, file_path) {
+      assert_string(name)
+      assert_file_exists(file_path)
+
       body <- list(
         "name" = name,
         "library" = "false",
@@ -254,13 +280,13 @@ Kobo <- R6::R6Class("Kobo",
                             share_metadata = FALSE) {
 
       # Input validation / assertions
-      checkmate::assert_character(name)
-      checkmate::assert_character(asset_type)
-      checkmate::assert_logical(share_metadata)
-      checkmate::assert_list(sector, names = "named")
-      checkmate::assert_list(country, names = "named")
-      checkmate::assertSetEqual(names(sector), c("label", "value"))
-      checkmate::assertSetEqual(names(country), c("label", "value"))
+      assert_character(name)
+      assert_character(asset_type)
+      assert_logical(share_metadata)
+      assert_list(sector, names = "named")
+      assert_list(country, names = "named")
+      assert_set_equal(names(sector), c("label", "value"))
+      assert_set_equal(names(country), c("label", "value"))
 
       body <- list(
         "name" = name,
