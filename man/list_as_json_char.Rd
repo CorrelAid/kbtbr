@@ -24,8 +24,8 @@ Converts R list into JSON-like string.
 \examples{
 \dontrun{
 example_body <- list_as_json_char(list(
-    "name" = "A survey object created via API/R",
-    "asset_type" = "survey"
+  "name" = "A survey object created via API/R",
+  "asset_type" = "survey"
 ))
 }
 
