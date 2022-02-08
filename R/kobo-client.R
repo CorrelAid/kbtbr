@@ -2,17 +2,13 @@
 #' @description
 #' A class to interact with the KoboToolbox API, extending [`crul::HttpClient`].
 #' @importFrom crul HttpClient
-#' @importFrom checkmate assert_character
-#' @importFrom usethis ui_stop
 #' @export
 KoboClient <- R6::R6Class("KoboClient",
   inherit = crul::HttpClient,
-  private = list(
-    base_url = "",
-    kobo_token = ""
-  ), # <end private>
-
   public = list(
+
+    # Public Methods ===========================================================
+
     #' @description
     #' Initialization method for class "KoboClient".
     #' @param base_url character. The full base URL of the API.
@@ -20,11 +16,11 @@ KoboClient <- R6::R6Class("KoboClient",
     #'  the system environment variable `KBTBR_TOKEN`.
     initialize = function(base_url,
                           kobo_token = Sys.getenv("KBTBR_TOKEN")) {
+      assert_string(base_url)
+      assert_string(kobo_token)
 
-      # Check and set private fields
-      checkmate::assert_character(kobo_token)
       if (kobo_token == "") {
-        usethis::ui_stop(
+        ui_stop(
           "No valid token detected. Set the KBTBR_TOKEN environment
                     variable or pass the token directly to the function
                     (not recommended)."
@@ -57,8 +53,11 @@ KoboClient <- R6::R6Class("KoboClient",
     #'  [`crul::HttpClient`] for reference
     #' @return the server response as a crul::HttpResponse object.
     get = function(path, query = list(), ...) {
-      path <- check_repair_path(path)
-      res <- super$get(path = path, query = query, ...)
+      res <- super$get(
+        path = append_slash(path),
+        query = query,
+        ...
+      )
       return(res)
     },
 
@@ -73,10 +72,20 @@ KoboClient <- R6::R6Class("KoboClient",
     #'  [`crul::HttpClient`] for reference
     #' @return Returns an object of class `crul::HttpResponse`.
     post = function(path, body, ...) {
-      path <- check_repair_path(path)
+      assert_string(path)
+      assert_list(body)
+
+      path <- append_slash(path)
       res <- super$post(path = path, body = body, ...)
       res$raise_for_status()
       return(res)
     }
-  ) # <end public>
+  ), # <end public>
+  private = list(
+
+    # Private Fields ===========================================================
+
+    base_url = "",
+    kobo_token = ""
+  ) # <end private>
 )
