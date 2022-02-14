@@ -4,29 +4,17 @@
 \alias{KoboClient}
 \title{KoboClient}
 \description{
-a class to interact with the KoboToolbox API
+A class to interact with the KoboToolbox API, extending \code{\link[crul:HttpClient]{crul::HttpClient}}.
 }
 \section{Super class}{
 \code{\link[crul:HttpClient]{crul::HttpClient}} -> \code{KoboClient}
-}
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{v1_enabled}}{boolean. whether or not the API v1 was enabled for this client by passing in an base URL}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{base_url}}{read-only}
-}
-\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{KoboClient$new()}}
+\item \href{#method-get}{\code{KoboClient$get()}}
+\item \href{#method-post}{\code{KoboClient$post()}}
 \item \href{#method-clone}{\code{KoboClient$clone()}}
 }
 }
@@ -34,11 +22,9 @@ a class to interact with the KoboToolbox API
 \out{<details ><summary>Inherited methods</summary>}
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="delete">}\href{../../crul/html/HttpClient.html#method-delete}{\code{crul::HttpClient$delete()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="get">}\href{../../crul/html/HttpClient.html#method-get}{\code{crul::HttpClient$get()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="handle_pop">}\href{../../crul/html/HttpClient.html#method-handle_pop}{\code{crul::HttpClient$handle_pop()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="head">}\href{../../crul/html/HttpClient.html#method-head}{\code{crul::HttpClient$head()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="patch">}\href{../../crul/html/HttpClient.html#method-patch}{\code{crul::HttpClient$patch()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="post">}\href{../../crul/html/HttpClient.html#method-post}{\code{crul::HttpClient$post()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="print">}\href{../../crul/html/HttpClient.html#method-print}{\code{crul::HttpClient$print()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="put">}\href{../../crul/html/HttpClient.html#method-put}{\code{crul::HttpClient$put()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="retry">}\href{../../crul/html/HttpClient.html#method-retry}{\code{crul::HttpClient$retry()}}\out{</span>}
@@ -51,20 +37,82 @@ a class to interact with the KoboToolbox API
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
+Initialization method for class "KoboClient".
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{KoboClient$new(base_url, kobo_token = NULL, base_url_v1 = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{KoboClient$new(base_url, kobo_token = Sys.getenv("KBTBR_TOKEN"))}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{base_url}}{character. The full base URL of the API version 2 (known as /api/v2). For example: https://kobo.correlaid.org/api/v2.}
+\item{\code{base_url}}{character. The full base URL of the API.}
 
-\item{\code{kobo_token}}{character. The API token. Defaults to NULL.}
-
-\item{\code{base_url_v1}}{character. The base URL of the API of your KoBoCAT API (also known as /api/v1). Defaults to NULL. For example: https://kc.correlaid.org/api/v1/.}
+\item{\code{kobo_token}}{character. The API token. Defaults to requesting
+the system environment variable \code{KBTBR_TOKEN}.}
 }
 \if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get"></a>}}
+\if{latex}{\out{\hypertarget{method-get}{}}}
+\subsection{Method \code{get()}}{
+Perform a GET request (with additional checks)
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{KoboClient$get(path, query = list(), ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{query}}{list. A named list which is parsed to the query
+component. The order is not hierarchical.}
+
+\item{\code{...}}{crul-options. Additional option arguments, see
+\code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Extension of the \code{crul::HttpClient$get()} method that checks
+the HttpResponse object on status, that it is of type
+\code{application/json}, and parses the response text subsequently from
+JSON to R list representation.
+}
+
+\subsection{Returns}{
+the server response as a crul::HttpResponse object.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-post"></a>}}
+\if{latex}{\out{\hypertarget{method-post}{}}}
+\subsection{Method \code{post()}}{
+Perform a POST request
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{KoboClient$post(path, body, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{path}}{character. Path component of the endpoint.}
+
+\item{\code{body}}{R list. A data payload to be sent to the server.}
+
+\item{\code{...}}{crul-options. Additional option arguments, see
+\code{\link[crul:HttpClient]{crul::HttpClient}} for reference}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Details}{
+Extension of the \code{crul::HttpClient$post()} method.
+}
+
+\subsection{Returns}{
+Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}

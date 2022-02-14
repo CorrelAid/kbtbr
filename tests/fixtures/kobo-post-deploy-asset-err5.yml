@@ -1,0 +1,34 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/aYKJ5czzHiustZFpBBiWHk/deployment/
+    body:
+      encoding: ''
+      string: active=true
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '500'
+      message: Internal Server Error
+      explanation: Server got itself in trouble
+    headers:
+      status: HTTP/1.1 500 Internal Server Error
+      server: nginx
+      date: Tue, 06 Jul 2021 20:08:51 GMT
+      content-type: text/html; charset=utf-8
+      content-length: '27'
+      connection: keep-alive
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      vary: Accept-Language, Cookie, Origin
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: <h1>Server Error (500)</h1>
+  recorded_at: 2021-07-06 20:08:51 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

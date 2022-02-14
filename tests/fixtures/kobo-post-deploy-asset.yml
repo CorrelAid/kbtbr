@@ -1,0 +1,36 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/deployment/
+    body:
+      encoding: ''
+      string: active=true
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Sat, 12 Jun 2021 13:37:10 GMT
+      content-type: application/json
+      content-length: '5285'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, PATCH, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"backend":"kobocat","identifier":"https://kc.correlaid.org/api_user/forms/aQVGH8G68EP737tDBABRwC","active":true,"version_id":"vCrdJjJCz5uLQrGsGDQhDF","asset":{"url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/","owner":"https://kobo.correlaid.org/api/v2/users/api_user/","owner__username":"api_user","parent":null,"ancestors":null,"settings":{},"asset_type":"survey","date_created":"2021-06-12T13:08:44.929148Z","summary":{},"date_modified":"2021-06-12T13:37:10.361276Z","version_id":"vCrdJjJCz5uLQrGsGDQhDF","version__content_hash":"4724ddb07034559d7fb5a3d18288dfb683a2d082","version_count":1,"has_deployment":true,"deployed_version_id":"vCrdJjJCz5uLQrGsGDQhDF","deployed_versions":{"count":1,"next":null,"previous":null,"results":[{"uid":"vCrdJjJCz5uLQrGsGDQhDF","url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/versions/vCrdJjJCz5uLQrGsGDQhDF/","content_hash":"4724ddb07034559d7fb5a3d18288dfb683a2d082","date_deployed":"2021-06-12T13:08:44.944924Z","date_modified":"2021-06-12
+        13:08:44.944924+00:00"}]},"deployment__identifier":"https://kc.correlaid.org/api_user/forms/aQVGH8G68EP737tDBABRwC","deployment__links":{"url":"https://ee.correlaid.org/80K1bcdY","single_url":"https://ee.correlaid.org/single/80K1bcdY","single_once_url":"https://ee.correlaid.org/single/dbd76bbd040d38d49c6b336ea046c706","offline_url":"https://ee.correlaid.org/x/80K1bcdY","preview_url":"https://ee.correlaid.org/preview/80K1bcdY","iframe_url":"https://ee.correlaid.org/i/80K1bcdY","single_iframe_url":"https://ee.correlaid.org/single/i/80K1bcdY","single_once_iframe_url":"https://ee.correlaid.org/single/i/dbd76bbd040d38d49c6b336ea046c706"},"deployment__active":true,"deployment__data_download_links":{"xls_legacy":"https://kc.correlaid.org/api_user/exports/aQVGH8G68EP737tDBABRwC/xls/","csv_legacy":"https://kc.correlaid.org/api_user/exports/aQVGH8G68EP737tDBABRwC/csv/","zip_legacy":"https://kc.correlaid.org/api_user/exports/aQVGH8G68EP737tDBABRwC/zip/","kml_legacy":"https://kc.correlaid.org/api_user/exports/aQVGH8G68EP737tDBABRwC/kml/","xls":"https://kc.correlaid.org/api_user/reports/aQVGH8G68EP737tDBABRwC/export.xlsx","csv":"https://kc.correlaid.org/api_user/reports/aQVGH8G68EP737tDBABRwC/export.csv"},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{},"kuid_names":{}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"schema":"1","survey":[],"settings":{}},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/xls/"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/xform/"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/koboform/","xform_link":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/xform/","hooks_link":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/hooks/","tag_string":"","uid":"aQVGH8G68EP737tDBABRwC","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/aQVGH8G68EP737tDBABRwC/xls/","name":"vcr_test_name","permissions":[{"uid":"pWteuYWurvhpnmj9bFwznK","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pWteuYWurvhpnmj9bFwznK/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"add_submissions","deny":false,"inherited":true},{"uid":"pQzTbPjHh23VmJYjbrABBm","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pQzTbPjHh23VmJYjbrABBm/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"change_asset","deny":false,"inherited":true},{"uid":"peXsNZbPygV4eQcc4e66YM","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/peXsNZbPygV4eQcc4e66YM/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"change_submissions","deny":false,"inherited":true},{"uid":"pptCWLHPCoqFPhDdoRXvNS","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pptCWLHPCoqFPhDdoRXvNS/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"delete_submissions","deny":false,"inherited":true},{"uid":"pP7zEB4zyAEYbGt3mnNh3e","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pP7zEB4zyAEYbGt3mnNh3e/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"manage_asset","deny":false,"inherited":true},{"uid":"pTiL3oi4Sjny2NN7WfiM9u","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pTiL3oi4Sjny2NN7WfiM9u/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"validate_submissions","deny":false,"inherited":true},{"uid":"pcxJLozwrjLHW3QGckQz4J","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pcxJLozwrjLHW3QGckQz4J/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"view_asset","deny":false,"inherited":true},{"uid":"pX7eiGzAXxR7HxQPPDn26T","kind":"objectpermission","url":"https://kobo.correlaid.org/permissions/pX7eiGzAXxR7HxQPPDn26T/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"view_submissions","deny":false,"inherited":true}]}}'
+  recorded_at: 2021-06-12 13:37:10 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

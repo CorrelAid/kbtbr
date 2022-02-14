@@ -1,0 +1,35 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/data/?format=json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Thu, 22 Jul 2021 06:59:36 GMT
+      content-type: application/json
+      content-length: '52'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"count":0,"next":null,"previous":null,"results":[]}'
+  recorded_at: 2021-07-22 06:59:36 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

@@ -1,0 +1,53 @@
+http_interactions:
+- request:
+    method: post
+    uri: https://kobo.correlaid.org/api/v2/assets/
+    body:
+      encoding: ''
+      string: clone_from=a84jmwwdPEsZMhK7s2i4SL,name=vcr_test_name,asset_type=survey
+    headers:
+      User-Agent: libcurl/7.54.0 r-curl/4.3.1 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '201'
+      message: Created
+      explanation: Document created, URL follows
+    headers:
+      status: HTTP/1.1 201 Created
+      server: nginx
+      date: Sat, 12 Jun 2021 13:37:09 GMT
+      content-type: application/json
+      content-length: '5039'
+      connection: keep-alive
+      location: https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, POST, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/","owner":"https://kobo.correlaid.org/api/v2/users/api_user/","owner__username":"api_user","parent":null,"ancestors":null,"settings":{},"asset_type":"survey","date_created":"2021-06-12T13:37:09.672463Z","summary":{},"date_modified":"2021-06-12T13:37:09.672486Z","version_id":"v9ndjta3haQhNW8aCHjamT","version__content_hash":"4724ddb07034559d7fb5a3d18288dfb683a2d082","version_count":1,"has_deployment":false,"deployed_version_id":null,"deployed_versions":{"count":0,"next":null,"previous":null,"results":[]},"deployment__identifier":null,"deployment__links":{},"deployment__active":false,"deployment__data_download_links":{},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{},"kuid_names":{}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"schema":"1","survey":[],"settings":{}},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/xls/"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/xform/"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/koboform/","xform_link":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/xform/","hooks_link":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/hooks/","tag_string":"","uid":"aJLn3yYbKzwX9zyKnt5RBr","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/xls/","name":"vcr_test_name","assignable_permissions":[{"url":"https://kobo.correlaid.org/api/v2/permissions/view_asset/","label":"View
+        form"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_asset/","label":"Edit
+        form"},{"url":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/","label":"Manage
+        project"},{"url":"https://kobo.correlaid.org/api/v2/permissions/add_submissions/","label":"Add
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/view_submissions/","label":"View
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/partial_submissions/","label":"View
+        submissions only from specific users"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_submissions/","label":"Edit
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/delete_submissions/","label":"Delete
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/validate_submissions/","label":"Validate
+        submissions"}],"permissions":[{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/pTJR5euZkLZF96ebZ8mTft/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/add_submissions/","label":"Add
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/px4zsvNYCbvFJi3ZTd8kYS/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/change_asset/","label":"Edit
+        form"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/pVGvoFiwo5EPbU66myurmC/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/change_submissions/","label":"Edit
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/p2jDt4Ji6mxWnQANPdgYsv/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/delete_submissions/","label":"Delete
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/pZU2fDCFFwNdZbertavXMa/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/","label":"Manage
+        project"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/ppwsUfWuvko2qpK2nw5jmW/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/validate_submissions/","label":"Validate
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/pipCafUXyFjNLbnAB7jDmk/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/view_asset/","label":"View
+        form"},{"url":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/permission-assignments/p3C7pMaaBpLGrZa7a8yXvz/","user":"https://kobo.correlaid.org/api/v2/users/api_user/","permission":"https://kobo.correlaid.org/api/v2/permissions/view_submissions/","label":"View
+        submissions"}],"data":"https://kobo.correlaid.org/api/v2/assets/aJLn3yYbKzwX9zyKnt5RBr/data/"}'
+  recorded_at: 2021-06-12 13:37:09 GMT
+  recorded_with: vcr/1.0.2, webmockr/0.8.0

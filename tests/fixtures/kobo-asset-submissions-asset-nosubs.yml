@@ -1,0 +1,58 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/?format=json
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      User-Agent: libcurl/7.64.1 r-curl/4.3 crul/1.1.0
+      Accept-Encoding: gzip, deflate
+      Authorization: fakebearertoken
+      Accept: application/json
+  response:
+    status:
+      status_code: '200'
+      message: OK
+      explanation: Request fulfilled, document follows
+    headers:
+      status: HTTP/1.1 200 OK
+      server: nginx
+      date: Thu, 22 Jul 2021 06:59:36 GMT
+      content-type: application/json
+      content-length: '8858'
+      connection: keep-alive
+      vary: Accept, Accept-Language, Cookie, Origin
+      allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+      x-kobonaut: api_user
+      x-frame-options: SAMEORIGIN
+      content-language: en
+    body:
+      encoding: UTF-8
+      file: no
+      string: '{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/?format=json","owner":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","owner__username":"api_user","parent":null,"ancestors":null,"settings":{"sector":{"label":"Other","value":"Other"},"country":{"label":"Germany","value":"DEU"},"description":"","share-metadata":false},"asset_type":"survey","date_created":"2021-04-28T19:52:13.144873Z","summary":{"geo":false,"labels":["Your
+        name","Your age","Your favourite dog","Your favourite cat"],"columns":["type","label","required","select_from_list_name"],"languages":[null],"row_count":4,"default_translation":null},"date_modified":"2021-05-13T16:59:25.147719Z","version_id":"v39addKozAjjUTpsr8eYRm","version__content_hash":"b8dc756504b553638938d1568b6bbeee8b9a9f46","version_count":3,"has_deployment":true,"deployed_version_id":"v39addKozAjjUTpsr8eYRm","deployed_versions":{"count":1,"next":null,"previous":null,"results":[{"uid":"v39addKozAjjUTpsr8eYRm","url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/versions/v39addKozAjjUTpsr8eYRm/?format=json","content_hash":"b8dc756504b553638938d1568b6bbeee8b9a9f46","date_deployed":"2021-04-28T19:59:26.497551Z","date_modified":"2021-04-28
+        19:59:26.497551+00:00"}]},"deployment__identifier":"https://kc.correlaid.org/api_user/forms/ajzghKK6NELaixPQqsm49e","deployment__links":{"url":"https://ee.correlaid.org/uoePjpY3","single_url":"https://ee.correlaid.org/single/uoePjpY3","single_once_url":"https://ee.correlaid.org/single/da1c7bd10ccfa34ff010975bbde150d3","offline_url":"https://ee.correlaid.org/x/uoePjpY3","preview_url":"https://ee.correlaid.org/preview/uoePjpY3","iframe_url":"https://ee.correlaid.org/i/uoePjpY3","single_iframe_url":"https://ee.correlaid.org/single/i/uoePjpY3","single_once_iframe_url":"https://ee.correlaid.org/single/i/da1c7bd10ccfa34ff010975bbde150d3"},"deployment__active":true,"deployment__data_download_links":{"xls_legacy":"https://kc.correlaid.org/api_user/exports/ajzghKK6NELaixPQqsm49e/xls/","csv_legacy":"https://kc.correlaid.org/api_user/exports/ajzghKK6NELaixPQqsm49e/csv/","zip_legacy":"https://kc.correlaid.org/api_user/exports/ajzghKK6NELaixPQqsm49e/zip/","kml_legacy":"https://kc.correlaid.org/api_user/exports/ajzghKK6NELaixPQqsm49e/kml/","xls":"https://kc.correlaid.org/api_user/reports/ajzghKK6NELaixPQqsm49e/export.xlsx","csv":"https://kc.correlaid.org/api_user/reports/ajzghKK6NELaixPQqsm49e/export.csv"},"deployment__submission_count":0,"report_styles":{"default":{},"specified":{"end":{},"start":{},"ac8gb94":{},"jr99x27":{},"lu5kb37":{},"md7af89":{}},"kuid_names":{"end":"I1zbdtzEU","start":"tjGTOvJCj","ac8gb94":"ac8gb94","jr99x27":"jr99x27","lu5kb37":"lu5kb37","md7af89":"md7af89"}},"report_custom":{},"map_styles":{},"map_custom":{},"content":{"schema":"1","survey":[{"name":"start","type":"start","$kuid":"tjGTOvJCj","$autoname":"start"},{"name":"end","type":"end","$kuid":"I1zbdtzEU","$autoname":"end"},{"type":"text","$kuid":"ac8gb94","label":["Your
+        name"],"required":false,"$autoname":"Your_name"},{"type":"integer","$kuid":"lu5kb37","label":["Your
+        age"],"required":false,"$autoname":"Your_age"},{"type":"select_one","$kuid":"md7af89","label":["Your
+        favourite dog"],"required":false,"$autoname":"Your_favourite_dog","select_from_list_name":"hj7lp47"},{"type":"select_one","$kuid":"jr99x27","label":["Your
+        favourite cat"],"required":false,"$autoname":"Your_favourite_cat","select_from_list_name":"yc0zz42"}],"choices":[{"name":"dog1","$kuid":"LTUqS0aA6","label":["dog1"],"list_name":"hj7lp47","$autovalue":"dog1"},{"name":"dog2","$kuid":"HhFvl0kXl","label":["dog2"],"list_name":"hj7lp47","$autovalue":"dog2"},{"name":"dog3","$kuid":"MY8ieK5pa","label":["dog3"],"list_name":"hj7lp47","$autovalue":"dog3"},{"name":"cat1","$kuid":"riLSfNtfI","label":["cat1"],"list_name":"yc0zz42","$autovalue":"cat1"},{"name":"cat2","$kuid":"YrFlPR7Fi","label":["cat2"],"list_name":"yc0zz42","$autovalue":"cat2"},{"name":"cat3","$kuid":"zLQSzCbW3","label":["cat3"],"list_name":"yc0zz42","$autovalue":"cat3"},{"name":"cat4","$kuid":"wAkKQqZLV","label":["cat4"],"list_name":"yc0zz42","$autovalue":"cat4"}],"settings":{},"translated":["label"],"translations":[null]},"downloads":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/?format=json.xls"},{"format":"xml","url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/?format=json.xml"}],"embeds":[{"format":"xls","url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/xls/?format=json"},{"format":"xform","url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/xform/?format=json"}],"koboform_link":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/koboform/?format=json","xform_link":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/xform/?format=json","hooks_link":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/hooks/?format=json","tag_string":"","uid":"ajzghKK6NELaixPQqsm49e","kind":"asset","xls_link":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/xls/?format=json","name":"test_built_from_scratch","assignable_permissions":[{"url":"https://kobo.correlaid.org/api/v2/permissions/view_asset/?format=json","label":"View
+        form"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_asset/?format=json","label":"Edit
+        form"},{"url":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/?format=json","label":"Manage
+        project"},{"url":"https://kobo.correlaid.org/api/v2/permissions/add_submissions/?format=json","label":"Add
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/view_submissions/?format=json","label":"View
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/partial_submissions/?format=json","label":"View
+        submissions only from specific users"},{"url":"https://kobo.correlaid.org/api/v2/permissions/change_submissions/?format=json","label":"Edit
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/delete_submissions/?format=json","label":"Delete
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/permissions/validate_submissions/?format=json","label":"Validate
+        submissions"}],"permissions":[{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/pNh4FweRqmRpTGz5r49QsY/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/add_submissions/?format=json","label":"Add
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/pHFo8upcnYmy9rnhFEQ3gf/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/change_asset/?format=json","label":"Edit
+        form"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/pZgG8gtvSRUJFD9PCx8KVu/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/change_submissions/?format=json","label":"Edit
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/ph6z7ox7XG79Mv6ApCpHjW/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/delete_submissions/?format=json","label":"Delete
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/pFefHXsa5tMSx5HdufFUyj/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/manage_asset/?format=json","label":"Manage
+        project"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/pdG8GpXaRpHqPpZrcoNfLJ/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/validate_submissions/?format=json","label":"Validate
+        submissions"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/p8MCoXV4zWS9Ww7AjTnrNW/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/view_asset/?format=json","label":"View
+        form"},{"url":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/permission-assignments/p8piyLxXaq94EeQX3FjNTD/?format=json","user":"https://kobo.correlaid.org/api/v2/users/api_user/?format=json","permission":"https://kobo.correlaid.org/api/v2/permissions/view_submissions/?format=json","label":"View
+        submissions"}],"data":"https://kobo.correlaid.org/api/v2/assets/ajzghKK6NELaixPQqsm49e/data/?format=json"}'
+  recorded_at: 2021-07-22 06:59:36 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.8.0

@@ -1,0 +1,302 @@
+---
+title: "Using crul with KoboToolbox"
+output:
+  github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval=FALSE
+)
+```
+
+```{r setup, include=TRUE}
+box::use(
+  magrittr[`%>%`],
+  dplyr[...],
+  crul[...]
+)
+```
+
+> **Note:** This article is intended to be excluded from a final state of
+> of the project.
+
+
+This WIP article develops a short overview on how to interact with the KoboToolbox
+API with the plain [`{crul}`](https://github.com/ropensci/crul)
+package, without any generalization etc. but purely to play around with
+the provided functionality.
+
+To replicate, please provide the following environment variables (e.g.
+via your `~.Renviron` file):
+
+- `KBTBR_BASE_URL`: something like `kobo.yourdomain.com`
+- `KBTBR_TOKEN`: the token for your user. See 
+  [here](https://support.kobotoolbox.org/api.html) on how to retrieve it.
+  (currently not used in the examples)
+
+
+
+## Basic requests
+
+In the following, for demonstration purposes, we will show how to access the
+API with `crul` on different ways. Those are not necessarily the one we chose
+in the package, we just want to get a feeling for how everything works.
+
+- Plain request: building a client object "by hand", executing its methods,
+  parsing the results.
+- Wrapping it in a function: avoid code repetition by hiding some of the
+  previous steps in a general function.
+
+
+We look at "low-hanging" endpoints: `assets` and `assets/{{uid}}/data`
+(`v2` API only).
+
+
+## Plain requests
+
+```{r plain-crul}
+base_url <- Sys.getenv("KBTBR_BASE_URL")
+token <- Sys.getenv("KBTBR_TOKEN")
+
+## Simple GET request
+
+# Build the URL from a named-list style:
+asset_url <- crul::url_build(
+  url = base_url,
+  path = "api/v2/assets",
+  query = list(format = "json")
+)
+
+#' crul also has the reverse operation "url_parse" which decomposes an URL into
+#' its elements this could be useful when "navigating" around the API using the
+#' asset urls provided in the responses, e.g. in case we wanted to add elements
+#' of it to a data frame representation etc.
+crul::url_parse(asset_url)
+
+# Get an instance of a crul::HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = asset_url,
+  headers = list(
+    Authorization = paste0("Token ", token)
+  )
+)
+
+crul_resp <- crul_client$get()
+sloop::otype(crul_resp)
+crul_resp$raise_for_status() # equivalent of httr::stop_for_status()
+
+# Parse and inspect response
+parsed_assets <- crul_resp$parse("UTF-8") %>%
+  jsonlite::fromJSON()
+
+# Inspect the results
+names(parsed_assets)
+str(parsed_assets, 1)
+```
+
+
+In the above example, we constructed the URL for the endpoint as follows:
+- The base url (`kobo.example.com`) was queried via a secret token
+- An additional path (`api/v2/assets`) and a query parameter (`format=json`)
+  was passed as the final url was constructed using `crul::build_url()`.
+- This final url was then passed as-is to the `crul::HttpClient` during
+  instantiation.
+
+However, it is possible (and more suitable/flexible)
+to pass the additional path and query parameters during the actual method call
+on the client, as is shown in the following example:
+
+
+```{r base-url-client}
+# Get an instance of a crul HttpClient:
+crul_client <- crul::HttpClient$new(
+  url = base_url,
+  headers = list(
+    Authorization = paste0("Token ", token),
+    "content-type" = "application/json"
+  )
+)
+
+# Make a GET request, and pass additional path and query parameters:
+crul_resp2 <- crul_client$get(
+  path = "api/v2/assets",
+  query = list(format = "json")
+  )
+
+```
+
+
+_Remark:_ Interestingly, it does not seem to matter whether which one we
+use as the final passed url, both
+- `https:://kobo.example.com/assets/?format=json` and
+- `https:://kobo.example.com/api/v2/assets/?format=json`
+
+This seems to be due to a legacy release of Kobo's
+`v2` API, which probably used the shorter url form (which should not be used). 
+
+
+### `POST` requests
+
+
+In the first example, we can try to **create a new asset** (without any content)
+via a `POST` request.
+
+```{r}
+# A little helper function to create a json-like string from
+# a list.
+# _note_ Kobotoolbox seems to be unable to deal with arrays, thus we have
+# to unbox vectors of length 1.
+list_as_json_char <- function(list) {
+  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
+    as.character()
+}
+
+
+body_create_example <- list_as_json_char(list(
+  "name" = "A survey object created via API/R",
+  "asset_type" = "survey"
+))
+
+# Exectute the request, and use method chaining to parse it directly 
+crul_client$
+  post(
+    path = "api/v2/assets/",
+    body = body_create_example)$
+  parse("utf-8")
+
+```
+
+_Note_ somehow the additional nested parameter in "settings" resulted in a
+failure of the request. It is questionable why they are in the documentation.
+We cannot explain this _misbehaviour_ at the moment.
+
+
+In the next example, in a similar style we **clone** an existing asset. This
+needs two arguments passed in the body of the POST request.
+
+```{r}
+example_clone_body <- list_as_json_char(list(
+  "clone_from" = "ajzghKK6NELaixPQqsm49e",
+  "name" = "This is a cloned survey (via API/R)",
+  "asset_type" = "survey"
+))
+
+crul_client$
+  post(
+    path = "api/v2/assets/",
+    body = example_clone_body)$
+  parse("utf-8")
+```
+
+
+### `PATCH` Requests
+
+
+The newly created assets of type `survey` are initially in draft mode.
+However, can we also move them to deployed?
+
+Let's say we want to deploy all surveys which we have created beforehand,
+and that we can identify because we put `API/R` in the name (of course,
+this is nothing we would do in the package).
+
+**DOES NOT WORK YET**
+
+```{r}
+# First, get again a list of assets
+df_selected_uids <- crul_client$
+  get(
+    path = "api/v2/assets",
+    query = list(formant = "json"))$
+  parse("utf-8") %>%
+  jsonlite::fromJSON() %>%
+  purrr::pluck("results") %>%
+  tibble::as_tibble() %>%
+  dplyr::filter(stringr::str_detect(name, "API/R")) %>%
+  dplyr::select(name, uid)
+
+df_selected_uids
+
+df_selected_uids$uid %>%
+  purrr::walk(.f = function(uid) {
+    crul_client$
+      patch(
+        path = glue::glue("api/v2/assets/{uid}/deployment/"),
+        query = list(active = "false")
+      )
+  })
+
+```
+
+
+
+## Wrapping it in a function
+
+Just to play around with possibilities, one can create a function that
+consumes a `HttpClient` object and then performes a request on it, plus 
+some additional data parsing / retrieval.
+
+```{r wrap-in-function}
+# Consider the following example client object
+example_client <- crul::HttpClient$new(
+  url = Sys.getenv("KBTBR_BASE_URL"),
+  headers = list(Authorization = paste0("Token ", Sys.getenv("KBTBR_TOKEN")))
+)
+
+
+#' Simple request
+#' 
+#' Function that returns the parsed, tibbelized result from a simple GET
+#' request
+#' @param client An object of class HttpClient
+#' @param path <string>
+#' @param query <list> A named list of strings, giving additional request
+#'  parameters.
+#' @return A tibble
+simple_request <- function(client, path, query = NULL) {
+
+  stopifnot("HttpClient" %in% class(client))
+  r <- client$get(path, query)
+  r$raise_for_status()
+  r$parse("UTF-8") %>%
+    jsonlite::fromJSON() %>%
+    purrr::pluck("results") %>%
+    tibble::as_tibble()
+}
+
+simple_request(example_client, "api/v2/collections", list(format = "json"))
+```
+
+Consider a more complex example, where we first need to retrieve a list of
+asset `uid` s, which we use in a second step to construct URLs to get
+actually response data from survey assets.
+
+```{r complexer-example}
+assets_df <- simple_request(example_client, "api/v2/assets", list(format = "json"))
+
+data_url <- assets_df %>%
+  dplyr::filter(asset_type == "survey") %>%
+  pull(data) %>%
+  urltools::path()
+
+full_dta_list <- data_url %>%
+  purrr::map(function(url) {
+    tryCatch(
+      simple_request(example_client, path = url, query = list(format = "json")),
+      error = function(e) {
+        usethis::ui_warn("Failed for {url}: {e}")
+        return(NULL)
+       })})
+
+str(full_dta_list, 1)
+```
+
+_Note:_ you might have mentioned the somewhat awkward removing of the base
+url and query, and then adding it implicit again. This is because the
+client in this case always as a base url, and cannot tell (yet) whether it
+was accidentially already prepended to the supplied `path`. We could
+think about using `urltools::path()` somewhere to be sure to have everything
+stripped away, given that the path does not start with `api/v2`... 
+Has to be discussed.
