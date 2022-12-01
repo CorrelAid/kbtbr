@@ -23,7 +23,7 @@ test_that("Kobo Client can fetch assets", {
 
   assets <- res$
     parse() %>%
-    jsonlite::fromJSON()
+    fromJSON()
   expect_setequal(names(assets), c("count", "next", "previous", "results"))
   expect_true(all(c("url", "owner", "kind", "name", "asset_type") %in% colnames(assets$results)))
   expect_equal(nrow(assets$results), 8)

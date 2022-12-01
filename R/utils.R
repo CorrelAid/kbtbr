@@ -33,8 +33,7 @@ append_slash <- function(path) {
 #' }
 #'
 list_as_json_char <- function(list) {
-  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-    as.character()
+  as.character(toJSON(x = list, pretty = TRUE, auto_unbox = TRUE))
 }
 
 

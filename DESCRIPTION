@@ -22,6 +22,7 @@ Suggests:
     vcr, 
     withr,
     dplyr,
+    magrittr,
     tidyr,
     knitr,
     janitor,
@@ -32,7 +33,6 @@ Config/testthat/edition: 3
 Imports: 
     crul,
     checkmate,
-    magrittr,
     jsonlite,
     tibble
 Roxygen: list(markdown = TRUE)

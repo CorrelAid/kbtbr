@@ -38,8 +38,7 @@ Asset <- R6::R6Class("Asset",
         stop(sprintf("Only valid for assets of type 'survey'. Current asset is of type '%s'.", private$.type))
       }
       path <- sprintf("assets/%s/data/", private$.uid)
-      private$.kobo$get(path)$results %>%
-        tibble::as_tibble()
+      as_tibble(private$.kobo$get(path)$results)
     },
     #' to_list
     #' @return list representation of asset

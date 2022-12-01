@@ -111,7 +111,7 @@ Kobo <- R6::R6Class("Kobo",
 
       if (format == "json" & parse) {
         res$raise_for_ct_json()
-        return(res$parse("UTF-8") %>% jsonlite::fromJSON())
+        return(fromJSON(res$parse("UTF-8")))
       } else if (format == "csv" & parse) {
         stop(
           "TODO: Not supported yet"
