@@ -56,7 +56,7 @@ Kobo <- R6::R6Class("Kobo",
         self$session_v1 <- session_v1
       } else {
         # TODO: add to warning once we add functionality enabled by v1 only
-        # ui_info("You have not passed base_url_v1. You cannot use the following functions:")
+        # message("You have not passed base_url_v1. You cannot use the following functions:")
       }
     },
     #' @description
@@ -77,7 +77,7 @@ Kobo <- R6::R6Class("Kobo",
       assert_flag(parse)
 
       if (!format %in% c("json", "csv")) {
-        ui_stop("Unsupported format. Only 'json' and 'csv' are supported")
+        stop("Unsupported format. Only 'json' and 'csv' are supported")
       }
 
       query$format <- format
@@ -88,7 +88,7 @@ Kobo <- R6::R6Class("Kobo",
         )
       } else if (version == "v1") {
         if (test_null(self$session_v1)) {
-          ui_stop(
+          stop(
             paste(
               "Session for API v1 is not initalized.",
               "Please re-initalize the Kobo client with the",
@@ -101,7 +101,7 @@ Kobo <- R6::R6Class("Kobo",
           query = query
         )
       } else {
-        ui_stop(
+        stop(
           "Invalid version. Must be either v1 or v2.
                     Come back in a couple of years."
         )
@@ -113,11 +113,11 @@ Kobo <- R6::R6Class("Kobo",
         res$raise_for_ct_json()
         return(res$parse("UTF-8") %>% jsonlite::fromJSON())
       } else if (format == "csv" & parse) {
-        ui_stop(
+        stop(
           "TODO: Not supported yet"
         )
       } else if (parse) {
-        ui_stop(
+        stop(
           "TODO: Not supported yet"
         )
       }
@@ -143,12 +143,12 @@ Kobo <- R6::R6Class("Kobo",
         }
       } else if (version == "v1") {
         if (test_null(self$session_v1)) {
-          ui_stop("Session for API v1 is not initalized.
+          stop("Session for API v1 is not initalized.
           Please re-initalize the Kobo client with the base_url_v1 argument.")
         }
         self$session_v1$post(path = paste0("api/v1/", path), body = body)
       } else {
-        ui_stop(
+        stop(
           "Invalid version. Must be either v1 or v2.
           Come back in a couple of years."
         )

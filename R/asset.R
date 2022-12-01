@@ -14,7 +14,7 @@ Asset <- R6::R6Class("Asset",
       needed_names <- c("uid", "name", "url", "data", "owner__username", "asset_type")
       if (!test_subset(needed_names, names(asset_list))) {
         missing_elements <- setdiff(needed_names, names(asset_list))
-        ui_stop(
+        stop(
           sprintf("Argument asset_list is missing the following required elements: %s", toString(missing_elements))
         )
       }
@@ -35,7 +35,7 @@ Asset <- R6::R6Class("Asset",
     #' @return tibble. submissions as a tibble. if no submissions were made yet, the tibble will have no columns.
     get_submissions = function() {
       if (private$.type != "survey") {
-        ui_stop("Only valid for assets of type 'survey'. Current asset is of type '{private$.type}'.")
+        stop(sprintf("Only valid for assets of type 'survey'. Current asset is of type '%s'.", private$.type))
       }
       path <- sprintf("assets/%s/data/", private$.uid)
       private$.kobo$get(path)$results %>%
