@@ -1,7 +1,7 @@
 Package: kbtbr
 Type: Package
 Title: A Wrapper for the KoBoToolbox API
-Version: 0.1.1
+Version: 0.1.0.9001
 Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             person("Lada", "Rudnitckaia", role = "aut"),
             person("Malte", "Kyhos", role = "aut"),
