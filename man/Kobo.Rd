@@ -14,7 +14,7 @@ interactions with the various endpoints.
 \describe{
 \item{\code{session_v2}}{\link{KoboClient} session for v2 of the API}
 
-\item{\code{session_v1}}{\code{KoboClient} session for v1 of the API}
+\item{\code{session_v1}}{\link{KoboClient} session for v1 of the API}
 }
 \if{html}{\out{</div>}}
 }
@@ -23,6 +23,7 @@ interactions with the various endpoints.
 \itemize{
 \item \href{#method-new}{\code{Kobo$new()}}
 \item \href{#method-get}{\code{Kobo$get()}}
+\item \href{#method-get_paginated}{\code{Kobo$get_paginated()}}
 \item \href{#method-post}{\code{Kobo$post()}}
 \item \href{#method-get_assets}{\code{Kobo$get_assets()}}
 \item \href{#method-get_surveys}{\code{Kobo$get_surveys()}}
@@ -63,10 +64,10 @@ For example: https://kc.correlaid.org.}
 \item{\code{kobo_token}}{character. The API token. Defaults to requesting
 the systen environment \code{KBTBR_TOKEN}.}
 
-\item{\code{session_v2}}{\link{KoboClient} To pass directly
+\item{\code{session_v2}}{\link{KoboClient}. Alternatively, pass directly
 a \link{KoboClient} instance for the API version v2.}
 
-\item{\code{session_v1}}{\link{KoboClient} In addition to session_v2 one can pass
+\item{\code{session_v1}}{KoboKlient. In addition to session_v2 one can pass
 also a \link{KoboClient} instance for the API version v1.}
 }
 \if{html}{\out{</div>}}
@@ -99,9 +100,18 @@ component. The order is not hierarchical.}
 }
 \subsection{Returns}{
 a list encoding of the json server reply if parse=TRUE.
-Otherwise, it returns the server response as a crul::HttpResponse
+Otherwise, it returns the server response as a \link[crul:HttpResponse]{crul::HttpResponse}
 object.
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-get_paginated"></a>}}
+\if{latex}{\out{\hypertarget{method-get_paginated}{}}}
+\subsection{Method \code{get_paginated()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Kobo$get_paginated(path, query, version = "v2", format = "json", parse = TRUE)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-post"></a>}}

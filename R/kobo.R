@@ -6,15 +6,13 @@
 #' interactions with the various endpoints.
 #' @export
 Kobo <- R6::R6Class("Kobo",
-  # private = list(
-  # ),
   public = list(
 
     # Public Fields ============================================================
 
     #' @field session_v2 [kbtbr::KoboClient] session for v2 of the API
     session_v2 = NULL,
-    #' @field session_v1 `KoboClient` session for v1 of the API
+    #' @field session_v1 [KoboClient] session for v1 of the API
     session_v1 = NULL,
 
     # Public Methods ===========================================================
@@ -28,9 +26,9 @@ Kobo <- R6::R6Class("Kobo",
     #'  For example: https://kc.correlaid.org.
     #' @param kobo_token character. The API token. Defaults to requesting
     #'  the systen environment `KBTBR_TOKEN`.
-    #' @param session_v2 [KoboClient] To pass directly
+    #' @param session_v2 [KoboClient]. Alternatively, pass directly
     #' a [KoboClient] instance for the API version v2.
-    #' @param session_v1 [KoboClient] In addition to session_v2 one can pass
+    #' @param session_v1 KoboClient. In addition to session_v2 one can pass
     #' also a [KoboClient] instance for the API version v1.
     initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
                           kobo_token = Sys.getenv("KBTBR_TOKEN"),
@@ -68,7 +66,7 @@ Kobo <- R6::R6Class("Kobo",
     #' @param format character. the format to request from the server. either 'json' or 'csv'. defaults to 'json'
     #' @param parse whether or not to parse the HTTP response. defaults to TRUE.
     #' @return a list encoding of the json server reply if parse=TRUE.
-    #'   Otherwise, it returns the server response as a crul::HttpResponse
+    #'   Otherwise, it returns the server response as a [crul::HttpResponse]
     #'   object.
     get = function(path, query = list(), version = "v2", format = "json",
                    parse = TRUE) {
@@ -107,9 +105,12 @@ Kobo <- R6::R6Class("Kobo",
         )
       }
 
+      # Select client
+      obj <- private$select_prep_client(path, version)
+      res <- obj$client$get(obj$path, query)
       res$raise_for_status()
 
-      if (format == "json" & parse) {
+      if (parse && format == "json") {
         res$raise_for_ct_json()
         return(res$parse("UTF-8") %>% jsonlite::fromJSON())
       } else if (format == "csv" & parse) {
@@ -122,6 +123,13 @@ Kobo <- R6::R6Class("Kobo",
         )
       }
       return(res)
+    },
+    get_paginated = function(path, query, version = "v2",
+                             format = "json",
+                             parse = TRUE) {
+      obj <- private$select_prep_client(path, version)
+      paginator <- KoboPaginator$new(client = obj$client)
+      res <- paginator$get(path, query)
     },
 
     #' @description
@@ -302,5 +310,35 @@ Kobo <- R6::R6Class("Kobo",
       )
       self$post("assets/", body = body)
     }
-  ) # <end public>
+  ), # <end public>
+  private = list(
+
+    # Private Methods ==========================================================
+
+    #' @description
+    #' Logic to select and prepare a client
+    select_prep_client = function(path, version) {
+      checkmate::assert_choice(version, c("v1", "v2"))
+
+      if (version == "v2") {
+        obj <- list(
+          client = self$session_v2,
+          path = paste0("api/v2/", path)
+        )
+      } else if (version == "v1") {
+        if (checkmate::test_null(self$session_v1)) {
+          usethis::ui_stop(paste(
+            "Session for API v1 is not initalized.",
+            "Please re-initalize the Kobo client with the",
+            "base_url_v1 argument."
+          ))
+        }
+        obj <- list(
+          client = self$session_v1,
+          path = paste0("api/v1/", path)
+        )
+      }
+      return(obj)
+    }
+  )
 )

@@ -118,7 +118,9 @@ test_that("Kobo can get submissions for a survey", {
   expect_true(tibble::is_tibble(response_df))
   expect_equal(nrow(response_df), 4)
 })
+
 # ERRORS -----------
+
 vcr::use_cassette("kobo-get-404", {
   test_that("non existing route throws 404 error", {
     kobo <- Kobo$new(base_url_v2 = BASE_URL, kobo_token = Sys.getenv("KBTBR_TOKEN"))
