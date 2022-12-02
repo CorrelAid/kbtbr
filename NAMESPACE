@@ -3,7 +3,6 @@
 export("%>%")
 export(Kobo)
 export(KoboClient)
-export(KoboPaginator)
 import(checkmate)
 importFrom(crul,HttpClient)
 importFrom(magrittr,"%>%")

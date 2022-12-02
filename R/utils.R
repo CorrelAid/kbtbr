@@ -3,14 +3,6 @@
 # if we write the functions outside the classes and set them later in the class
 # code readability is higher imo
 
-#' @title Infix Coalesce Operator
-#' @describtion Makes coalesce chainable, as often used in
-#' tidyverse packages.
-#' @noRd
-`%||%` <- function(x, y) {
-  if (is.null(x)) y else x
-}
-
 #' @title Repair URL by appending trailing slash
 #' @param path The path, for example appended to the base URL.
 #' @return The path string with optionally an appended trailing slash.
@@ -52,7 +44,7 @@ list_as_json_char <- function(list) {
 #' Template function to create a read-only active binding.
 #' @param private Pointer to the private env of an object
 #' @param field character(1) the name of the active binding field. It is assumed
-#' that a private field prefixed with a single dot exists, that servers as
+#' that a private field prefixed with a single dot exists, that serves as
 #' storage.
 #' @param val The value passed to the active binding. If it is not missing,
 #' the function will stop.

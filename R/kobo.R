@@ -79,6 +79,31 @@ Kobo <- R6::R6Class("Kobo",
       }
 
       query$format <- format
+      if (version == "v2") {
+        res <- self$session_v2$get(
+          path = paste0("api/v2/", path),
+          query = query
+        )
+      } else if (version == "v1") {
+        if (test_null(self$session_v1)) {
+          ui_stop(
+            paste(
+              "Session for API v1 is not initalized.",
+              "Please re-initalize the Kobo client with the",
+              "base_url_v1 argument."
+            )
+          )
+        }
+        res <- self$session_v1$get(
+          path = paste0("api/v1/", path),
+          query = query
+        )
+      } else {
+        ui_stop(
+          "Invalid version. Must be either v1 or v2.
+                    Come back in a couple of years."
+        )
+      }
 
       # Select client
       obj <- private$select_prep_client(path, version)
@@ -87,8 +112,8 @@ Kobo <- R6::R6Class("Kobo",
 
       if (parse && format == "json") {
         res$raise_for_ct_json()
-        return(jsonlite::fromJSON(res$parse("UTF-8")))
-      } else if (parse && format == "csv") {
+        return(res$parse("UTF-8") %>% jsonlite::fromJSON())
+      } else if (format == "csv" & parse) {
         ui_stop(
           "TODO: Not supported yet"
         )

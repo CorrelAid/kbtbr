@@ -1,7 +1,7 @@
 Package: kbtbr
 Type: Package
 Title: A Wrapper for the KoBoToolbox API
-Version: 0.0.3000
+Version: 0.1.0.9000
 Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             person("Lada", "Rudnitckaia", role = "aut"),
             person("Malte", "Kyhos", role = "aut"),
@@ -26,7 +26,8 @@ Suggests:
     knitr,
     janitor,
     ggplot2,
-    stringr
+    stringr,
+    markdown
 Config/testthat/edition: 3
 Imports: 
     crul,
