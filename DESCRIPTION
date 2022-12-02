@@ -1,7 +1,7 @@
 Package: kbtbr
 Type: Package
 Title: A Wrapper for the KoBoToolbox API
-Version: 0.1.0.9000
+Version: 0.1.0.9001
 Authors@R: c(person("Dimitri", "Marinelli", role = c("aut")),
             person("Lada", "Rudnitckaia", role = "aut"),
             person("Malte", "Kyhos", role = "aut"),
@@ -22,6 +22,7 @@ Suggests:
     vcr, 
     withr,
     dplyr,
+    magrittr,
     tidyr,
     knitr,
     janitor,
@@ -31,11 +32,9 @@ Suggests:
 Config/testthat/edition: 3
 Imports: 
     crul,
-    usethis,
     checkmate,
-    magrittr,
     jsonlite,
     tibble
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.2
 VignetteBuilder: knitr

@@ -33,8 +33,7 @@ append_slash <- function(path) {
 #' }
 #'
 list_as_json_char <- function(list) {
-  jsonlite::toJSON(x = list, pretty = TRUE, auto_unbox = TRUE) %>%
-    as.character()
+  as.character(toJSON(x = list, pretty = TRUE, auto_unbox = TRUE))
 }
 
 
@@ -52,7 +51,7 @@ list_as_json_char <- function(list) {
 read_only_active <- function(private, field, val) {
   assert_string(field)
   if (!missing(val)) {
-    ui_stop(sprintf("Field '%s' is read-only.", field))
+    stop(sprintf("Field '%s' is read-only.", field))
   } else {
     return(private[[paste0(".", field)]])
   }

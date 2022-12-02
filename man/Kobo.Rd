@@ -21,23 +21,23 @@ interactions with the various endpoints.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Kobo$new()}}
-\item \href{#method-get}{\code{Kobo$get()}}
-\item \href{#method-post}{\code{Kobo$post()}}
-\item \href{#method-get_assets}{\code{Kobo$get_assets()}}
-\item \href{#method-get_surveys}{\code{Kobo$get_surveys()}}
-\item \href{#method-get_asset}{\code{Kobo$get_asset()}}
-\item \href{#method-get_submissions}{\code{Kobo$get_submissions()}}
-\item \href{#method-clone_asset}{\code{Kobo$clone_asset()}}
-\item \href{#method-deploy_asset}{\code{Kobo$deploy_asset()}}
-\item \href{#method-import_xls_form}{\code{Kobo$import_xls_form()}}
-\item \href{#method-create_asset}{\code{Kobo$create_asset()}}
-\item \href{#method-clone}{\code{Kobo$clone()}}
+\item \href{#method-Kobo-new}{\code{Kobo$new()}}
+\item \href{#method-Kobo-get}{\code{Kobo$get()}}
+\item \href{#method-Kobo-post}{\code{Kobo$post()}}
+\item \href{#method-Kobo-get_assets}{\code{Kobo$get_assets()}}
+\item \href{#method-Kobo-get_surveys}{\code{Kobo$get_surveys()}}
+\item \href{#method-Kobo-get_asset}{\code{Kobo$get_asset()}}
+\item \href{#method-Kobo-get_submissions}{\code{Kobo$get_submissions()}}
+\item \href{#method-Kobo-clone_asset}{\code{Kobo$clone_asset()}}
+\item \href{#method-Kobo-deploy_asset}{\code{Kobo$deploy_asset()}}
+\item \href{#method-Kobo-import_xls_form}{\code{Kobo$import_xls_form()}}
+\item \href{#method-Kobo-create_asset}{\code{Kobo$create_asset()}}
+\item \href{#method-Kobo-clone}{\code{Kobo$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Kobo-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-new}{}}}
 \subsection{Method \code{new()}}{
 Initialization method for class "Kobo".
 \subsection{Usage}{
@@ -73,8 +73,8 @@ also a \link{KoboClient} instance for the API version v1.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-Kobo-get"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-get}{}}}
 \subsection{Method \code{get()}}{
 Wrapper for the GET method of internal session objects.
 \subsection{Usage}{
@@ -104,8 +104,8 @@ object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-post"></a>}}
-\if{latex}{\out{\hypertarget{method-post}{}}}
+\if{html}{\out{<a id="method-Kobo-post"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-post}{}}}
 \subsection{Method \code{post()}}{
 Wrapper for the POST method of internal session objects.
 \subsection{Usage}{
@@ -129,8 +129,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_assets"></a>}}
-\if{latex}{\out{\hypertarget{method-get_assets}{}}}
+\if{html}{\out{<a id="method-Kobo-get_assets"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-get_assets}{}}}
 \subsection{Method \code{get_assets()}}{
 Returns a list of all assets available in the server as tibble
 \subsection{Usage}{
@@ -139,8 +139,8 @@ Returns a list of all assets available in the server as tibble
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_surveys"></a>}}
-\if{latex}{\out{\hypertarget{method-get_surveys}{}}}
+\if{html}{\out{<a id="method-Kobo-get_surveys"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-get_surveys}{}}}
 \subsection{Method \code{get_surveys()}}{
 High-level GET request for \code{surveys} endpoints endpoint
 \subsection{Usage}{
@@ -160,8 +160,8 @@ An user-friendly summary of the available surveys as a tibble
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_asset"></a>}}
-\if{latex}{\out{\hypertarget{method-get_asset}{}}}
+\if{html}{\out{<a id="method-Kobo-get_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-get_asset}{}}}
 \subsection{Method \code{get_asset()}}{
 Get an asset given its id.
 \subsection{Usage}{
@@ -180,8 +180,8 @@ Asset. object of class \link{Asset}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_submissions"></a>}}
-\if{latex}{\out{\hypertarget{method-get_submissions}{}}}
+\if{html}{\out{<a id="method-Kobo-get_submissions"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-get_submissions}{}}}
 \subsection{Method \code{get_submissions()}}{
 Get the submissions for a survey.
 \subsection{Usage}{
@@ -202,8 +202,8 @@ High-level POST request to clone an asset. \code{assets} endpoint
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone_asset"></a>}}
-\if{latex}{\out{\hypertarget{method-clone_asset}{}}}
+\if{html}{\out{<a id="method-Kobo-clone_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-clone_asset}{}}}
 \subsection{Method \code{clone_asset()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Kobo$clone_asset(clone_from, new_name, asset_type)}\if{html}{\out{</div>}}
@@ -226,8 +226,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-deploy_asset"></a>}}
-\if{latex}{\out{\hypertarget{method-deploy_asset}{}}}
+\if{html}{\out{<a id="method-Kobo-deploy_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-deploy_asset}{}}}
 \subsection{Method \code{deploy_asset()}}{
 High-level POST request to deploy an asset.
 \verb{assets/\{uid\}/deployment/} endpoint (due to
@@ -248,8 +248,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-import_xls_form"></a>}}
-\if{latex}{\out{\hypertarget{method-import_xls_form}{}}}
+\if{html}{\out{<a id="method-Kobo-import_xls_form"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-import_xls_form}{}}}
 \subsection{Method \code{import_xls_form()}}{
 High-level POST request to import an XLS form. \code{imports} endpoint
 (due to default to \code{v2}, no further specification is needed).
@@ -271,8 +271,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-create_asset"></a>}}
-\if{latex}{\out{\hypertarget{method-create_asset}{}}}
+\if{html}{\out{<a id="method-Kobo-create_asset"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-create_asset}{}}}
 \subsection{Method \code{create_asset()}}{
 High-level POST request to create an empty asset. \verb{assets/} endpoint
 (due to default to \code{v2}, no further specification is needed).
@@ -314,8 +314,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Kobo-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Kobo-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

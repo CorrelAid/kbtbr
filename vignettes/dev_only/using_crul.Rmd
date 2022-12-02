@@ -286,7 +286,7 @@ full_dta_list <- data_url %>%
     tryCatch(
       simple_request(example_client, path = url, query = list(format = "json")),
       error = function(e) {
-        usethis::ui_warn("Failed for {url}: {e}")
+        warning("Failed for {url}: {e}")
         return(NULL)
        })})
 

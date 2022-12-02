@@ -20,7 +20,7 @@ KoboClient <- R6::R6Class("KoboClient",
       assert_string(kobo_token)
 
       if (kobo_token == "") {
-        ui_stop(
+        stop(
           "No valid token detected. Set the KBTBR_TOKEN environment
                     variable or pass the token directly to the function
                     (not recommended)."
