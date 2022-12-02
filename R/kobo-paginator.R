@@ -10,14 +10,17 @@ KoboPaginator <- R6::R6Class(
     #' @param client KoboClient. An instance of a KoboClient that can
     #'  be used for the paginated requestes.
     initialize = function(client) {
-      stopifnot("KoboClient" %in% class(client))
-
-      private$client <- client
+      private$client <- assert_class(client, "KoboClient")
     },
     #' @description
     #' @param path
+    #' @param query
+    #' @param ... Additional parameters passed to internally
+    #'  called `KoboClient$get()`.
     get = function(path, query, ...) {
-      private$page(method = "get")
+      assert_string(path)
+      assert_string(query)
+      private$page(path, query, ...)
     },
     #' @description
     #' Set the initial response
@@ -26,9 +29,12 @@ KoboPaginator <- R6::R6Class(
     #' normal way, using its `next` element to walk over all subsequent
     #' pages. In some settings, the user might provide this initial response
     #' object already.
-    set_first_response = function(response) {
-      checkmate::assert_list(response)
-      private$resps <- response
+    set_first_response = function(response, force_reset = FALSE) {
+      assert_list(response)
+      if (!(force_reset || is.null(private$resps))) {
+        stop("There are already existing responses. Use 'force_reset = TRUE' to reset/delete them.")
+      }
+      private$resps <- list(response)
     },
     get_responses = function() {
       return(private$resps)
@@ -36,24 +42,30 @@ KoboPaginator <- R6::R6Class(
   ),
   private = list(
     resps = NULL,
-    page = function(path, query, sleep = 0, ...) {
-      checkmate::assert_choice(method, "get")
+    page = function(path, query, sleep = 0.5, ...) {
       tmp <- list()
 
       # Retrieve initial response
-      tmp[[1]] <- private$resps %||%
-        self$client$get(path, query)
+
+      # Initialize Pagination
+      tmp[[1]] <- private$resps[[1]] %||% self$client$get(path, query, ...)
+      next_link <- tmp[[1]][["next"]]
       cnt <- 1
-      next_link <- tmp[[cnt]][["next"]]
 
-      while (!is.null(next_link)) {
-        tmp_path <- private$resolve_next(next_link)
-        cnt <- cnt + 1
-        tmp[[cnt]] <- self$client$get(tmp_path, query)
-        tmp[[cnt]]$raise_for_status()
+      repeat {
+        if (is.null(next_link)) {
+          message(sprintf("Iterated over %s pages.", cnt))
+          break
+        }
 
-        next_link <- tmp[[cnt]][["next"]]
+        # New iteration
         Sys.sleep(sleep)
+        cnt <- cnt + 1
+        tmp_path <- private$resolve_next(next_link)
+
+        tmp[[cnt]] <- self$client$get(tmp_path, query, ...)
+        tmp[[cnt]]$raise_for_status()
+        next_link <- tmp[[cnt]][["next"]]
       }
 
       private$resps <- tmp

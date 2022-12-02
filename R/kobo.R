@@ -28,7 +28,7 @@ Kobo <- R6::R6Class("Kobo",
     #'  the systen environment `KBTBR_TOKEN`.
     #' @param session_v2 [KoboClient]. Alternatively, pass directly
     #' a [KoboClient] instance for the API version v2.
-    #' @param session_v1 KoboKlient. In addition to session_v2 one can pass
+    #' @param session_v1 KoboClient. In addition to session_v2 one can pass
     #' also a [KoboClient] instance for the API version v1.
     initialize = function(base_url_v2 = NULL, base_url_v1 = NULL,
                           kobo_token = Sys.getenv("KBTBR_TOKEN"),
