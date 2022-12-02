@@ -12,30 +12,30 @@ A class to interact with the KoboToolbox API, extending \code{\link[crul:HttpCli
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{KoboClient$new()}}
-\item \href{#method-get}{\code{KoboClient$get()}}
-\item \href{#method-post}{\code{KoboClient$post()}}
-\item \href{#method-clone}{\code{KoboClient$clone()}}
+\item \href{#method-KoboClient-new}{\code{KoboClient$new()}}
+\item \href{#method-KoboClient-get}{\code{KoboClient$get()}}
+\item \href{#method-KoboClient-post}{\code{KoboClient$post()}}
+\item \href{#method-KoboClient-clone}{\code{KoboClient$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="delete">}\href{../../crul/html/HttpClient.html#method-delete}{\code{crul::HttpClient$delete()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="handle_pop">}\href{../../crul/html/HttpClient.html#method-handle_pop}{\code{crul::HttpClient$handle_pop()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="head">}\href{../../crul/html/HttpClient.html#method-head}{\code{crul::HttpClient$head()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="patch">}\href{../../crul/html/HttpClient.html#method-patch}{\code{crul::HttpClient$patch()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="print">}\href{../../crul/html/HttpClient.html#method-print}{\code{crul::HttpClient$print()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="put">}\href{../../crul/html/HttpClient.html#method-put}{\code{crul::HttpClient$put()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="retry">}\href{../../crul/html/HttpClient.html#method-retry}{\code{crul::HttpClient$retry()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="url_fetch">}\href{../../crul/html/HttpClient.html#method-url_fetch}{\code{crul::HttpClient$url_fetch()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="verb">}\href{../../crul/html/HttpClient.html#method-verb}{\code{crul::HttpClient$verb()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="delete"><a href='../../crul/html/HttpClient.html#method-HttpClient-delete'><code>crul::HttpClient$delete()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="handle_pop"><a href='../../crul/html/HttpClient.html#method-HttpClient-handle_pop'><code>crul::HttpClient$handle_pop()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="head"><a href='../../crul/html/HttpClient.html#method-HttpClient-head'><code>crul::HttpClient$head()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="patch"><a href='../../crul/html/HttpClient.html#method-HttpClient-patch'><code>crul::HttpClient$patch()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="print"><a href='../../crul/html/HttpClient.html#method-HttpClient-print'><code>crul::HttpClient$print()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="put"><a href='../../crul/html/HttpClient.html#method-HttpClient-put'><code>crul::HttpClient$put()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="retry"><a href='../../crul/html/HttpClient.html#method-HttpClient-retry'><code>crul::HttpClient$retry()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="url_fetch"><a href='../../crul/html/HttpClient.html#method-HttpClient-url_fetch'><code>crul::HttpClient$url_fetch()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="crul" data-topic="HttpClient" data-id="verb"><a href='../../crul/html/HttpClient.html#method-HttpClient-verb'><code>crul::HttpClient$verb()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-KoboClient-new"></a>}}
+\if{latex}{\out{\hypertarget{method-KoboClient-new}{}}}
 \subsection{Method \code{new()}}{
 Initialization method for class "KoboClient".
 \subsection{Usage}{
@@ -54,8 +54,8 @@ the system environment variable \code{KBTBR_TOKEN}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-KoboClient-get"></a>}}
+\if{latex}{\out{\hypertarget{method-KoboClient-get}{}}}
 \subsection{Method \code{get()}}{
 Perform a GET request (with additional checks)
 \subsection{Usage}{
@@ -87,8 +87,8 @@ the server response as a crul::HttpResponse object.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-post"></a>}}
-\if{latex}{\out{\hypertarget{method-post}{}}}
+\if{html}{\out{<a id="method-KoboClient-post"></a>}}
+\if{latex}{\out{\hypertarget{method-KoboClient-post}{}}}
 \subsection{Method \code{post()}}{
 Perform a POST request
 \subsection{Usage}{
@@ -116,8 +116,8 @@ Returns an object of class \code{crul::HttpResponse}.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-KoboClient-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-KoboClient-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

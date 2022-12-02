@@ -35,15 +35,15 @@ gives access to the submissions to the survey.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Asset$new()}}
-\item \href{#method-get_submissions}{\code{Asset$get_submissions()}}
-\item \href{#method-to_list}{\code{Asset$to_list()}}
-\item \href{#method-clone}{\code{Asset$clone()}}
+\item \href{#method-Asset-new}{\code{Asset$new()}}
+\item \href{#method-Asset-get_submissions}{\code{Asset$get_submissions()}}
+\item \href{#method-Asset-to_list}{\code{Asset$to_list()}}
+\item \href{#method-Asset-clone}{\code{Asset$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Asset-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Asset-new}{}}}
 \subsection{Method \code{new()}}{
 Constructs a new instance of class \link{Asset}.
 \subsection{Usage}{
@@ -62,8 +62,8 @@ get_submissions}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_submissions"></a>}}
-\if{latex}{\out{\hypertarget{method-get_submissions}{}}}
+\if{html}{\out{<a id="method-Asset-get_submissions"></a>}}
+\if{latex}{\out{\hypertarget{method-Asset-get_submissions}{}}}
 \subsection{Method \code{get_submissions()}}{
 get submissions to a survey/form
 \subsection{Usage}{
@@ -76,8 +76,8 @@ to_list
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-to_list"></a>}}
-\if{latex}{\out{\hypertarget{method-to_list}{}}}
+\if{html}{\out{<a id="method-Asset-to_list"></a>}}
+\if{latex}{\out{\hypertarget{method-Asset-to_list}{}}}
 \subsection{Method \code{to_list()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Asset$to_list()}\if{html}{\out{</div>}}
@@ -88,8 +88,8 @@ list representation of asset
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Asset-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Asset-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
